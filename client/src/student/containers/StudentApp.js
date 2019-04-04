@@ -30,7 +30,6 @@ class StudentApp extends Component {
     };
 
     render(){
-        console.log('you did it')
         return(
         <Router history={history}>
             <React.Fragment>

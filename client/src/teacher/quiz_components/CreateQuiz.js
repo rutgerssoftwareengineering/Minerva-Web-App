@@ -182,7 +182,7 @@ class CreateQuiz extends Component {
             })
             .then(res => console.log(res.data));
         } else {
-            axios.post("http://localhost:3001/api/submitQuiz", {
+            axios.post("http://localhost:3001/api/submitQuizT", {
                 quizTitle: this.state.quizTitle,
                 problems: quizProblems,
                 timeLimit: miliSeconds,

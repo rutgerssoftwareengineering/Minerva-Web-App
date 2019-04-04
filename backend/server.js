@@ -7,6 +7,8 @@ const Quiz = require("./quiz");
 const Forum = require("./forum");
 const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
+const QuizTemplate = require("./quiz-template")
+const announcements = require("./routes/api/announcements")
 
 const API_PORT = 3001;
 const app = express();
@@ -46,6 +48,21 @@ router.get("/searchForum", (req, res) => {
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/updateQuiz", (req, res) => {
+  
+  const { quizTitle, problems, timeLimit, date, id} = req.body;
+  
+  
+  QuizTemplate.findOneAndUpdate({"_id": id}, {$set: {"quizTitle": quizTitle, 
+                                            "problems": problems, 
+                                            "timelimit": timeLimit, 
+                                            "date": date}},
+                                            err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
 });
 
@@ -122,7 +139,22 @@ router.post("/registerUser", (req, res) => {
   });
 });
 
-router.post("/submitQuiz", (req, res) => {
+router.post("/submitQuizT", (req, res) => {
+  let quiz = new QuizTemplate();
+  
+  const { quizTitle, problems, timeLimit, date } = req.body;
+  
+  quiz.quizTitle = quizTitle;  
+  quiz.problems = problems;
+  quiz.timelimit = timeLimit;
+  quiz.date = date;
+  quiz.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post("/submitQuizS", (req, res) => {
   let quiz = new CompletedQuiz();
   const { id, quizId, score } = req.body;
   if ((!id && id !== 0) || !quizId || (!score && score !== 0)) {
@@ -163,6 +195,8 @@ router.post("/submitThread", (req, res) => {
 
 // append /api for our http requests
 app.use("/api", router);
+
+app.use("/api/announcements", announcements);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));

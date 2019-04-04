@@ -50,7 +50,7 @@ class QuizContainer extends Component{
           ++idToBeAdded;
         }
     
-        axios.post("http://localhost:3001/api/submitQuiz", {
+        axios.post("http://localhost:3001/api/submitQuizS", {
           id: idToBeAdded,
           quizId: this.state.quizId,
           score: numCorrect
