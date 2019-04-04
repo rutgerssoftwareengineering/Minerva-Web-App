@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "setup": "npm install && cd backend/ && npm install && cd ../client && npm install",
     "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
   },
   "repository": {
