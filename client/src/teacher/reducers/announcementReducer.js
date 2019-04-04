@@ -1,5 +1,5 @@
 import { GET_ANNOUNCEMENTS, ADD_ANNOUNCEMENT, DELETE_ANNOUNCEMENT, ANNOUNCEMENTS_LOADING} from '../actions/types';
-import { allResolved } from 'q';
+//import { allResolved } from 'q';
 const initalState= {
     announcements:[],
     loading: false
