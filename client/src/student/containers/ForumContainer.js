@@ -14,7 +14,7 @@ class ForumContainer extends Component{
             match: props.match,
         }
     }
-
+    //queries database for forums
     getForumDataFromDb = () => {
         axios.get("http://localhost:3001/api/getForums")
         .then(res => {
@@ -22,13 +22,13 @@ class ForumContainer extends Component{
             cookies.set('forumInfo', forumInfo, { path: '/' });
         });
     };
-    
+    //triggers database query on render
     componentDidMount(){
         this.getForumDataFromDb();
     }
 
     render(){
-          //authentication
+    //authentication
     if(!cookies.get('userId')){
         cookies.set('redirectPath', '/forum', {path: '/'} )
         return(<Redirect to='/login'/>)
