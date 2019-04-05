@@ -6,12 +6,13 @@ const cookies = new Cookies();
 //import MenuButton from '../components/MenuButton';
 
 function NavBar() {
+    //spring consts
     const [toggle, set] = useState(true)
     const move = useSpring({
         marginLeft: toggle ? '-15%' : '-2%',
         from: { marginLeft: '-15%'},
     })
-
+    //removes user data from cookies on logout
     const logout = () => {
         console.log('hi')
         cookies.remove('userId', {path: '/'})
@@ -21,7 +22,7 @@ function NavBar() {
         this.props.unmountIt()
         set(state => !state)
     }
-
+    //if user is not signed in only shows login
     if(!cookies.get('userId')){
         return(
             <animated.div
@@ -33,7 +34,7 @@ function NavBar() {
             </animated.div>
         )
     }
-
+    //renders navbar
     return(
         <animated.div
         className='sideBar'

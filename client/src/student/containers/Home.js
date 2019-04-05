@@ -18,20 +18,20 @@ class Home extends Component{
         userInfo: []
         };  
     }
-
+    //initial database query for all info
     componentDidMount(){
         cookies.remove('forumInfo', { path: '/' })
         this.getUserDataFromDb();
         this.getForumDataFromDb();
         this.getQuizDataFromDb();
     }
-    
+    //gets all users from database
     getUserDataFromDb = () => {
         fetch("http://localhost:3001/api/getUsers")
           .then(data => data.json())
           .then(res => this.setState({ userData: res.data }));
     };
-
+    //gets all forums from database
     getForumDataFromDb = () => {
         axios.get("http://localhost:3001/api/getForums")
         .then(res => {
@@ -39,7 +39,7 @@ class Home extends Component{
             cookies.set('forumInfo', forumInfo, { path: '/' });
         });
     };
-
+    //gets all quizzes from database
     getQuizDataFromDb = () => {
         fetch("http://localhost:3001/api/getQuizzes")
         .then(res => {
