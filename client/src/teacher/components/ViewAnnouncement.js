@@ -3,7 +3,7 @@ import { Container, ListGroup, ListGroupItem, Button} from 'reactstrap';
 import {CSSTransition, TransitionGroup } from 'react-transition-group';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux' 
-import { getAnnouncements, deleteAnnouncement } from '../actions/itemActions';
+import { getAnnouncements, deleteAnnouncement } from '../actions/announcementActions';
 import PropTypes from 'prop-types'
 
 class ViewAnnouncement extends Component{

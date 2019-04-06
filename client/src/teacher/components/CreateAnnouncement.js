@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux' 
-import { getAnnouncements, addAnnouncement} from '../actions/itemActions';
+import { getAnnouncements, addAnnouncement} from '../actions/announcementActions';
 import PropTypes from 'prop-types'
 class CreateAnnouncement extends Component {
     componentDidMount(){
