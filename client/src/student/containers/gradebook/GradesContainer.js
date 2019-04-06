@@ -10,11 +10,14 @@ import * as Icons from '../../assets/icons'
 import axios from 'axios';
 const cookies = new Cookies();
 
-const Tree = memo(({ children, name, style, open = false }) => {
+
+export const Tree = memo(({ children, name, style, open = false }) => {
+    //authentication
     if(!cookies.get('userId')){
       cookies.set('redirectPath', '/grades', {path: '/'} )
       return(<Redirect to='/login'/>)
     }
+    //spring styling consts
     const [isOpen, setOpen] = useState(open)
     const previous = usePrevious(isOpen)
     const [bind, { height: viewHeight }] = useMeasure()
@@ -23,7 +26,7 @@ const Tree = memo(({ children, name, style, open = false }) => {
       to: { height: isOpen ? viewHeight : 0, opacity: isOpen ? 1 : 0, transform: `translate3d(${isOpen ? 0 : 20}px,0,0)` }
     })
     const Icon = Icons[`${children ? (isOpen ? 'Minus' : 'Plus') : 'Close'}SquareO`]
-    //authentication
+    //formatting for expandable tree
     return (
       <Frame>
         <Icon style={{ ...toggle, 'font-size':'40px', opacity: children ? 1 : 0.3 }} onClick={() => setOpen(!isOpen)} />
@@ -38,10 +41,11 @@ const Tree = memo(({ children, name, style, open = false }) => {
   })
 
 class GradesContainer extends Component{
+    //triggers database gathering on mount
     componentWillMount(){
       this.getGradesDataFromDb();
     }
-
+    //queries database using user data
     getGradesDataFromDb = () => {
       axios.get('http://localhost:3001/api/getGrades', {params: {
           member: cookies.get('userId'),
@@ -52,7 +56,7 @@ class GradesContainer extends Component{
           cookies.set('gradeInfo', gradeInfo, { path: '/' });
       });
     };
-
+    //renders tree
     render(){
       const classes = cookies.get('gradeInfo').data
       console.log(cookies.get('gradeInfo'))
@@ -63,6 +67,8 @@ class GradesContainer extends Component{
     <>
     <Global/>
     <Tree name="Classes" style={{ color: 'black', 'fontSize': '40px' }} open>
+      {(classes !== undefined) ?
+        <>
         {classes.map( (classInfo, key) => (
             <Tree name={classInfo.className} style={{ color: 'black', 'font-size': '40px'  }} key={key}>
             {(classInfo.members).map((member, index) => (
@@ -74,6 +80,9 @@ class GradesContainer extends Component{
             ))}
             </Tree>
         ))}
+        </>
+        : null
+      }
     </Tree>
     </>
     </div>

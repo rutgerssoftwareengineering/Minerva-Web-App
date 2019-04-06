@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import history from '../../History';
 
-import "react-datepicker/dist/react-datepicker.css";
+//import "react-datepicker/dist/react-datepicker.css";
 
 class CreateQuiz extends Component {
 
@@ -59,6 +59,7 @@ class CreateQuiz extends Component {
         this.padTimeZeros = this.padTimeZeros.bind(this);
     }
 
+    // helper function for converting time to a string that is usuable with DB
     padTimeZeros(value){
         if(value / 10 <= 1){
             return '0' + value;
@@ -67,6 +68,8 @@ class CreateQuiz extends Component {
         }
     }
 
+
+    // change state based on a date change
     handleDateChange(date) {
         this.setState({
           date: date
@@ -74,6 +77,8 @@ class CreateQuiz extends Component {
         console.log(date.toString());
     }
 
+    
+    // change this.state based on question change
     handleQuestionChange(event, questionNum){
         const newQuestions = this.state.questions.map((key, index) => {
             if (questionNum === index) {
@@ -90,6 +95,7 @@ class CreateQuiz extends Component {
         //console.log(this.state.questions);
     }
 
+    // change this.state variables based on add question click
     handleAddQuestionClick(event){
         event.preventDefault();
         const num = this.state.numQuestions + 1;
@@ -106,6 +112,7 @@ class CreateQuiz extends Component {
         console.log(tempCorrectAnswers);
     }
 
+    // change this.state variables when a question is removed
     handleRemoveQuestionClick(event, index){
         event.preventDefault();
         const newQuestions = this.state.questions.filter((_, j) => j !== index);
@@ -148,15 +155,19 @@ class CreateQuiz extends Component {
 
     }
 
+    // update quiz title in this.state
     changeQuizTitle(event){
         this.setState({quizTitle: event.target.value});
     }
 
+
+    // update time variable in this.state
     handleTimeChange(time){
         this.setState({timeLimit: time});
     }
 
 
+    // push the quiz information to the DB and clean up any data in this.state for the push
     submitQuizToDb = (event) => {
         
         let quizProblems = this.state.questions.map((key, index) => {
@@ -195,6 +206,12 @@ class CreateQuiz extends Component {
     };
 
 
+    // renders questions based on this.state
+    // this.state contains all the data for all the questions, so it is able
+    // to map that information to the answers for every particulat question
+    // This component is the whole quiz rendering component, so it includes
+    // the fields for questions and answers as well as timing and callender components
+    // This component also handles the submit to the database
     render(){
         const questions = this.state.questions;
         return(

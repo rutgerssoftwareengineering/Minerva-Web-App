@@ -10,6 +10,7 @@ class GradeBox extends Component{
         }
     }
     render(){
+        //renders the individual class boxes that display grades
         return(
             <div className='gradebox'>
                 {(this.state.assignments).map( (assignment, index) => (

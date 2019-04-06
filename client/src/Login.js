@@ -33,8 +33,14 @@ class Login extends Component{
 
     handleLogin(e) {
         e.preventDefault()
-        let username = this.refs.username.value;
-        let password = this.refs.password.value;
+        let username = ""
+        if(this.refs.username !== undefined){
+            username = this.refs.username.value
+        }
+        let password = ""
+        if(this.refs.password !== undefined){
+            password = this.refs.password.value
+        }
         if (username === "" || password === ""){
             console.log("must enter values in all required fields...")
         }

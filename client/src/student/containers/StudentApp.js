@@ -22,7 +22,7 @@ class StudentApp extends Component {
     componentDidMount(){
         this.getQuizDataFromDb();
     }
-
+    //gets quizzes from database
     getQuizDataFromDb = () => {
         fetch("http://localhost:3001/api/getQuizzes")
           .then(data => data.json())
@@ -30,6 +30,7 @@ class StudentApp extends Component {
     };
 
     render(){
+        //routes all paths in page
         return(
         <Router history={history}>
             <React.Fragment>
