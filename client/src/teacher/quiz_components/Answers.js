@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+// Component which stores and displays all the answers for a particular question
 class Answers extends Component {
     constructor(props){
         super(props);
@@ -14,6 +15,7 @@ class Answers extends Component {
         this.selectCorrectAnswer = this.selectCorrectAnswer.bind(this);
     }
 
+    //function to run if the parent sends new props to this component
     componentWillReceiveProps(newProps) {
         this.setState({ 
             answers: newProps.answers, 
@@ -22,6 +24,7 @@ class Answers extends Component {
         });  
     }
 
+    // add answer and corresponding state to display that answer
     handleAddAnswerClick(event){
         event.preventDefault();
         const num = this.state.numAnswers + 1;
@@ -36,6 +39,8 @@ class Answers extends Component {
 
     }
 
+    // when answer text box is changed, change the saved answer data in the state
+    // update the parent component
     handleAnswerChange(event, answerNum){
         const newAnswers = this.state.answers.map((key, index) => {
             if (answerNum === index) {
@@ -55,6 +60,8 @@ class Answers extends Component {
 
     }
 
+    
+    // remove answer from this.state and update the parent component
     handleRemoveAnswerClick(event, index){
         event.preventDefault();
         const newAnswers = this.state.answers.filter((_, j) => j !== index);
@@ -75,7 +82,8 @@ class Answers extends Component {
         this.props.updateQuestionAnswerData(newAnswers, this.props.questionNumber, newCorrectAnswer);
     }
 
-    
+
+    // update parent component and this.state when correct answer is selected
     selectCorrectAnswer(index){
         console.log('answer ' + index + ' selected');
         this.setState({
@@ -86,6 +94,8 @@ class Answers extends Component {
     }
 
 
+    // renders this.state.answers into answer fields
+    // first is a select correct answer, then a text input, and then a delete
     render(){
         const answers = this.state.answers;
 
