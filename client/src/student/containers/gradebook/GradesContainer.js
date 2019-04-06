@@ -11,7 +11,7 @@ import axios from 'axios';
 const cookies = new Cookies();
 
 
-const Tree = memo(({ children, name, style, open = false }) => {
+export const Tree = memo(({ children, name, style, open = false }) => {
     //authentication
     if(!cookies.get('userId')){
       cookies.set('redirectPath', '/grades', {path: '/'} )
@@ -67,6 +67,8 @@ class GradesContainer extends Component{
     <>
     <Global/>
     <Tree name="Classes" style={{ color: 'black', 'fontSize': '40px' }} open>
+      {(classes !== undefined) ?
+        <>
         {classes.map( (classInfo, key) => (
             <Tree name={classInfo.className} style={{ color: 'black', 'font-size': '40px'  }} key={key}>
             {(classInfo.members).map((member, index) => (
@@ -78,6 +80,9 @@ class GradesContainer extends Component{
             ))}
             </Tree>
         ))}
+        </>
+        : null
+      }
     </Tree>
     </>
     </div>
