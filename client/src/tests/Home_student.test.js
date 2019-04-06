@@ -7,7 +7,7 @@ import "isomorphic-fetch";
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('Login component', () => {
+describe('Home component for student page', () => {
     test('renders', () => {
         const wrapper = shallow(<Home />);
         expect(wrapper.exists()).toBe(true);
