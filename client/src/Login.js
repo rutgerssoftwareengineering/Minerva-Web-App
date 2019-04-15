@@ -53,7 +53,8 @@ class Login extends Component{
              })
              .then(data => this.setState({
                 userData: data.data
-}))
+            }))
+            .catch(error => console.log(error));
         }
       }
       

@@ -29,6 +29,7 @@ class Forum extends Component {
         forum: res.data.data
       })
      })
+     .catch(error => console.log(error));
   }
 
   render(){

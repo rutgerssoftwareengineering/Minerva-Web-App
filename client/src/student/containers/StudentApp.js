@@ -26,7 +26,8 @@ class StudentApp extends Component {
     getQuizDataFromDb = () => {
         fetch("http://localhost:3001/api/getQuizzes")
           .then(data => data.json())
-          .then(res => this.setState({ quizzesData: res.data }));
+          .then(res => this.setState({ quizzesData: res.data }))
+          .catch(error => console.log(error));
     };
 
     render(){

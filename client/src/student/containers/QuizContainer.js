@@ -55,8 +55,8 @@ class QuizContainer extends Component{
           quizId: this.state.quizId,
           score: numCorrect
         })
-        .then(res => console.log(res.data));
-
+        .then(res => console.log(res.data))
+        .catch(error => console.log(error));
     };
 
     handleSubmit = () => {

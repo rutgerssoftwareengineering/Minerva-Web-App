@@ -14,18 +14,6 @@ class ForumContainer extends Component{
             match: props.match,
         }
     }
-    //queries database for forums
-    getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums")
-        .then(res => {
-            const forumInfo = res.data 
-            cookies.set('forumInfo', forumInfo, { path: '/' });
-        });
-    };
-    //triggers database query on render
-    componentDidMount(){
-        this.getForumDataFromDb();
-    }
 
     render(){
     //authentication
