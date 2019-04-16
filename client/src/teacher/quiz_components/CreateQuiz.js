@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Answers from './Answers';
+import MultipleChoiceAnswers from './MultipleChoiceAnswers';
 import TimeField from 'react-simple-timefield';
 import DatePicker from "react-datepicker";
 import axios from 'axios';
@@ -14,7 +14,7 @@ class CreateQuiz extends Component {
     constructor(props){
         super(props);
 
-        const {quizData, newQuiz} = props.location.state;
+        const {quizData, newQuiz, className} = props.location.state;
         console.log(quizData);
 
         if(quizData != null){
@@ -31,7 +31,8 @@ class CreateQuiz extends Component {
                 quizTitle: quizData.quizTitle,
                 timeLimit: this.padTimeZeros(hours) + ':' + this.padTimeZeros(minutes) + ':' + this.padTimeZeros(seconds),
                 date: new Date(quizData.date),
-                newQuiz: newQuiz
+                newQuiz: newQuiz,
+                className: className
             }
         } else {
             this.state = {
@@ -42,7 +43,8 @@ class CreateQuiz extends Component {
                 quizTitle: '',
                 timeLimit: '00:00:00',
                 date: new Date(),
-                newQuiz: newQuiz
+                newQuiz: newQuiz,
+                className: className
             };
         }
         
@@ -189,7 +191,8 @@ class CreateQuiz extends Component {
                 problems: quizProblems,
                 timeLimit: miliSeconds,
                 date: this.state.date.toString(),
-                id: this.state.id
+                id: this.state.id,
+                className: this.state.className
             })
             .then(res => console.log(res.data));
         } else {
@@ -197,7 +200,8 @@ class CreateQuiz extends Component {
                 quizTitle: this.state.quizTitle,
                 problems: quizProblems,
                 timeLimit: miliSeconds,
-                date: this.state.date.toString()
+                date: this.state.date.toString(),
+                className: this.state.className
             })
             .then(res => console.log(res.data));
         }
@@ -239,9 +243,9 @@ class CreateQuiz extends Component {
                                 onChange={(event) => {this.handleQuestionChange(event, index)}}
                                 value={key}
                                 style={{ width:"480px", marginRight:"10px"}}
-                            />
+                            /> 
                             <button onClick={(event) => {this.handleRemoveQuestionClick(event, index)}}>Remove Question</button>
-                            <Answers 
+                            <MultipleChoiceAnswers 
                                 answers={this.state.answers[index]} 
                                 updateQuestionAnswerData={this.updateQuestionAnswerData}
                                 questionNumber={index}

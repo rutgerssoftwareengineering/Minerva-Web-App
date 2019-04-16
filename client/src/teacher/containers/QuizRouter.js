@@ -17,7 +17,7 @@ class QuizRouter extends Component{
 
 
     getQuizData = () => {
-        axios.get('http://localhost:3001/api/getQuizzes')
+        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
         .then(res => {
             console.log(res.data.data);
             this.setState({
@@ -43,7 +43,7 @@ class QuizRouter extends Component{
                         if(key.quizTitle != null && key.quizTitle !== ""){
                             return(
                                 <div key={index}>
-                                    <Link to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false}}}>
+                                    <Link to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345"}}}>
                                         <button>
                                             {key.quizTitle}
                                         </button>
@@ -58,7 +58,7 @@ class QuizRouter extends Component{
                 <br/>
                 </div>
                 <div>
-                    <Link to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true}}}>
+                    <Link to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345"}}}>
                         <button>Create New Quiz</button>
                     </Link>
                 </div>

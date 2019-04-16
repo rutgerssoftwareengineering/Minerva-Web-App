@@ -151,12 +151,13 @@ router.post("/registerUser", (req, res) => {
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();
   
-  const { quizTitle, problems, timeLimit, date } = req.body;
+  const { quizTitle, problems, timeLimit, date , className} = req.body;
   
   quiz.quizTitle = quizTitle;  
   quiz.problems = problems;
   quiz.timelimit = timeLimit;
   quiz.date = date;
+  quiz.class = className;
   quiz.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
