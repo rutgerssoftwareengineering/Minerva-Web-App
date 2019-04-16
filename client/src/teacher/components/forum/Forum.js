@@ -10,7 +10,7 @@ class Forum extends Component {
   constructor(props){
     super(props)
     this.state = {
-      forum: (cookies.get('forumInfo')).data, //retrieves current forum data from cookies
+      forum: (cookies.get('forumInfo')), //retrieves current forum data from cookies
       query: '' //search query
     }
   }
@@ -23,7 +23,7 @@ class Forum extends Component {
   //queries database and searches titles matching query variable, then sets component state as result
   searchForum = (event) => {
     const query = this.state.query
-    axios.get('http://localhost:3001/api/searchForum', {params: {title:query}})
+    axios.get('http://localhost:3001/api/searchForum', {params: {title:query, class: cookies.get('currentClass')}})
      .then(res =>{
       this.setState({
         forum: res.data.data

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 class QuizRouter extends Component{
     constructor(){
         super()
@@ -17,9 +18,9 @@ class QuizRouter extends Component{
 
 
     getQuizData = () => {
-        axios.get('http://localhost:3001/api/getQuizzes')
+        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: cookies.get('currentClass')}})
         .then(res => {
-            console.log(res.data.data);
+            console.log(res.data.data)
             this.setState({
               quizData: res.data.data
             });

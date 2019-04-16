@@ -16,10 +16,12 @@ class ForumContainer extends Component{
     }
 
     getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums")
+        axios.get("http://localhost:3001/api/getForums", {params: {class: cookies.get('currentClass')}})
         .then(res => {
-            console.log(res.data)
-            const forumInfo = res.data 
+            console.log(cookies.get('currentClass'))
+            const forumInfo = res.data.data
+            console.log(res.data.data)
+            cookies.remove('forumInfo', {path: '/'})
             cookies.set('forumInfo', forumInfo);
         });
     };
