@@ -43,13 +43,15 @@ app.use(logger("dev"));
 
 router.get("/searchForum", (req, res) => {
   Forum.find({
-    'title': {$regex: ".*" + req.query.title + ".*", $options: 'i'}
+    'title': {$regex: ".*" + req.query.title + ".*", $options: 'i'},
+    'class': req.query.class
   },
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
+
 
 router.post("/updateQuiz", (req, res) => {
   
@@ -100,14 +102,20 @@ router.get("/getUsers", (req, res) => {
 });
 
 router.get("/getQuizzes", (req, res) => {
-  Quiz.find((err, data) => {
+  Quiz.find({
+    'class': req.query.class
+    }, 
+    (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
 router.get("/getForums", (req, res) => {
-  Forum.find((err, data) => {
+  Forum.find({
+    'class': req.query.class
+  },
+  (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -177,6 +185,7 @@ router.post("/submitThread", (req, res) => {
   const title = req.body.title
   const posts = req.body.posts 
   const users = req.body.users
+  const classId = req.body.class
   /*if ((!id && id !== 0) || !quizId || (!score && score !== 0)) {
     return res.json({
       success: false,
@@ -187,11 +196,27 @@ router.post("/submitThread", (req, res) => {
   thread.posts[0] = posts;
   thread.users[0] = users;
   thread.endorsed = "2";
+  thread.class = classId;
   thread.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
+
+/*router.get("/registerClass", function(req,res){
+  var id = req.params.id;
+  var password = req.params.password;
+  var newClasses = req.params.newClasses;
+  MongoClient.connect(dbRoute, function(err, db) {
+  assert.equal(null, err);
+  var users = db.collection('users');
+      users.update({"id": id, 'password': password}, {$set:{"classes": newClasses}}, function(er, result){
+      assert.equal(er, null);
+      //res.redirect('/logged/'+login+'/borrow');
+      });
+    db.close();
+  });
+});*/
 
 // append /api for our http requests
 app.use("/api", router);

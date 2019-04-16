@@ -7,7 +7,8 @@ const ForumSchema = new Schema(
     title: String,
     posts: Array,
     users: Array,
-    endorsed: Number
+    endorsed: Number,
+    class: String
   },
   { timestamps: true }
 );

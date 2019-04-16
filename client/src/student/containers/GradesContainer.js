@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import GradeBox from '../../components/grades/GradeBox'
+import GradeBox from '../components/grades/GradeBox'
 import Cookies from 'universal-cookie';
 import { memo, useState } from 'react';
 import {Redirect} from 'react-router-dom';
 import { useSpring, animated } from 'react-spring'
-import { useMeasure, usePrevious } from '../../components/tree list/helpers'
-import { Global, Frame, Content, toggle } from '../../assets/styles'
-import * as Icons from '../../assets/icons'
+import { useMeasure, usePrevious } from '../components/tree list/helpers'
+import { Global, Frame, Content, toggle } from '../assets/styles'
+import * as Icons from '../assets/icons'
 import axios from 'axios';
 const cookies = new Cookies();
 
@@ -58,9 +58,9 @@ class GradesContainer extends Component{
     };
     //renders tree
     render(){
-      const classes = cookies.get('gradeInfo').data
-      console.log(cookies.get('gradeInfo'))
+    const classes = cookies.get('gradeInfo').data
     const userId = cookies.get('userId');
+    console.log(cookies.get('currentClass'))
     return(
     <div className='gradebook'>
     <div style={{marginLeft:'10px'}}>

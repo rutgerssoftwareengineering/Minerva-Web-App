@@ -14,44 +14,27 @@ class Home extends Component{
         forumData: [],
         quizzesData: [],
         completedQuizzesData: [],
-        gradesData: [],
-        userInfo: []
+        gradesData: []
         };  
     }
     //initial database query for all info
     componentDidMount(){
         setTimeout(()=>{ 
-            this.getUserDataFromDb();
             this.getForumDataFromDb();
-            this.getQuizDataFromDb();
         } , 1000)
     }
-    //gets all users from database
-    getUserDataFromDb = () => {
-        fetch("http://localhost:3001/api/getUsers")
-          .then(data => data.json())
-          .then(res => this.setState({ userData: res.data }))
-          .catch(error => console.log(error));
-    };
      //queries database for forums
      getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums")
+        axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
         .then(res => {
-            const forumInfo = res.data 
+            const forumInfo = res.data.data
+            cookies.remove('forumInfo', {path: '/'})
             cookies.set('forumInfo', forumInfo);
+            console.log(cookies.get('forumInfo'))
         })
-        .catch(error => console.log(error));
+        //.catch(error => console.log(error));
     };
     //gets all quizzes from database
-    getQuizDataFromDb = () => {
-        fetch("http://localhost:3001/api/getQuizzes")
-        .then(res => {
-            const quizData = res.data 
-            cookies.set('quizData', quizData, { path: '/' });
-        })
-        .catch(error => console.log(error));
-    };
-
       
     render(){
         if(!!cookies.get('userId')){

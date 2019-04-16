@@ -8,7 +8,7 @@ import Home from './student/containers/Home'
 import {Router, Route, Link, Redirect} from 'react-router-dom';
 import Register from './Register';
 import ForumContainer from './student/containers/ForumContainer';
-import GradesContainer from './student/containers/gradebook/GradesContainer';
+import GradesContainer from './student/containers/GradesContainer';
 import QuizIndex from './student/components/quiz/QuizIndex';
 import NavBar from './student/containers/NavBar';
 const cookies = new Cookies();
@@ -64,12 +64,15 @@ class Login extends Component{
               cookies.remove('changeLog')
           }
         if(!!this.state.userData){
-          if(this.state.userData.length !== 0){
-                  cookies.set('userId', this.state.userData[0].id, {path: '/'})
-                  cookies.set('userName', this.state.userData[0].name, {path: '/'})
-                  cookies.set('userClasses', this.state.userData[0].classes, {path: '/'})
-                  cookies.set('userType', this.state.userData[0].type, {path: '/'})
-          }
+            if(this.state.userData.length !== 0){
+                cookies.set('userId', this.state.userData[0].id, {path: '/'})
+                cookies.set('userName', this.state.userData[0].name, {path: '/'})
+                cookies.set('userType', this.state.userData[0].type, {path: '/'})
+                if(this.state.userData[0].classes != undefined){
+                    cookies.set('userClasses', this.state.userData[0].classes, {path: '/'})
+                    cookies.set('currentClass', this.state.userData[0].classes[0], {path: '/'})
+                }
+            }
         }
         {if (!cookies.get('userId')) {
         return (

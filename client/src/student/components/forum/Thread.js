@@ -5,7 +5,7 @@ const cookies = new Cookies();
 
 const Thread = ({match}) => {
         //gets the whole rendered forum and the index of the appropriate thread to be rendered from match passed down from Forum component
-        const forum = (cookies.get('forumInfo')).data 
+        const forum = (cookies.get('forumInfo'))
         const currentThread = forum[match.params.threadId];
         return(
                     <div>

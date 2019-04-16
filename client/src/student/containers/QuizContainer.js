@@ -46,6 +46,7 @@ class QuizContainer extends Component{
     submitQuizToDb = (numCorrect) => {
         let currentIds = this.state.quizzes.map(data => data.id);
         let idToBeAdded = 0;
+        let classId = cookies.get('currentClass');
         while (currentIds.includes(idToBeAdded)) {
           ++idToBeAdded;
         }
@@ -53,7 +54,8 @@ class QuizContainer extends Component{
         axios.post("http://localhost:3001/api/submitQuizS", {
           id: idToBeAdded,
           quizId: this.state.quizId,
-          score: numCorrect
+          score: numCorrect,
+          class: classId
         })
         .then(res => console.log(res.data))
         .catch(error => console.log(error));
