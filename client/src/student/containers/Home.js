@@ -19,9 +19,7 @@ class Home extends Component{
     }
     //initial database query for all info
     componentDidMount(){
-        setTimeout(()=>{ 
-            this.getForumDataFromDb();
-        } , 1000)
+            this.getForumDataFromDb()
     }
      //queries database for forums
      getForumDataFromDb = () => {
@@ -35,10 +33,25 @@ class Home extends Component{
         //.catch(error => console.log(error));
     };
     //gets all quizzes from database
-      
+
+    submitMe = () => {
+        const user = (cookies.get('userId'))
+        const classes = cookies.get('userClasses')
+        classes.push('56271')
+        axios.post("http://localhost:3001/api/registerClass", {
+          id: user,
+          newClasses: classes
+        })
+    };
+
     render(){
         if(!!cookies.get('userId')){
-            return(<div>Welcome, {cookies.get('userName')}!</div>)
+            return(
+                <>
+                <div>Welcome, {cookies.get('userName')}!</div>
+                <button onClick={this.submitMe}>click me</button>
+                </>
+            )
         }
         return(
             <div>

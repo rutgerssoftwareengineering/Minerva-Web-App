@@ -20,6 +20,7 @@ function NavBar() {
         cookies.remove('userClasses', {path: '/'});
         cookies.remove('userType', {path: '/'})
         cookies.remove('currentClass', {path: '/'})
+        cookies.remove('forumInfo', {path: '/'})
         this.props.unmountIt()
         set(state => !state)
     }
