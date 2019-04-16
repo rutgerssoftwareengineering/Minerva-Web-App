@@ -1,7 +1,13 @@
 const Video = () =>{
 
   const mediaStreamConstraints = {
-    video: true,
+    video: {
+      mandatory: {
+        chromeMediaSource: 'screen',
+        maxWidth: 1280,
+        maxHeight: 720
+      }
+    },
   };
   
   const offerOptions = {
