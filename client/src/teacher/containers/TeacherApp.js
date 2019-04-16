@@ -6,6 +6,7 @@ import Login from '../../Login'
 import Home from './Home';
 import QuizRouter from './QuizRouter';
 import NavBar from './NavBar';
+import VideoPage from '../../teacher/containers/VideoPage';
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
 import ViewAnnouncement from '../components/ViewAnnouncement';
@@ -26,6 +27,7 @@ const TeacherApp = (props) => {
                 <Route exact path='/createQuiz' component={CreateQuiz} />
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
+                <Route path='/officehours' component={VideoPage}/>
                 </React.Fragment>    
             </Router>
         </Provider>
