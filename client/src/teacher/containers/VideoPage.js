@@ -8,7 +8,15 @@ class VideoPage extends Component {
     render(){
         return(
             <div>
-                <video autoPlay playsInline></video>
+            <div>
+                <video id="localVideo" autoPlay playsInline></video>
+                <video id="remoteVideo" autoPlay playsInline></video>
+            </div>
+            <div>
+                <button id="startButton"> Start </button>
+                <button id="callButton">Call</button>
+                <button id="hangupButton">Hang Up </button>
+            </div>
             </div>
         )
     }
