@@ -3,7 +3,7 @@ const Video = () =>{
   const mediaStreamConstraints = {
     video: {
       mandatory: {
-        chromeMediaSource: 'screen',
+        chromeMediaSource: 'scr een',
         maxWidth: 1280,
         maxHeight: 720
       }
