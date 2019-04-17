@@ -12,7 +12,6 @@ class CreateAnnouncement extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSave = this.handleSave.bind(this);
     }
 
     handleChange(event) {
@@ -25,22 +24,18 @@ class CreateAnnouncement extends Component {
             message: this.state.value
         }
         this.props.addAnnouncement(newAnnouncement);
-    }
-
-    handleSave(event) {
-        alert('Saved:' + this.state.value);
-        event.preventDefault();
+        this.props.history.push('/announcements/view');
     }
 
     render(){
         return (
+
             <form onSubmit={this.handleSubmit} >
                 <label>
                     Announcement:
                     <textarea value={this.state.value} onChange={this.handleChange} />
                 </label>
             <input type="submit" value="Submit" />   
-            <input type="button" value="Save" /> 
             </form>
            
         );
