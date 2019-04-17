@@ -49,7 +49,7 @@ class ViewAnnouncement extends Component{
                 direction="column"
                 alignItems="center"
                 justify="center"
-                style={{ minHeight: '100vh' }}
+                style={{ minHeight: '10vh' }}
             >
                 <h1>Announcements</h1>
                 <div>
