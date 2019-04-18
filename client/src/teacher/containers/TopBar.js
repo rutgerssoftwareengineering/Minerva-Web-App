@@ -10,6 +10,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu'
 import { NavLink } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem'
+import ClassBox from './ClassBox'
 import {
   usePopupState,
   bindTrigger,
@@ -36,7 +37,7 @@ function TopBar(props) {
       cookies.remove('userClasses', {path: '/'});
       cookies.remove('userType', {path: '/'})
       this.props.unmountIt()
-      set(state => !state)
+      //set(state => !state)
     }
     const popupState = usePopupState({ variant: 'popover' })
     const { classes } = props;
@@ -64,6 +65,8 @@ function TopBar(props) {
                 <NavLink  to="/" exact onClick={logout}>
                   <MenuItem onClick={popupState.close}>Log Out</MenuItem>
                 </NavLink>
+                <button onClick={props.toggle}>Register</button>
+                <ClassBox/>
             </Menu>
             <Typography variant="h6" color="inherit">
               Minerva

@@ -203,20 +203,15 @@ router.post("/submitThread", (req, res) => {
   });
 });
 
-/*router.get("/registerClass", function(req,res){
-  var id = req.params.id;
-  var password = req.params.password;
-  var newClasses = req.params.newClasses;
-  MongoClient.connect(dbRoute, function(err, db) {
-  assert.equal(null, err);
-  var users = db.collection('users');
-      users.update({"id": id, 'password': password}, {$set:{"classes": newClasses}}, function(er, result){
-      assert.equal(er, null);
-      //res.redirect('/logged/'+login+'/borrow');
-      });
-    db.close();
+router.post("/registerClass", (req,res) => {
+  const Uid = req.body.id;
+  const newClasses = { classes: req.body.newClasses}
+  console.log(newClasses)
+  User.findOneAndUpdate({id: Uid}, newClasses, err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
-});*/
+});
 
 // append /api for our http requests
 app.use("/api", router);

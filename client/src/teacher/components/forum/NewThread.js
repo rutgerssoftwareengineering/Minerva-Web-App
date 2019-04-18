@@ -35,10 +35,12 @@ class NewThread extends Component{
         const title = this.state.title
         const post = this.state.post
         const user = (cookies.get('userId'))
+        const classId = cookies.get('currentClass')
         axios.post("http://localhost:3001/api/submitThread", {
           title: title,
           posts: post,
-          users: user
+          users: user,
+          class: classId
         })
     };
 

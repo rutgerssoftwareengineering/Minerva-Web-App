@@ -3,9 +3,10 @@ import { useSpring, animated } from 'react-spring';
 import { NavLink } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import ClassBox from './ClassBox'
+import RegisterClass from '../components/RegisterClass'
 const cookies = new Cookies();
 
-function NavBar() {
+const NavBar = (props) => {
     //spring consts
     const [toggle, set] = useState(true)
     const move = useSpring({
@@ -20,6 +21,7 @@ function NavBar() {
         cookies.remove('userClasses', {path: '/'});
         cookies.remove('userType', {path: '/'})
         cookies.remove('currentClass', {path: '/'})
+        cookies.remove('forumInfo', {path: '/'})
         this.props.unmountIt()
         set(state => !state)
     }
@@ -48,6 +50,7 @@ function NavBar() {
         <NavLink className='navButton' to="/grades" exact>Grades</NavLink>
         <NavLink className='navButton logout' to="/" exact onClick={logout}>Log Out</NavLink>
         <ClassBox/>
+        <button onClick={props.toggle}>Register</button>
         </animated.div>
     )
 }
