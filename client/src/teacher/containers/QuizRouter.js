@@ -4,16 +4,17 @@ import axios from 'axios';
 import PropTypes from 'prop-types'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Icon from '@material-ui/core/Icon';
 import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Cookies from 'universal-cookie';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 const cookies = new Cookies();
 
 
@@ -27,7 +28,7 @@ class QuizRouter extends Component{
         }
         this.getQuizData();
 
-        this.handleRemoveQuestionClick = this.handleRemoveQuestionClick.bind(this);
+        this.handleRemoveQuizClick = this.handleRemoveQuizClick.bind(this);
     }
     toggleHidden () {
         this.setState({
@@ -46,7 +47,10 @@ class QuizRouter extends Component{
     }
 
     getQuizData = () => {
+<<<<<<< HEAD
         //class: cookies.get('currentClass')
+=======
+>>>>>>> b2f4c72e220c3ffffc8caa95d78b842f9ccf9c4c
         axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
         .then(res => {
             console.log(res.data.data)
@@ -63,7 +67,7 @@ class QuizRouter extends Component{
         console.log('clicked');
     }
 
-    handleRemoveQuestionClick(event, index){
+    handleRemoveQuizClick(event, index){
         console.log("Delete question " + index + " " + this.state.quizData[index].quizTitle);
 
         axios.delete("http://localhost:3001/api/deleteQuiz", { data: {id: this.state.quizData[index]._id} })
@@ -74,15 +78,19 @@ class QuizRouter extends Component{
     }
 
     
-
-    
     render(){
         return(
-            <div>
-                <div style={{border: '3px red solid'}}>
-                <label>
-                    Edit Saved Quizzes
-                    <br/><br/>
+            
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justify="center"
+                style={{ minHeight: '10vh' }}
+            >
+                <h1>Edit Saved Quizzes</h1>
+                <div>
                     {(() => {
                             if (!this.state.quizDataLoaded) {
                                 return (
@@ -94,61 +102,64 @@ class QuizRouter extends Component{
                             return;
                         }
                     )()}
-
-                    {this.state.quizData.map((key, index) => {
-                        if(key.quizTitle != null && key.quizTitle !== ""){
-                            return(
-                                <div key={index}>
-                                    <Link 
-                                        to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345", quizType: key.quizType}}}
-                                        style={{paddingRight:'10px'}}
-                                    >
-                                        <button
-                                            
-                                        >
-                                            {key.quizTitle}
-                                        </button>
-                                    </Link>
-                                    <button 
-                                        onClick={(event) => {this.handleRemoveQuestionClick(event, index)}} 
-                                    >
-                                        Delete Quiz
-                                    </button>
-                                
-                                </div>
-                            )   
-                        }
-                        return
-                    }
-                    )}
-                </label>
-                <br/>
-                </div>
-                <div>
-                    <Link 
-                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"online"}}}
-                        style={{paddingRight:'10px'}}
-                    >
-                        <button>Create New Online Quiz</button>
-                    </Link>
-
                     <Link 
                         to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"inclass"}}}
                         style={{paddingRight:'10px'}}
                     >
-                        <button>Create New In-Class Quiz</button>
+                        <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
+                            <AddIcon />
+                            Create New In-Class Quiz
+                        </Fab>
                     </Link>
-                    
-                </div>
+                    <Link 
+                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"online"}}}
+                        style={{paddingRight:'10px'}}
+                    >
+                        <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
+                            <AddIcon />
+                            Create New Online Quiz
+                        </Fab>
+                    </Link>
 
-            </div>
-
-
-            
+                    <Fab color="secondary" aria-label="Delete" onClick={this.toggleHidden.bind(this)} >
+                        <DeleteIcon />
+                    </Fab>
+                </div>            
+               <List align="center">
+                    {this.state.quizData.map((key, index) => { 
+                        if(key.quizTitle != null && key.quizTitle !== ""){
+                            return (                         
+                            <ListItem  alignItems="flex-start" >
+                                <Card style = {{ minWidth: 500,}}>
+                                    <CardContent style={{color : "black"}}>
+                                        <Link 
+                                            to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345", quizType: key.quizType}}}
+                                            style={{paddingRight:'10px'}}
+                                        >
+                                            <Button variant="contained" >
+                                                {key.quizTitle}
+                                            </Button>
+                                        </Link>
+                                    </CardContent>
+                                    <CardActions>
+                                        {!this.state.isHidden && 
+                                        <IconButton 
+                                            aria-label="Delete" 
+                                            color = "secondary"
+                                            onClick={(event) => {this.handleRemoveQuizClick(event, index)}} 
+                                        >
+                                            <DeleteIcon fontSize="small"  />
+                                        </IconButton>
+                                        }
+                                    </CardActions>
+                                </Card>
+                            </ListItem>
+                    )}})}
+                </List>
+            </Grid>
         )
-    }
-    
+    }   
 }
-   
 
 export default QuizRouter;
+
