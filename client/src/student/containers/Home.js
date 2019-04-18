@@ -17,22 +17,6 @@ class Home extends Component{
         gradesData: []
         };  
     }
-    //initial database query for all info
-    componentDidMount(){
-            this.getForumDataFromDb()
-    }
-     //queries database for forums
-     getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
-        .then(res => {
-            const forumInfo = res.data.data
-            cookies.remove('forumInfo', {path: '/'})
-            cookies.set('forumInfo', forumInfo);
-            console.log(cookies.get('forumInfo'))
-        })
-        //.catch(error => console.log(error));
-    };
-    //gets all quizzes from database
 
     submitMe = () => {
         const user = (cookies.get('userId'))

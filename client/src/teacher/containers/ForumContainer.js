@@ -12,24 +12,23 @@ class ForumContainer extends Component{
         super(props)
         this.state = {
             match: props.match,
+            forumInfo: []
         }
     }
 
-    getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums", {params: {class: cookies.get('currentClass')}})
-        .then(res => {
-            console.log(cookies.get('currentClass'))
-            const forumInfo = res.data.data
-            console.log(res.data.data)
-            cookies.remove('forumInfo', {path: '/'})
-            cookies.set('forumInfo', forumInfo);
-        });
-    };
-    
     componentDidMount(){
-        this.getForumDataFromDb();
-    }
-
+        this.getForumDataFromDb()
+}
+ //queries database for forums
+ getForumDataFromDb = () => {
+    axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
+    .then(res => {
+        this.setState({
+            forumInfo: res.data.data
+        })
+    })
+    //.catch(error => console.log(error));
+};
     render(){
           //authentication
     if(!cookies.get('userId')){
@@ -42,7 +41,7 @@ class ForumContainer extends Component{
     <div className='forum' style={{height: '200%'}}>
         <br/>
         <Route exact path={(this.state.match).url} render={()=>(
-             <Forum />
+             <Forum forumInfo={(this.state.forumInfo)}/>
         )} />
         <Route path={`${(this.state.match).url}/:threadId`}  render={(routerProps)=> <Thread {...routerProps} />} />
 

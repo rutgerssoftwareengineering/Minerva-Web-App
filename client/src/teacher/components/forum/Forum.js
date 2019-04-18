@@ -10,7 +10,7 @@ class Forum extends Component {
   constructor(props){
     super(props)
     this.state = {
-      forum: (cookies.get('forumInfo')), //retrieves current forum data from cookies
+      forum: props.forumInfo, //retrieves current forum data from cookies
       query: '' //search query
     }
   }
@@ -29,6 +29,7 @@ class Forum extends Component {
         forum: res.data.data
       })
      })
+     .catch(error => console.log(error));
   }
 
   render(){
