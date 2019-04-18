@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import history from '../../History';
+import OpenEndedAnswer from './OpenEndedAnswer';
 
 //import "react-datepicker/dist/react-datepicker.css";
 
@@ -14,7 +15,7 @@ class CreateQuiz extends Component {
     constructor(props){
         super(props);
 
-        const {quizData, newQuiz, className} = props.location.state;
+        const {quizData, newQuiz, className, quizType} = props.location.state;
         console.log(quizData);
 
         if(quizData != null){
@@ -28,11 +29,13 @@ class CreateQuiz extends Component {
                 numQuestions: quizData.problems.length,
                 answers: quizData.problems.map((key) => (key[1])),
                 correctAnswers: quizData.problems.map((key) => (key[2])),
+                questionTypes: quizData.problems.map((key) => (key[3])),
                 quizTitle: quizData.quizTitle,
                 timeLimit: this.padTimeZeros(hours) + ':' + this.padTimeZeros(minutes) + ':' + this.padTimeZeros(seconds),
                 date: new Date(quizData.date),
                 newQuiz: newQuiz,
-                className: className
+                className: className,
+                quizType: quizType
             }
         } else {
             this.state = {
@@ -40,11 +43,13 @@ class CreateQuiz extends Component {
                 numQuestions: 1,
                 answers: [[]],
                 correctAnswers: [-1],
+                questionTypes: ['MC'],
                 quizTitle: '',
                 timeLimit: '00:00:00',
                 date: new Date(),
                 newQuiz: newQuiz,
-                className: className
+                className: className,
+                quizType: quizType
             };
         }
         
@@ -104,11 +109,13 @@ class CreateQuiz extends Component {
         const tempQuestions = this.state.questions.concat('');
         const tempAnswers = this.state.answers.concat([[]]);
         const tempCorrectAnswers = this.state.correctAnswers.concat(-1);
+        const tempQuestionTypes = this.state.questionTypes.concat('MC');
         this.setState({
             questions: tempQuestions,
             numQuestions: num,
             answers: tempAnswers,
-            correctAnswers: tempCorrectAnswers
+            correctAnswers: tempCorrectAnswers,
+            questionTypes: tempQuestionTypes
         });
 
         console.log(tempCorrectAnswers);
@@ -121,11 +128,13 @@ class CreateQuiz extends Component {
         const newAnswers = this.state.answers.filter((_, j) => j !== index);
         const newCorrectAnswers = this.state.correctAnswers.filter((_, j) => j !== index);
         const newNumQuestions = this.state.numQuestions - 1;
+        const newQuestionTypes = this.state.questionTypes.filter((_, j) => j !== index);
         this.setState({
             questions: newQuestions,
             numQuestions: newNumQuestions,
             answers: newAnswers,
-            correctAnswers: newCorrectAnswers
+            correctAnswers: newCorrectAnswers,
+            questionTypes: newQuestionTypes
         });
 
     }
@@ -143,9 +152,12 @@ class CreateQuiz extends Component {
 
         const newCorrectAnswers = this.state.correctAnswers.map((key, index) => {
             if (questionNumber === index) {
-              return correctAnswer;
+                if(correctAnswer != null){  
+                    return correctAnswer;
+                }
+                return key;
             } else {
-              return key;
+                return key;
             }
         });
 
@@ -168,6 +180,22 @@ class CreateQuiz extends Component {
         this.setState({timeLimit: time});
     }
 
+    // update parent component and this.state when question typeis selected
+    changeQuestionType(questionNum, questionType){
+        const newQuestionTypes = this.state.questionTypes.map((key, index) => {
+            if (questionNum === index) {
+              return questionType;
+            } else {
+              return key;
+            }
+        });
+
+        this.setState({
+            questionTypes: newQuestionTypes
+        });
+        
+    }
+
 
     // push the quiz information to the DB and clean up any data in this.state for the push
     submitQuizToDb = (event) => {
@@ -177,6 +205,7 @@ class CreateQuiz extends Component {
             currProblem[0] = key;
             currProblem[1] = this.state.answers[index];
             currProblem[2] = this.state.correctAnswers[index];
+            currProblem[3] = this.state.questionTypes[index];
             return currProblem;
         });
         
@@ -192,7 +221,8 @@ class CreateQuiz extends Component {
                 timeLimit: miliSeconds,
                 date: this.state.date.toString(),
                 id: this.state.id,
-                className: this.state.className
+                className: this.state.className,
+                quizType: this.state.quizType
             })
             .then(res => console.log(res.data));
         } else {
@@ -201,7 +231,8 @@ class CreateQuiz extends Component {
                 problems: quizProblems,
                 timeLimit: miliSeconds,
                 date: this.state.date.toString(),
-                className: this.state.className
+                className: this.state.className,
+                quizType: this.state.quizType
             })
             .then(res => console.log(res.data));
         }
@@ -234,8 +265,38 @@ class CreateQuiz extends Component {
                     <label>
                     {questions.map((key, index) => (
                         <div key={index}>
+                            <label style={{textDecoration:'underline'}}>
+                                Problem {index + 1}
+                            </label>
+                            <br/>
                             <label style={{paddingRight:'10px'}}>
-                            Question {index + 1}:
+                                Select Question Type:
+                            </label>
+                            <label>
+                                Multiple Choice
+                                <input
+                                type="radio"
+                                checked={this.state.questionTypes[index] === 'MC'}
+                                onChange={() => {this.changeQuestionType(index, 'MC')}}
+                                style={{marginRight:'10px'}}
+                                />
+                            </label>
+
+                            <label>
+                                Open Ended
+                                <input
+                                type="radio"
+                                checked={this.state.questionTypes[index] === 'OE'}
+                                onChange={() => {this.changeQuestionType(index, 'OE')}}
+                                style={{marginRight:'10px'}}
+                                value='Open Ended'
+                                />
+                            </label>
+
+                            <br/>
+
+                            <label style={{paddingRight:'10px'}}>
+                                Question
                             </label>
                             <input 
                                 type="text" 
@@ -245,12 +306,30 @@ class CreateQuiz extends Component {
                                 style={{ width:"480px", marginRight:"10px"}}
                             /> 
                             <button onClick={(event) => {this.handleRemoveQuestionClick(event, index)}}>Remove Question</button>
-                            <MultipleChoiceAnswers 
-                                answers={this.state.answers[index]} 
-                                updateQuestionAnswerData={this.updateQuestionAnswerData}
-                                questionNumber={index}
-                                correctAnswer={this.state.correctAnswers[index]}
-                            />
+                            
+                            {(() => {
+                                if (this.state.questionTypes[index] === 'MC') {
+                                    return (
+                                        <MultipleChoiceAnswers 
+                                            answers={this.state.answers[index]} 
+                                            updateQuestionAnswerData={this.updateQuestionAnswerData}
+                                            questionNumber={index}
+                                            correctAnswer={this.state.correctAnswers[index]}
+                                        />
+                                    );
+                                }
+                                return (
+                                    <OpenEndedAnswer 
+                                        answers={this.state.answers[index]} 
+                                        updateQuestionAnswerData={this.updateQuestionAnswerData}
+                                        questionNumber={index}
+                                        correctAnswer={this.state.correctAnswers[index]}
+                                    />
+
+                                );
+                            })
+                            ()}
+                            
                             <br/>
                             <br/>
                         </div>
@@ -282,7 +361,7 @@ class CreateQuiz extends Component {
 
                 </form>
 
-                <Link to="/quizzes">
+                <Link to={{pathname: '/quizzes', state: {update: true}}}>
                         <button onClick={this.submitQuizToDb}>Publish Quiz</button>
                 </Link>
 

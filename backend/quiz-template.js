@@ -8,7 +8,8 @@ const QuizTemplateSchema = new Schema(
     problems: Array,
     timelimit: Number,
     date: String,
-    class: String
+    class: String,
+    quizType: String
   },
   { timestamps: true }
 );
