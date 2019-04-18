@@ -1,6 +1,40 @@
-const Video = () =>{
+import openSocket from 'socket.io-client';
 
+const Video = () =>{
+  const socket = openSocket("http://localhost:8000/");
   const mediaStreamConstraints = {
+    video: {
+      mandatory: {
+        maxWidth: 1920,
+        maxHeight: 1080,
+        maxFrameRate: 30,  
+      }
+    }
+  };
+
+  function handleLocalMediaStreamError(error) {
+    console.log(`navigator.getUserMedia error: ${error.toString()}.`);
+  }
+  const video = document.getElementById('localVideo');
+const peerConnection = new RTCPeerConnection();
+
+navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
+.then((mediaStream) =>{
+    video.srcObject = mediaStream;
+    console.log('Received local stream.');
+    peerConnection.addStream(mediaStream);
+    peerConnection.createOffer()
+    .then(sdp => peerConnection.setLocalDescription(sdp))
+    .then(()=>{ 
+      socket.emit('offer', peerConnection.localDescription);
+    });
+}).catch(handleLocalMediaStreamError);
+
+socket.on('answer', function(message){
+  peerConnection.setRemoteDescription(message);
+})
+ /* const mediaStreamConstraints = {
+    audio: true,
     video: {
       mandatory: {
         maxWidth: 1920,
@@ -296,7 +330,7 @@ function trace(text) {
 
   console.log(now, text);
 }
-
+*/
 }
 
 export default Video;
