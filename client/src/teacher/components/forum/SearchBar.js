@@ -16,9 +16,10 @@ class SearchBar extends Component{
     //queries the database for any threads with a title that contains the query, then sets a cookie containing result
     searchForum = (event) => {
         const query = this.state.query
-        axios.get('http://localhost:3001/api/searchForum', {params: {title:query}})
+        axios.get('http://localhost:3001/api/searchForum', {params: {title:query, class: cookies.get('currentClass')}})
          .then(res =>{
             const searchInfo = res.data 
+            cookies.remove('searchInfo', {path:'/'})
             cookies.set('searchInfo', searchInfo, { path: '/forum' });
          })
 

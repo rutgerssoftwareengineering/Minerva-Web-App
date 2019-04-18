@@ -17,22 +17,6 @@ class Home extends Component{
         gradesData: []
         };  
     }
-    //initial database query for all info
-    componentDidMount(){
-            this.getForumDataFromDb()
-    }
-     //queries database for forums
-     getForumDataFromDb = () => {
-        axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
-        .then(res => {
-            const forumInfo = res.data.data
-            cookies.remove('forumInfo', {path: '/'})
-            cookies.set('forumInfo', forumInfo);
-            console.log(cookies.get('forumInfo'))
-        })
-        //.catch(error => console.log(error));
-    };
-    //gets all quizzes from database
 
     submitMe = () => {
         const user = (cookies.get('userId'))
@@ -47,10 +31,10 @@ class Home extends Component{
     render(){
         if(!!cookies.get('userId')){
             return(
-                <>
-                <div>Welcome, {cookies.get('userName')}!</div>
-                <button onClick={this.submitMe}>click me</button>
-                </>
+                <div>
+                    <div>Welcome, {cookies.get('userName')}!</div>
+                    <button onClick={this.submitMe}>click me</button>
+                </div>
             )
         }
         return(

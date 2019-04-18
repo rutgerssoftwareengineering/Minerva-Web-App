@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import { useSpring, animated } from 'react-spring';
 import { NavLink } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import ClassBox from './ClassBox';
 const cookies = new Cookies();
 
-function NavBar() {
+const NavBar = (props) => {
     const [toggle, set] = useState(true)
     const move = useSpring({
         marginLeft: toggle ? -320 : -20,
@@ -18,6 +19,7 @@ function NavBar() {
         cookies.remove('userName', {path: '/'});
         cookies.remove('userClasses', {path: '/'});
         cookies.remove('userType', {path: '/'})
+        cookies.remove('currentClass', {path: '/'})
         this.props.unmountIt()
         set(state => !state)
     }
@@ -33,6 +35,8 @@ function NavBar() {
         <NavLink className='navButton' to="/quizzes" exact>Quizzes</NavLink> 
         <NavLink className='navButton' to="/announcements/view" exact>View Announcements</NavLink> 
         <NavLink className='navButton logout' to="/" exact onClick={logout}>Log Out</NavLink>
+        <ClassBox/>
+        <button onClick={props.toggle}>Register</button>
         </animated.div>
     )
 }

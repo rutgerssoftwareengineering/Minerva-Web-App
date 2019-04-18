@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { GET_ANNOUNCEMENTS, ADD_ANNOUNCEMENT, DELETE_ANNOUNCEMENT, ANNOUNCEMENTS_LOADING, } from './types';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 export const getAnnouncements  =  () => dispatch => {
     dispatch(setAnnouncementsLoading());
     axios  
-        .get('/api/announcements')
+        .get('/api/announcements', {params: {class: cookies.get('currentClass')}})
         .then(res=> dispatch({
             type: GET_ANNOUNCEMENTS,
             payload: res.data 
