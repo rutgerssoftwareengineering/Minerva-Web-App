@@ -23,13 +23,12 @@ const styles = {
       flexGrow: 1,
     },
     menuButton: {
-      marginLeft: -18,
+      marginLeft: -20,
       marginRight: 10,
     },
   };
   
 function TopBar(props) {
-    const [ set] = useState(true)
     const logout = () => {
       console.log('hi')
       cookies.remove('userId', {path: '/'})
@@ -39,7 +38,7 @@ function TopBar(props) {
       this.props.unmountIt()
       set(state => !state)
     }
-    const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
+    const popupState = usePopupState({ variant: 'popover' })
     const { classes } = props;
     return (
       <div className={classes.root}>
