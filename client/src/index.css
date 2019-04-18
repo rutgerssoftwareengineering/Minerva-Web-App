@@ -359,3 +359,102 @@ button {
     color: white;
 }
 
+#localVideo {
+    width: 1280px;
+    height: 720px;
+    z-index: 1;
+}
+#remoteVideo {
+    width: 1280px;
+    height: 720px;
+    z-index: 1;
+}
+
+#videoContainer {
+    background-color: rgba(0, 0, 0, 0.383);
+    width: 2560px;
+    height: 720px;
+    z-index: 0;
+    overflow: hidden;
+    position: relative;
+}
+.page-container {
+    z-index: -1;
+}
+
+#streamingControls {
+    z-index: 2;
+    align-content: center;
+    position: absolute;
+    width: 100%;
+    top: 600px;
+    left: 0px;
+}
+
+.streamingButtons{
+    height: 60px;
+    width: 60px;
+    z-index: 2;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+#title {
+    padding-left: 30px;
+    display: inline
+}
+
+#startButton{
+    background-color: rgba(36, 182, 36, 0.685);
+    align-content: center;
+}
+
+#stopRecording{
+    background-color: rgba(197, 66, 66, 0.842);
+    
+}
+
+#callButton{
+    background-color: rgba(36, 182, 36, 0.685);
+    color: rgba(255, 255, 255, 0.897);
+}
+
+.button {
+    color: rgba(255, 255, 255, 0.897);
+}
+.button:hover {
+    transition: 0.5s ease;
+    opacity: 0.7;
+}
+.button:active {
+    box-shadow: 0 3px #666;
+    transition: transform 0.5s ease;
+    transform: translateY(5px);
+  }
+
+  .button:disabled{
+      background-color: grey;
+      display: none;
+  }
+
+  #video-status{
+    display: inline;
+  }
+
+  .offline{
+    display: inline;
+    color: rgba(230, 69, 69, 0.863);
+  }
+
+  .recording {
+    display: inline;
+    color: rgba(231, 251, 46, 0.863);
+  }
+
+  .streaming {
+    display: inline;
+    color: rgba(117, 230, 122, 0.863);
+    transition: 0.5s ease;
+  }
+
+  

@@ -3,11 +3,11 @@ const Video = () =>{
   const mediaStreamConstraints = {
     video: {
       mandatory: {
-        chromeMediaSource: 'scr een',
-        maxWidth: 1280,
-        maxHeight: 720
+        maxWidth: 1920,
+        maxHeight: 1080,
+        maxFrameRate: 30,  
       }
-    },
+    }
   };
   
   const offerOptions = {
@@ -18,7 +18,8 @@ const Video = () =>{
   // Video element where stream will be placed.
   const localVideo = document.getElementById('localVideo');
   const remoteVideo = document.getElementById('remoteVideo');
-  
+  const videoStatus = document.getElementById('video-status');
+  videoStatus.className = "offline";
   // Local stream that will be reproduced on the video.
   let localStream;
   let remoteStream;
@@ -32,6 +33,8 @@ const Video = () =>{
     localStream = mediaStream;
     trace('Received local stream.');
     callButton.disabled = false;  // Enable call button.
+    videoStatus.className = "recording";
+    videoStatus.innerHTML = "Recording";
   }
   
   // Handles error by logging a message to the console with the error message.
@@ -44,6 +47,8 @@ const Video = () =>{
     remoteVideo.srcObject = mediaStream;
     remoteStream = mediaStream;
     trace('Remote peer connection received remote stream.');
+    videoStatus.className = "streaming";
+    videoStatus.innerHTML = "Streaming...";
   }
 
   function logVideoLoaded(event) {
@@ -169,25 +174,25 @@ function createdAnswer(description) {
 const startButton = document.getElementById('startButton');
 const callButton = document.getElementById('callButton');
 const hangupButton = document.getElementById('hangupButton');
+const stopRecordingButton = document.getElementById('stopRecording');
 
 // Set up initial action buttons status: disable call and hangup.
 callButton.disabled = true;
 hangupButton.disabled = true;
+stopRecordingButton.disabled = true;
 
 
 // Handles start button action: creates local MediaStream.
 function startAction() {
   startButton.disabled = true;
-  navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+  stopRecordingButton.disabled = false;
+  navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
     .then(gotLocalMediaStream).catch(handleLocalMediaStreamError);
   trace('Requesting local stream.');
 }
 
 // Handles call button action: creates peer connection.
 function callAction() {
-  callButton.disabled = true;
-  hangupButton.disabled = false;
-
   trace('Starting call.');
   startTime = window.performance.now();
 
@@ -226,6 +231,8 @@ function callAction() {
   trace('localPeerConnection createOffer start.');
   localPeerConnection.createOffer(offerOptions)
     .then(createdOffer).catch(setSessionDescriptionError);
+    callButton.disabled = true;
+    hangupButton.disabled = false;
 }
 
 // Handles hangup action: ends up call, closes connections and resets peers.
@@ -235,14 +242,37 @@ function hangupAction() {
   localPeerConnection = null;
   remotePeerConnection = null;
   hangupButton.disabled = true;
-  callButton.disabled = false;
+  callButton.disabled = true;
+  remoteVideo.srcObject = null;
+  videoStatus.className = "recording";
+  videoStatus.innerHTML = "Recording";
   trace('Ending call.');
+}
+
+function stopRecording(){
+  if(!hangupButton.disabled){
+    alert('Must end call before stopping the recording.')
+    return;
+  }
+  const track = localStream.getTracks();
+  const arrLen = track.length;
+  for(let i = 0; i< arrLen; i++){
+    track[i].stop();
+  }
+  localVideo.srcObject = null;
+  hangupButton.disabled=true;
+  callButton.disabled= true;
+  stopRecordingButton.disabled = true;
+  startButton.disabled = false;
+  videoStatus.className = "offline";
+  videoStatus.innerHTML = "OFFLINE";
 }
 
 // Add click event handlers for buttons.
 startButton.addEventListener('click', startAction);
 callButton.addEventListener('click', callAction);
 hangupButton.addEventListener('click', hangupAction);
+stopRecordingButton.addEventListener('click', stopRecording);
 
 
 // Define helper functions.
