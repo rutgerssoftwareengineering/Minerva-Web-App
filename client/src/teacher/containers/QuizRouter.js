@@ -22,11 +22,8 @@ class QuizRouter extends Component{
         super()
         this.state = {
             quizData: [],
-<<<<<<< HEAD
-            quizDataLoaded: false
-=======
+            quizDataLoaded: false,
             isHidden: true
->>>>>>> d0b69b3ef61dee3eb907d8fa5bd8537ca7f00c17
         }
         this.getQuizData();
 
@@ -49,11 +46,8 @@ class QuizRouter extends Component{
     }
 
     getQuizData = () => {
-<<<<<<< HEAD
+        //class: cookies.get('currentClass')
         axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
-=======
-        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: cookies.get('currentClass')}})
->>>>>>> d0b69b3ef61dee3eb907d8fa5bd8537ca7f00c17
         .then(res => {
             console.log(res.data.data)
             this.setState({
@@ -149,50 +143,8 @@ class QuizRouter extends Component{
 
             </div>
 
+
             
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: '10vh' }}
-            >
-                <h1>Edit Saved Quizzes</h1>
-                <div>
-                    <Link to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true}}}>
-                        <Fab color="primary" aria-label="Add" style = {{ margin: 5, }}>
-                            <AddIcon />
-                        </Fab>
-                    </Link>
-                    <Fab color="secondary" aria-label="Edit" onClick={this.toggleHidden.bind(this)} >
-                        <EditIcon />
-                    </Fab>
-                </div>            
-               <List align="center">
-                    {this.state.quizData.map((key, index) =>( 
-                            <ListItem  alignItems="flex-start" >
-                                <Card style = {{ minWidth: 500,}}>
-                                    <CardContent style={{color : "black"}}>
-                                        {key.quizTitle}
-                                    </CardContent>
-                                    <CardActions>
-                                        <Link to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false}}}>
-                                            {!this.state.isHidden && 
-                                            <IconButton 
-                                                aria-label="Edit" 
-                                                color = "secondary"
-                                            >
-                                                <EditIcon />
-                                            </IconButton>
-                                            }
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                            </ListItem>
-                    ))}
-                </List>
-            </Grid>
         )
     }
     
