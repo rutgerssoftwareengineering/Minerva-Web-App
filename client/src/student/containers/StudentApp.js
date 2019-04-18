@@ -10,13 +10,15 @@ import history from '../../History';
 import axios from 'axios';
 import Cookies from 'universal-cookie'
 import Login from '../../Login'
+import RegisterClass from '../components/RegisterClass'
 const cookies = new Cookies();
 
 class StudentApp extends Component {
     constructor(props){
         super(props)
         this.state={
-            quizzesData: []
+            quizzesData: [],
+            isOpen: false
     }}
 
     componentDidMount(){
@@ -33,19 +35,26 @@ class StudentApp extends Component {
             })
             //.catch(error => console.log(error));
     };
-
+    toggleRegister = () => {
+        this.setState({
+          isOpen: !this.state.isOpen
+        })
+      }
     render(){
         //routes all paths in page
         return(
         <Router history={history}>
             <React.Fragment>
-                <NavBar unmountIt={this.props.unmountIt}/>
+                <NavBar unmountIt={this.props.unmountIt} toggle={this.toggleRegister}/>
                 <Route exact path='/' component={Login} />
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/grades' render={routerProps => <GradesContainer {...routerProps}/>} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
+                <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>
+                        Register a new class
+                </RegisterClass>
             </React.Fragment>    
         </Router>
         );

@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import ClassBox from './ClassBox';
 const cookies = new Cookies();
 
-function NavBar() {
+const NavBar = (props) => {
     const [toggle, set] = useState(true)
     const move = useSpring({
         marginLeft: toggle ? -320 : -20,
@@ -36,6 +36,7 @@ function NavBar() {
         <NavLink className='navButton' to="/announcements/view" exact>View Announcements</NavLink> 
         <NavLink className='navButton logout' to="/" exact onClick={logout}>Log Out</NavLink>
         <ClassBox/>
+        <button onClick={props.toggle}>Register</button>
         </animated.div>
     )
 }

@@ -3,15 +3,17 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import Cookies from 'universal-cookie';
+import RegisterClass from '../components/RegisterClass'
 import history from '../../History'
 const cookies = new Cookies();
 
 
-class Forum extends Component {
+class ClassBox extends Component {
   constructor(props){
     super(props)
     this.state = {
       classes: (cookies.get('userClasses')), //retrieves current forum data from cookies
+      isOpen: false
     }
   }
 
@@ -19,6 +21,12 @@ class Forum extends Component {
     cookies.remove('currentClass', {path: '/'})
     cookies.set('currentClass', Id, {path: '/'} )
     };
+
+  toggleRegister = () => {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
 
   render(){
     return(
@@ -32,5 +40,5 @@ class Forum extends Component {
   }
 }
  
-export default Forum;
+export default ClassBox;
  

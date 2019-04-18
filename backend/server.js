@@ -13,7 +13,6 @@ const announcements = require("./routes/api/announcements")
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

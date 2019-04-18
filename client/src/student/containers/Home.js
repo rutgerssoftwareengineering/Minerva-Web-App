@@ -47,10 +47,10 @@ class Home extends Component{
     render(){
         if(!!cookies.get('userId')){
             return(
-                <>
-                <div>Welcome, {cookies.get('userName')}!</div>
-                <button onClick={this.submitMe}>click me</button>
-                </>
+                <div>
+                    <div>Welcome, {cookies.get('userName')}!</div>
+                    <button onClick={this.submitMe}>click me</button>
+                </div>
             )
         }
         return(
