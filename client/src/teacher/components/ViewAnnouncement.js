@@ -42,7 +42,6 @@ class ViewAnnouncement extends Component{
 
         const{announcements}  = this.props.announcement;
         return(
-    
             <Grid
                 container
                 spacing={0}
@@ -61,42 +60,34 @@ class ViewAnnouncement extends Component{
                     <Fab color="secondary" aria-label="Delete" onClick={this.toggleHidden.bind(this)} >
                             <DeleteIcon />
                     </Fab>
-                </div>
-
-              
+                </div>            
                <List align="center">
                     <TransitionGroup className= "announcementlist">
                     {announcements.map(({_id,message}) =>( 
                         <CSSTransition key={_id} timeout={500} classNames = "fade">
-                        <ListItem 
-                        
-                        alignItems="flex-start" >
-                        <Card style = {{ minWidth: 500,}}>
-                            <CardContent style={{color : "black"}}>
-                                {message}
-                            </CardContent>
-                            <CardActions>
-                                {!this.state.isHidden && 
-                                <IconButton 
-                                    aria-label="Delete" 
-                                    color = "secondary"
-                                    onClick = { this.onDeleteClick.bind(this,_id)}
-                                >
-                                    <DeleteIcon fontSize="small" />
-                                </IconButton>
-                                }
-                            </CardActions>
-                        </Card>
+                        <ListItem  alignItems="flex-start" >
+                            <Card style = {{ minWidth: 500,}}>
+                                <CardContent style={{color : "black"}}>
+                                    {message}
+                                </CardContent>
+                                <CardActions>
+                                    {!this.state.isHidden && 
+                                    <IconButton 
+                                        aria-label="Delete" 
+                                        color = "secondary"
+                                        onClick = { this.onDeleteClick.bind(this,_id)}
+                                    >
+                                        <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                    }
+                                </CardActions>
+                            </Card>
                         </ListItem>
-
                         </CSSTransition>
                     ))}
                     </TransitionGroup> 
-
                 </List>
-                
             </Grid>
-
         );
     }
 }
