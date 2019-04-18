@@ -48,6 +48,7 @@ function NavBar() {
         <NavLink className='navButton' to="/quizzes" exact>Quizzes</NavLink> 
         <NavLink className='navButton' to="/grades" exact>Grades</NavLink>
         <NavLink className='navButton logout' to="/" exact onClick={logout}>Log Out</NavLink>
+        <NavLink className='navButton' to="/officehours" exact> Office Hours </NavLink>
         <ClassBox/>
         </animated.div>
     )

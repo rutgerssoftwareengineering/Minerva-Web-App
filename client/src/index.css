@@ -388,6 +388,7 @@ button {
     position: absolute;
     width: 100%;
     top: 600px;
+    left: 0%;
 }
 
 .streamingButtons{
@@ -396,6 +397,7 @@ button {
     z-index: 2;
     margin: 5px;
     border-radius: 50%;
+    left: 50%;
 }
 
 #title {

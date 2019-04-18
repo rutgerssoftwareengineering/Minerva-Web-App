@@ -5,6 +5,7 @@ import Register from '../../Register';
 import ForumContainer from './ForumContainer';
 import GradesContainer from './GradesContainer';
 import QuizIndex from '../components/quiz/QuizIndex';
+import VideoPage from '../../student/containers/VideoPage';
 import NavBar from './NavBar';
 import history from '../../History'; 
 import axios from 'axios';
@@ -46,6 +47,7 @@ class StudentApp extends Component {
                 <Route exact path='/grades' render={routerProps => <GradesContainer {...routerProps}/>} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
+                <Route path='/officehours' component={VideoPage}/>
             </React.Fragment>    
         </Router>
         );
