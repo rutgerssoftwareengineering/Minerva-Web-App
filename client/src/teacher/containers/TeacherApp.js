@@ -5,9 +5,11 @@ import store from '../store'
 import Login from '../../Login'
 import Home from './Home';
 import QuizRouter from './QuizRouter';
-import TopBar from './TopBar';
+
+import PersistentDrawerLeft from './Drawio'
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
+import Hub from '../components/Hub';
 import ViewAnnouncement from '../components/ViewAnnouncement';
 import history from '../../History';
 import ForumContainer from './ForumContainer'
@@ -31,12 +33,13 @@ class TeacherApp extends Component {
         <Provider store = {store}>
             <Router history={history}>
                 <React.Fragment>
-                <TopBar unmountIt={this.props.unmountIt} toggle={this.toggleRegister}/>               
+                <PersistentDrawerLeft unmountIt={this.props.unmountIt} toggle={this.toggleRegister}/>               
                 <Route exact path='/' component={Login} />
                 <Route exact path='/home' component={Home} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route exact path='/quizzes' component={QuizRouter} />
                 <Route exact path='/createQuiz' component={CreateQuiz} />
+                <Route exact path='/hub' component={Hub} />
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>

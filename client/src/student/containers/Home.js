@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios'
-import {Route, Link} from 'react-router-dom';
-import ForumContainer from './ForumContainer';
 import Cookies from 'universal-cookie';
-import Login from '../../Login'
-import history from '../../History'
+
 const cookies = new Cookies();
 class Home extends Component{
     constructor(props) {

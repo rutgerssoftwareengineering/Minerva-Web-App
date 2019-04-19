@@ -4,13 +4,6 @@ import history from './History';
 import Cookies from 'universal-cookie';
 import StudentApp from './student/containers/StudentApp'
 import TeacherApp from './teacher/containers/TeacherApp'
-import Home from './student/containers/Home'
-import {Router, Route, Link, Redirect} from 'react-router-dom';
-import Register from './Register';
-import ForumContainer from './student/containers/ForumContainer';
-import GradesContainer from './student/containers/GradesContainer';
-import QuizIndex from './student/components/quiz/QuizIndex';
-import NavBar from './student/containers/NavBar';
 const cookies = new Cookies();
 
 class Login extends Component{
@@ -30,6 +23,7 @@ class Login extends Component{
             unmountTeacher: true
         })
     }
+
 
     handleLogin(e) {
         e.preventDefault()
