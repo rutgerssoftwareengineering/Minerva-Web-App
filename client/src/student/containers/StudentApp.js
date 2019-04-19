@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Router, Route, Link, Redirect} from 'react-router-dom';
+import {Router, Route} from 'react-router-dom';
 import Home from './Home';
 import Register from '../../Register';
 import ForumContainer from './ForumContainer';

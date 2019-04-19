@@ -2,8 +2,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
 import Cookies from 'universal-cookie';
-import history from '../../../History'
-import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField'
 const cookies = new Cookies();
 

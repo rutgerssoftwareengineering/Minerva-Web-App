@@ -1,9 +1,6 @@
 //internal forum component, renders all appropriate thread previews
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios'
 import Cookies from 'universal-cookie';
-import history from '../../History'
 import TextField from '@material-ui/core/TextField'
 const cookies = new Cookies();
 

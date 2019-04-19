@@ -3,7 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import { NavLink } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import ClassBox from './ClassBox'
-import RegisterClass from '../components/RegisterClass'
+//import RegisterClass from '../components/RegisterClass'
 const cookies = new Cookies();
 
 const NavBar = (props) => {
