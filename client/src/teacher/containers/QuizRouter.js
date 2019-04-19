@@ -47,10 +47,7 @@ class QuizRouter extends Component{
     }
 
     getQuizData = () => {
-<<<<<<< HEAD
         //class: cookies.get('currentClass')
-=======
->>>>>>> b2f4c72e220c3ffffc8caa95d78b842f9ccf9c4c
         axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
         .then(res => {
             console.log(res.data.data)

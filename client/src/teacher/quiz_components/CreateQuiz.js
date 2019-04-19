@@ -224,7 +224,8 @@ class CreateQuiz extends Component {
                 className: this.state.className,
                 quizType: this.state.quizType
             })
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .then(() => history.push('/quizzes'));
         } else {
             axios.post("http://localhost:3001/api/submitQuizT", {
                 quizTitle: this.state.quizTitle,
@@ -234,10 +235,10 @@ class CreateQuiz extends Component {
                 className: this.state.className,
                 quizType: this.state.quizType
             })
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .then(() => history.push('/quizzes'));
         }
-
-        history.push('/quizzes');
+        //history.push('/quizzes');
     };
 
 
@@ -329,6 +330,8 @@ class CreateQuiz extends Component {
                                 );
                             })
                             ()}
+
+                            
                             
                             <br/>
                             <br/>
@@ -361,9 +364,10 @@ class CreateQuiz extends Component {
 
                 </form>
 
-                <Link to={{pathname: '/quizzes', state: {update: true}}}>
+                {/*<Link to={{pathname: '/quizzes', state: {update: true}}}>
                         <button onClick={this.submitQuizToDb}>Publish Quiz</button>
-                </Link>
+                </Link>*/}
+                <button onClick={this.submitQuizToDb}>Publish Quiz</button>
 
            </div>
         )
