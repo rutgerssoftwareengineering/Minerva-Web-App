@@ -9,6 +9,7 @@ import QuizRouter from './QuizRouter';
 import PersistentDrawerLeft from './Drawio'
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
+import Hub from '../components/Hub';
 import ViewAnnouncement from '../components/ViewAnnouncement';
 import history from '../../History';
 import ForumContainer from './ForumContainer'
@@ -38,6 +39,7 @@ class TeacherApp extends Component {
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route exact path='/quizzes' component={QuizRouter} />
                 <Route exact path='/createQuiz' component={CreateQuiz} />
+                <Route exact path='/hub' component={Hub} />
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>

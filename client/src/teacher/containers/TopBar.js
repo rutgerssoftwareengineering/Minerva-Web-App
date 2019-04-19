@@ -63,6 +63,9 @@ function TopBar(props) {
                 <NavLink  to="/quizzes" exact>
                   <MenuItem onClick={popupState.close}>Quizzes</MenuItem>
                 </NavLink> 
+                <NavLink  to="/hub" exact>
+                  <MenuItem onClick={popupState.close}>Hub</MenuItem>
+                </NavLink>
                 <NavLink to="/announcements/view" exact>
                   <MenuItem onClick={popupState.close}>Announcements</MenuItem>
                 </NavLink> 
