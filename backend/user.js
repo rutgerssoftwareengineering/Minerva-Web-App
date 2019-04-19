@@ -2,18 +2,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
+var uniqueValidator = require('mongoose-unique-validator');
+
 
 
 // this will be our data base's data structure 
 const UserSchema = new Schema(
   {
-    name: String,
-    id: String,
-    password: String,
+    name: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     classes: Array
   },
   { timestamps: true }
 );
+UserSchema.plugin(uniqueValidator);
 
 UserSchema.pre('save', function(next) {
   var user = this;

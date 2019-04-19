@@ -196,7 +196,7 @@ class PersistentDrawerLeft extends React.Component {
                       <ListItemText primary="Log Out" />
                   </ListItem>
                 </NavLink>
-                <ClassBox/>
+
           </List>
           <Divider />
           <List>
