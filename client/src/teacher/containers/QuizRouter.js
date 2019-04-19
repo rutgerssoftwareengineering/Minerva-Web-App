@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Fab from '@material-ui/core/Fab';
@@ -9,14 +9,16 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Cookies from 'universal-cookie';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const cookies = new Cookies();
 
+const styles = theme => ({
+    trash: {
+      marginLeft: 'auto',
+    },
+  });
 
 class QuizRouter extends Component{
     constructor(){
@@ -75,15 +77,15 @@ class QuizRouter extends Component{
 
     
     render(){
-        return(
-            
+        const { classes } = this.props;
+        return(    
             <Grid
                 container
                 spacing={0}
                 direction="column"
                 alignItems="center"
                 justify="center"
-                style={{ minHeight: '10vh' }}
+                style={{ minHeight: '110vh' }}
             >
                 <h1>Edit Saved Quizzes</h1>
                 <div>
@@ -126,7 +128,7 @@ class QuizRouter extends Component{
                         if(key.quizTitle != null && key.quizTitle !== ""){
                             return (                         
                             <ListItem  alignItems="flex-start" >
-                                <Card style = {{ minWidth: 500,}}>
+                                <Card style = {{ minWidth: 500,}}>  
                                     <CardContent style={{color : "black"}}>
                                         <Link 
                                             to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345", quizType: key.quizType}}}
@@ -136,10 +138,9 @@ class QuizRouter extends Component{
                                                 {key.quizTitle}
                                             </Button>
                                         </Link>
-                                    </CardContent>
-                                    <CardActions>
                                         {!this.state.isHidden && 
                                         <IconButton 
+                                            className={classes.trash}
                                             aria-label="Delete" 
                                             color = "secondary"
                                             onClick={(event) => {this.handleRemoveQuizClick(event, index)}} 
@@ -147,7 +148,7 @@ class QuizRouter extends Component{
                                             <DeleteIcon fontSize="small"  />
                                         </IconButton>
                                         }
-                                    </CardActions>
+                                    </CardContent>
                                 </Card>
                             </ListItem>
                     )}})}
@@ -157,5 +158,5 @@ class QuizRouter extends Component{
     }   
 }
 
-export default QuizRouter;
+export default withStyles(styles)(QuizRouter);
 
