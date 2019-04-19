@@ -16,7 +16,6 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 );
-UserSchema.plugin(uniqueValidator);
 
 UserSchema.pre('save', function(next) {
   var user = this;
@@ -37,6 +36,9 @@ UserSchema.pre('save', function(next) {
     });
   });
 });
+
+UserSchema.plugin(uniqueValidator);
+
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
