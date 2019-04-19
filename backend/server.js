@@ -92,6 +92,25 @@ router.get("/loginUser", (req, res) => {
   });
 });
 
+router.post("/registerUser", (req, res) => {
+  let user = new User();
+  
+  const { name, id, password } = req.body;
+  if ((!name) || !id|| (!password)) {
+    return res.json({
+      success: false,
+      error: "INVALID INPUTS"
+    });
+  }
+  user.name = name;  
+  user.id = id;
+  user.password = password;
+  user.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
 // this is our get method
 // this method fetches all available data in our database
 router.get("/getUsers", (req, res) => {
@@ -128,24 +147,7 @@ router.get("/getCompletedQuizzes", (req, res) => {
   });
 });
 
-router.post("/registerUser", (req, res) => {
-  let user = new User();
-  
-  const { name, id, password } = req.body;
-  if ((!name) || !id|| (!password)) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  user.name = name;  
-  user.id = id;
-  user.password = password;
-  user.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
+
 
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();
