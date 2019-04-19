@@ -7,16 +7,16 @@ import ListItem from '@material-ui/core/ListItem';
 import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
 const styles = theme => ({
     trash: {
-      marginLeft: 'auto',
+      align: 'right',
     },
   });
 
@@ -85,7 +85,7 @@ class QuizRouter extends Component{
                 direction="column"
                 alignItems="center"
                 justify="center"
-                style={{ minHeight: '110vh' }}
+                style={{ minHeight: '120vh' }}
             >
                 <h1>Edit Saved Quizzes</h1>
                 <div>
@@ -102,7 +102,7 @@ class QuizRouter extends Component{
                     )()}
                     <Link 
                         to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"inclass"}}}
-                        style={{paddingRight:'10px'}}
+                        style={{paddingRight:'10px'}} className="Link"
                     >
                         <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
                             <AddIcon />
@@ -111,7 +111,7 @@ class QuizRouter extends Component{
                     </Link>
                     <Link 
                         to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"online"}}}
-                        style={{paddingRight:'10px'}}
+                        style={{paddingRight:'10px'}} className="Link"
                     >
                         <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
                             <AddIcon />
@@ -132,11 +132,12 @@ class QuizRouter extends Component{
                                     <CardContent style={{color : "black"}}>
                                         <Link 
                                             to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345", quizType: key.quizType}}}
-                                            style={{paddingRight:'10px'}}
+                                            style={{paddingRight:'10px'}} className="Link"
                                         >
-                                            <Button variant="contained" >
+                                            <Fab variant="extended" aria-label="Edit" style = {{ margin: 5, }}>                      
+                                                <EditIcon color = "inherit" fontSize="small" />
                                                 {key.quizTitle}
-                                            </Button>
+                                            </Fab>
                                         </Link>
                                         {!this.state.isHidden && 
                                         <IconButton 

@@ -36,6 +36,13 @@ body {
     overflow-x: hidden; /* disables horizontal scroll */
     padding-top: 20px;
 }
+.Link {
+    text-decoration: none;
+}
+.NavLink {
+    text-decoration: none;
+}
+
 
 .newPost {
     height: 100%; 

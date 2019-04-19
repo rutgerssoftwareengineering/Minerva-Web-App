@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import StudentApp from './student/containers/StudentApp';
 import axios from 'axios'
 import Cookies from 'universal-cookie';

@@ -51,7 +51,7 @@ class ViewAnnouncement extends Component{
             >
                 <h1>Announcements</h1>
                 <div>
-                     <NavLink to="/announcements/new">
+                     <NavLink to="/announcements/new" className="Link" >
                         <Fab color="primary" aria-label="Add" style = {{ margin: 5, }}>
                             <AddIcon />
                         </Fab>
