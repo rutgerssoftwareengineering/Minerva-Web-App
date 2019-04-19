@@ -8,7 +8,7 @@ Here's how to host the app locally and broadcast it to the world wide web:
     Step 2: Run the front-end server locally
 
         $ serve build
-        (you might need to install "serve" with 'npm install -g serve")
+        (install serve with 'npm install -g serve")
 
     Step 3: Run the back-end server locally
 
@@ -18,6 +18,7 @@ Here's how to host the app locally and broadcast it to the world wide web:
     Step 4: Forward the back-end server
 
         $ lt --port 3001 --subdomain minervabackend
+        (install localtunnel with 'npm install -g localtunnel)
 
     Step 5: Forward the front-end server
 
