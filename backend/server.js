@@ -9,6 +9,7 @@ const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const announcements = require("./routes/api/announcements")
+const path = require('path')
 
 const API_PORT = 3001;
 const app = express();
@@ -212,6 +213,10 @@ router.post("/registerClass", (req,res) => {
     return res.json({ success: true });
   });
 });
+
+router.post('/uploadFile', (req, res) => {
+  console.log(req)
+})
 
 // append /api for our http requests
 app.use("/api", router);

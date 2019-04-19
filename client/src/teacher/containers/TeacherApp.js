@@ -12,6 +12,7 @@ import ViewAnnouncement from '../components/ViewAnnouncement';
 import history from '../../History';
 import ForumContainer from './ForumContainer'
 import RegisterClass from '../components/RegisterClass'
+import manageFiles from './manageFiles'
 
 
 class TeacherApp extends Component {
@@ -39,6 +40,7 @@ class TeacherApp extends Component {
                 <Route exact path='/createQuiz' component={CreateQuiz} />
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
+                <Route exact path='/manageFiles' component={manageFiles} />
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>
                         Register a new class
                 </RegisterClass>
