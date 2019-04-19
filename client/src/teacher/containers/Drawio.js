@@ -19,7 +19,7 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import CloseIcon from '@material-ui/icons/Close';
 import GroupIcon from '@material-ui/icons/Group';
-
+import PersonIcon from '@material-ui/icons/Person'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
@@ -87,6 +87,13 @@ const styles = theme => ({
     }),
     marginLeft: 0,
   },
+  usericon: {
+    marginLeft: 'auto',
+    marginRight: 10,
+  },
+  username: {
+    marginRight: 20,
+  },
 });
 
 const logout = () => {
@@ -136,6 +143,11 @@ class PersistentDrawerLeft extends React.Component {
             <Typography variant="h6" color="inherit" noWrap>
               Minerva
             </Typography>
+            <PersonIcon  className={classes.usericon} />
+            <Typography variant="h8" color="inherit" noWrap className={classes.username} >
+              {cookies.get('userName')}
+            </Typography>
+
           </Toolbar>
         </AppBar>
         <Drawer
@@ -154,31 +166,31 @@ class PersistentDrawerLeft extends React.Component {
           </div>
           <Divider />
           <List>
-                <NavLink  to="/home" exact>
+                <NavLink className="Link" to="/home" exact>
                   <ListItem button  > 
                         <ListItemIcon><HomeIcon/></ListItemIcon>
                         <ListItemText primary="Home" />
                   </ListItem>
                 </NavLink>
-                <NavLink  to="/forum" exact>
+                <NavLink className="Link" to="/forum" exact>
                   <ListItem button > 
                         <ListItemIcon><ForumIcon/></ListItemIcon>
                         <ListItemText primary="Forum" />
                   </ListItem>
                 </NavLink>
-                <NavLink  to="/quizzes" exact>
+                <NavLink className="Link" to="/quizzes" exact>
                   <ListItem button > 
                         <ListItemIcon><AssignmentIcon/></ListItemIcon>
                         <ListItemText primary="Quizzes" />
                   </ListItem>
                 </NavLink> 
-                <NavLink to="/announcements/view" exact>
+                <NavLink className="Link" to="/announcements/view" exact>
                   <ListItem button > 
                         <ListItemIcon><AnnouncementIcon/></ListItemIcon>
                         <ListItemText primary="Announcments" />
                   </ListItem>
                 </NavLink> 
-                <NavLink  to="/" exact onClick={logout}>
+                <NavLink className="Link" to="/" exact onClick={logout}>
                   <ListItem button > 
                       <ListItemIcon><CloseIcon/></ListItemIcon>
                       <ListItemText primary="Log Out" />
