@@ -41,6 +41,10 @@ function TopBar(props) {
     }
     const popupState = usePopupState({ variant: 'popover' })
     const { classes } = props;
+    const toggleAndClose = () => {
+      props.toggle()
+      popupState.close()
+    }
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -65,7 +69,7 @@ function TopBar(props) {
                 <NavLink  to="/" exact onClick={logout}>
                   <MenuItem onClick={popupState.close}>Log Out</MenuItem>
                 </NavLink>
-                <button onClick={props.toggle}>Register</button>
+                <button onClick={toggleAndClose}>Register</button>
                 <ClassBox/>
             </Menu>
             <Typography variant="h6" color="inherit">

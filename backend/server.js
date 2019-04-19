@@ -150,12 +150,14 @@ router.post("/registerUser", (req, res) => {
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();
   
-  const { quizTitle, problems, timeLimit, date } = req.body;
+  const { quizTitle, problems, timeLimit, date , className, quizType} = req.body;
   
   quiz.quizTitle = quizTitle;  
   quiz.problems = problems;
   quiz.timelimit = timeLimit;
   quiz.date = date;
+  quiz.class = className;
+  quiz.quizType = quizType;
   quiz.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
@@ -202,6 +204,17 @@ router.post("/submitThread", (req, res) => {
     return res.json({ success: true });
   });
 });
+
+router.delete("/deleteQuiz", (req, res) => {
+  var id = req.body.id;
+  console.log("delete " + id);
+
+  QuizTemplate.findOneAndDelete({"_id": id},
+                                            err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+})
 
 router.post("/registerClass", (req,res) => {
   const Uid = req.body.id;

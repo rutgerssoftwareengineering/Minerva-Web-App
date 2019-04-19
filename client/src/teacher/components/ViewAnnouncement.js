@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 
@@ -69,8 +68,6 @@ class ViewAnnouncement extends Component{
                             <Card style = {{ minWidth: 500,}}>
                                 <CardContent style={{color : "black"}}>
                                     {message}
-                                </CardContent>
-                                <CardActions>
                                     {!this.state.isHidden && 
                                     <IconButton 
                                         aria-label="Delete" 
@@ -80,7 +77,8 @@ class ViewAnnouncement extends Component{
                                         <DeleteIcon fontSize="small" />
                                     </IconButton>
                                     }
-                                </CardActions>
+                                </CardContent>
+
                             </Card>
                         </ListItem>
                         </CSSTransition>
@@ -105,28 +103,3 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {getAnnouncements, deleteAnnouncement})(ViewAnnouncement);
 
-
-/*
-
-                            <ListItem alignItems="flex-start">
-                               <IconButton 
-                                    aria-label="Delete" 
-                                    color = "secondary"
-                                    onClick = { this.onDeleteClick.bind(this,_id)}
-                                >
-                                    <DeleteIcon fontSize="small" />
-                                </IconButton>
-                                <ListItemText
-                                    primary="Summer BBQ"
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography component="span" color="textPrimary">
-                                                
-                                            </Typography>
-                                            {message}
-                                        </React.Fragment>
-                                    }
-                                 />
-                            </ListItem>
-
-*/

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 // Component which stores and displays all the answers for a particular question
-class Answers extends Component {
+class MultipleChoiceAnswers extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -131,4 +131,4 @@ class Answers extends Component {
   
 }
 
-export default Answers;
+export default MultipleChoiceAnswers;
