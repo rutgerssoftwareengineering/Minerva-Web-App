@@ -245,7 +245,6 @@ router.post("/registerClass", (req,res) => {
   });
 });
 
-<<<<<<< HEAD
 router.post("/removeClass", (req,res) => {
   const Uid = req.body.id;
   const newClasses = { classes: req.body.newClasses}
@@ -256,7 +255,6 @@ router.post("/removeClass", (req,res) => {
   });
 });
 
-=======
 router.post('/upload', upload, (req, res) => {
   if (req.file) {
     return res.json({
@@ -285,7 +283,6 @@ router.delete('/deleteFile/:id', (req, res) => {
     })
 })
 
->>>>>>> origin/file-uploader
 // append /api for our http requests
 app.use("/api", router);
 
