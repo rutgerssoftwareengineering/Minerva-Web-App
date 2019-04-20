@@ -1,7 +1,7 @@
 import openSocket from 'socket.io-client';
 
 const Video = () =>{
-  const socket = openSocket("http://localhost:8000/");
+  const socket = openSocket("http://localhost:3002/");
   console.log(socket)
   const mediaStreamConstraints = {
     video: {
