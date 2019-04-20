@@ -376,3 +376,7 @@ button {
     color: white;
 }
 
+.centeredHorizontally{
+    position: relative;
+    left: 100%;
+}
