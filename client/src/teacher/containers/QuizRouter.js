@@ -18,6 +18,14 @@ const styles = theme => ({
     trash: {
       align: 'right',
     },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+      },
+
   });
 
 class QuizRouter extends Component{
@@ -84,9 +92,9 @@ class QuizRouter extends Component{
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="center"
-                style={{ minHeight: '120vh' }}
+                style={{ minHeight: '100vh' }}
             >
+                <div className={classes.drawerHeader} />
                 <h1>Edit Saved Quizzes</h1>
                 <div>
                     {(() => {

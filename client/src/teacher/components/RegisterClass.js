@@ -1,6 +1,7 @@
 //internal forum component, renders all appropriate thread previews
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
+import axios from 'axios'
 import TextField from '@material-ui/core/TextField'
 const cookies = new Cookies();
 
@@ -10,6 +11,7 @@ class RegisterClass extends Component {
     super(props)
     this.state = {
         classId:"", //number identifier for class
+        classes: cookies.get('userClasses')
     };  
 }
 
@@ -19,9 +21,34 @@ handleInputChange = name => event => {
     classId: event.target.value,
   });
 };
+removeClass = (classRemove) => {
+  const user = (cookies.get('userId'))
+  const classes = this.state.classes
+  var update = false
+  var Id
+  classes.map((classId, index) => {
+    if(classId == classRemove){
+        update = true
+        Id = index
+    }
+  })
+  if(update){
+  classes.splice(Id, 1)
+    cookies.remove('userClasses', {path: '/'})
+    cookies.set('userClasses', classes, {path: '/'})
+    console.log(classes)
+  axios.post("http://localhost:3001/api/removeClass", {
+    id: user,
+    newClasses: classes
+  })
+  .then(this.setState({
+    classes: classes
+  }))
+  }
+};
 registerClass = () => {
   const user = (cookies.get('userId'))
-  const classes = cookies.get('userClasses')
+  const classes = this.state.classes
   var update = true
   classes.map((classId, index) => {
     if(classId == this.state.classId){
@@ -30,12 +57,15 @@ registerClass = () => {
   })
   if(update){
   classes.push(this.state.classId)
-
-  console.log(classes)
-  /*axios.post("http://localhost:3001/api/registerClass", {
+    cookies.remove('userClasses', {path: '/'})
+    cookies.set('userClasses', classes, {path: '/'})
+  axios.post("http://localhost:3001/api/registerClass", {
     id: user,
     newClasses: classes
-  })*/
+  })
+  .then(this.setState({
+    classes: classes
+  }))
   }
 };
 
@@ -62,11 +92,16 @@ registerClass = () => {
         margin: '0 auto',
         padding: 30
       };
-
+      const classes = this.state.classes
     return(
         <div style={backdropStyle}>
         <div style={modalStyle}>
-          {this.props.children}
+          {classes.map(classId => 
+            <div>
+              <label>{classId}</label>
+              <button onClick={this.removeClass.bind(this, classId)}>x</button>
+            </div>
+          )}
           <form>
                 {/*input for title */}
                 <TextField

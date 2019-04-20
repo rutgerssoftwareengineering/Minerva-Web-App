@@ -23,8 +23,18 @@ class ClassBox extends Component {
       isOpen: !this.state.isOpen
     })
   }
+  componentDidMount() {
+    this.interval = setInterval(() => this.setState({
+      classes: (cookies.get('userClasses'))
+    }))
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
 
   render(){
+    console.log(this.state.classes)
     return(
         <div className='navButton'>
           {(this.state.classes).map(numId =>
