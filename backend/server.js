@@ -10,6 +10,9 @@ const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const announcements = require("./routes/api/announcements")
 
+const io = require('socket.io')();
+
+
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
@@ -235,6 +238,29 @@ router.post("/removeClass", (req,res) => {
     return res.json({ success: true });
   });
 });
+
+// Socketio connection for in class feedback!
+io.on('connection', (client) => {
+  client.on('subscribeToGradeDataTimer', (inputData) => {
+    console.log('client is subscribing to timer with interval for grade data collection', inputData.timer);
+    setInterval(() => {
+      Grade.find({
+        'classid': inputData.class
+      },
+        (err, data) => {
+        
+        if (err) data = "Error";
+        //console.log("retdata =", data);
+        client.emit('timer', data);
+      });
+    }, inputData.timer);
+  });
+});
+
+const port = 8000;
+io.listen(port);
+console.log('socket listening on port ', port);
+
 
 // append /api for our http requests
 app.use("/api", router);

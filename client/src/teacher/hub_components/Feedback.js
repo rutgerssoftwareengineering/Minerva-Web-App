@@ -14,6 +14,8 @@ import VolUpGlow from '../assets/vol_up_glow.png';
 import SlowDownGlow from '../assets/slow_down_glow.png';
 import SpeedUpGlow from '../assets/speed_up_glow.png';
 
+import { subscribeToGradeDataTimer } from '../socketAPI';
+
 // Component which has 6 feedback options to view, updating based on database
 class Feedback extends Component {
     constructor(props){
@@ -24,9 +26,15 @@ class Feedback extends Component {
             volDownActive: false,
             volUpActive: false,
             slowDownActive: false,
-            speedUpActive: false
+            speedUpActive: false,
+            feedbackData: 'data not loaded from DB'
         };
         
+        subscribeToGradeDataTimer("52314", 2000, ((err, gradeData) =>  {
+            this.setState({ 
+                feedbackData: gradeData[0].feedback
+            }) 
+        }));
 
     }
 
@@ -52,6 +60,10 @@ class Feedback extends Component {
 
         return(
             <div>
+                <p className="App-intro">
+                    This is the timer value: {this.state.feedbackData}
+                </p>
+
                 <Grid
                     container
                     direction="column"
