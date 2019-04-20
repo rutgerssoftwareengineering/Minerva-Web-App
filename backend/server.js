@@ -311,6 +311,30 @@ router.delete('/deleteFile/:id', (req, res) => {
     })
 })
 
+router.get("/downloadFile/:id", (req, res) => {
+  console.log(req.params.id)
+  gfs.exist({ _id: req.params.id, root:'uploads' }, function(err,found){
+    console.log(found)
+  })
+  gfs.findOne({ _id: req.params.id, root:'uploads' }, (err, file) => {
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        error: "That File Doesn't Exist"
+      });
+    }
+    res.set({
+      "Content-Disposition": `attachment; filename=${file.filename}`,
+      "Content-Type": file.contentType,
+      "fileName": file.filename
+    });
+      // Read output to browser
+      const readstream = gfs.createReadStream({
+        _id: req.params.id,
+        root:'uploads'
+      });
+      readstream.pipe(res);
+  });
+});
 // append /api for our http requests
 app.use("/api", router);
 

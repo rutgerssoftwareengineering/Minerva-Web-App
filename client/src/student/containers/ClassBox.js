@@ -34,7 +34,6 @@ class ClassBox extends Component {
   }
 
   render(){
-    console.log(this.state.classes)
     return(
         <div className='navButton'>
           {(this.state.classes).map(numId =>
