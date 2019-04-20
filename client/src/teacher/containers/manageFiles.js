@@ -15,19 +15,17 @@ class ManageFiles extends Component {
     componentWillMount() {
         this.getFiles();
     }
-    handleClick(e) {
-        this.refs.fileUploader.click();
-    }
+
     deleteFile(event) {
       event.preventDefault();
       const id = event.target.id;
   
-      fetch('/api/files/'+id, {
+      fetch('/api/deleteFile/'+id, {
         method: 'DELETE'
       }).then(res => res.json())
         .then(response => {
           console.log(response);
-          if (response.success) this.loadFiles()
+          if (response.success) this.getFiles()
           else alert('Delete Failed');
         })
     }
