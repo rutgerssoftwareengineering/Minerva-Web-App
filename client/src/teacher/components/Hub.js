@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Feedback from '../hub_components/Feedback';
 
 class Hub extends Component {
     constructor(props){
@@ -11,7 +12,8 @@ class Hub extends Component {
             <div>
                     <h1>Teacher Hub</h1>
                     <h1>Teacher Hub</h1>
-                </div>
+                    <Feedback/>
+            </div>
 
         )
     } 
