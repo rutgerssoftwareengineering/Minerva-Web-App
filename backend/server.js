@@ -226,6 +226,16 @@ router.post("/registerClass", (req,res) => {
   });
 });
 
+router.post("/removeClass", (req,res) => {
+  const Uid = req.body.id;
+  const newClasses = { classes: req.body.newClasses}
+  console.log(newClasses)
+  User.findOneAndUpdate({id: Uid}, newClasses, err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
 // append /api for our http requests
 app.use("/api", router);
 
