@@ -14,7 +14,7 @@ import ViewAnnouncement from '../components/ViewAnnouncement';
 import history from '../../History';
 import ForumContainer from './ForumContainer'
 import RegisterClass from '../components/RegisterClass'
-import ManageFiles from './ManageFiles'
+import ManageFiles from './manageFiles'
 
 
 class TeacherApp extends Component {
