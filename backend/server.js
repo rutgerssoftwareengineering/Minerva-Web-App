@@ -9,6 +9,10 @@ const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const announcements = require("./routes/api/announcements")
+const multer = require('multer')
+const GridFsStorage = require('multer-gridfs-storage')
+const Grid = require('gridfs-stream')
+const { mongo, connection } = require('mongoose');
 
 const io = require('socket.io')();
 
@@ -32,8 +36,13 @@ mongoose.connect(
 );
 
 let db = mongoose.connection;
+var gfs
+db.once("open", () => {
+  console.log("connected to the database");
+  gfs = Grid(db.db, mongoose.mongo);
+  gfs.collection('uploads')
+});
 
-db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -41,8 +50,18 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(logger("dev"));
+
+const storage = require('multer-gridfs-storage')({
+  url: dbRoute,
+  file: (req, file) => {
+    return {
+      filename: file.originalname,
+      bucketName: 'uploads'
+    }
+  }
+});
+const upload = multer({ storage: storage }).single('file')
 
 router.get("/searchForum", (req, res) => {
   Forum.find({
@@ -61,11 +80,13 @@ router.post("/updateQuiz", (req, res) => {
   const { quizTitle, problems, timeLimit, date, id} = req.body;
   
   
-  QuizTemplate.findOneAndUpdate({"_id": id}, {$set: {"quizTitle": quizTitle, 
-                                            "problems": problems, 
-                                            "timelimit": timeLimit, 
-                                            "date": date}},
-                                            err => {
+  QuizTemplate.findOneAndUpdate({"_id": id}, 
+  {$set: 
+  { "quizTitle": quizTitle, 
+    "problems": problems, 
+    "timelimit": timeLimit, 
+    "date": date}},
+  err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -82,16 +103,34 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/loginUser", (req, res) => {
-  User.find({
-    'id': req.query.id,
-    'password': req.query.password
-  },
-  (err, data) => {
-    if(err) return res.json({ success: false, error: err });
-    if(data.length === 0){
-      return res.json([{success: false}])
-    }
-    return res.json({success: true, data: data});
+  User.find({ id: req.query.id }, function(err, user) {
+    if (err) throw err;
+    user[0].comparePassword(req.query.password, function(err, isMatch) {
+        if (err) throw err;
+        if(user.length === 0){
+          return res.json([{success: false}])
+        }
+        return res.json({success: true, data: user});
+    });
+  });
+});
+
+router.post("/registerUser", (req, res) => {
+  let user = new User();
+  
+  const { name, id, password } = req.body;
+  if ((!name) || !id|| (!password)) {
+    return res.json({
+      success: false,
+      error: "INVALID INPUTS"
+    });
+  }
+  user.name = name;  
+  user.id = id;
+  user.password = password;
+  user.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
 });
 
@@ -131,24 +170,7 @@ router.get("/getCompletedQuizzes", (req, res) => {
   });
 });
 
-router.post("/registerUser", (req, res) => {
-  let user = new User();
-  
-  const { name, id, password } = req.body;
-  if ((!name) || !id|| (!password)) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  user.name = name;  
-  user.id = id;
-  user.password = password;
-  user.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
+
 
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();
@@ -239,6 +261,7 @@ router.post("/removeClass", (req,res) => {
   });
 });
 
+<<<<<<< HEAD
 // Socketio connection for in class feedback!
 io.on('connection', (client) => {
   client.on('subscribeToGradeDataTimer', (inputData) => {
@@ -261,6 +284,35 @@ const port = 8000;
 io.listen(port);
 console.log('socket listening on port ', port);
 
+=======
+router.post('/upload', upload, (req, res) => {
+  if (req.file) {
+    return res.json({
+      success: true,
+      file: req.file
+    });
+  }
+  res.send({ success: false });
+});
+
+router.get('/getFiles', (req,res) => {
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0){
+       return res.status(404).json({
+          message: "Could not find files"
+       });
+    }
+    return res.json(files);
+});
+})
+
+router.delete('/deleteFile/:id', (req, res) => {
+    gfs.remove({ _id: req.params.id, root:'uploads' }, (err) => {
+      if (err) return res.status(500).json({ success: false })
+      return res.json({ success: true });
+    })
+})
+>>>>>>> b670f65cbfad7fae113e7d62b4b7de4cf23eac8a
 
 // append /api for our http requests
 app.use("/api", router);

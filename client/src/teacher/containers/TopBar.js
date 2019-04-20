@@ -72,7 +72,11 @@ function TopBar(props) {
                 <NavLink  to="/" exact onClick={logout}>
                   <MenuItem onClick={popupState.close}>Log Out</MenuItem>
                 </NavLink>
+                <NavLink to="/manageFiles" exact>
+                  <MenuItem onClick={popupState.close}>Manage Files</MenuItem>
+                </NavLink>
                 <button onClick={toggleAndClose}>Register</button>
+
                 <ClassBox/>
             </Menu>
             <Typography variant="h6" color="inherit">
