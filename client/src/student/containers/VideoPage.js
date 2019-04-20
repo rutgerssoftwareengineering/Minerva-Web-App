@@ -6,13 +6,14 @@ import Stop from '@material-ui/icons/Stop';
 import Video from '../components/video/Video';
 import { subscribeToTimer } from '../../api';
 class VideoPage extends Component {
+
     render() {
         return (
           <div className="App">
-            <Video />
+             <video id="localVideo" autoPlay playsInline></video>
           </div>
         );
-      }
+    }
 }
 
 export default VideoPage;

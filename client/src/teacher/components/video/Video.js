@@ -2,6 +2,7 @@ import openSocket from 'socket.io-client';
 
 const Video = () =>{
   const socket = openSocket("http://localhost:8000/");
+  console.log(socket)
   const mediaStreamConstraints = {
     video: {
       mandatory: {
@@ -11,7 +12,6 @@ const Video = () =>{
       }
     }
   };
-
   function handleLocalMediaStreamError(error) {
     console.log(`navigator.getUserMedia error: ${error.toString()}.`);
   }
