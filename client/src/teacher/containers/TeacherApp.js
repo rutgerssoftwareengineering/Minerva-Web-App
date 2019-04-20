@@ -5,7 +5,7 @@ import store from '../store'
 import Login from '../../Login'
 import Home from './Home';
 import QuizRouter from './QuizRouter';
-
+import GradesContainer from '../components/Gradebook';
 import PersistentDrawerLeft from './Drawio'
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
@@ -56,6 +56,7 @@ class TeacherApp extends Component {
                 <Route exact path='/quizzes' component={QuizRouter} />
                 <Route exact path='/createQuiz' component={CreateQuiz} />
                 <Route exact path='/hub' component={Hub} />
+                <Route exact path='/grades' component={GradesContainer} />
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
                 <Route path='/manageFiles' render={(routerProps) => <ManageFiles {...routerProps} files={this.state.files}/>}/>
