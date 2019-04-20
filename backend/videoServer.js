@@ -1,6 +1,6 @@
 const VideoServer = () =>{
     const io = require('socket.io')();
-    const PORT = 3002;
+    const PORT = 8000;
     io.listen(PORT);
 
     console.log('');
