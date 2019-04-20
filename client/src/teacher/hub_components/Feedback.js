@@ -27,12 +27,49 @@ class Feedback extends Component {
             volUpActive: false,
             slowDownActive: false,
             speedUpActive: false,
-            feedbackData: 'data not loaded from DB'
+            feedbackData: [1000,1000,1000,1000,1000,1000]
         };
         
-        subscribeToGradeDataTimer("52314", 2000, ((err, gradeData) =>  {
+        // subscribe to getting data on interval
+        // args: class name, interval in ms, callback function
+        // Thresh for feedback blinking is set within this function!
+        subscribeToGradeDataTimer("52314", 15000, ((err, gradeData) =>  {
+            let classSize = gradeData[0].members.length;
+            let newFeedbackData = gradeData[0].feedback;
+            let feedbackThreshold = .1 * classSize;
+
+            let thumbDownActive = false;
+            let thumpUpActive =false;
+            let volDownActive = false;
+            let volUpActive = false;
+            let slowDownActive = false;
+            let speedUpActive = false;
+            if((newFeedbackData[0] - this.state.feedbackData[0]) > feedbackThreshold){
+                thumbDownActive = true;
+            }
+            if((newFeedbackData[1] - this.state.feedbackData[1]) > feedbackThreshold){
+                thumpUpActive = true;
+            }
+            if((newFeedbackData[2] - this.state.feedbackData[2]) > feedbackThreshold){
+                volDownActive = true;
+            }
+            if((newFeedbackData[3] - this.state.feedbackData[3]) > feedbackThreshold){
+                volUpActive = true;
+            }
+            if((newFeedbackData[4] - this.state.feedbackData[4]) > feedbackThreshold){
+                slowDownActive = true;
+            }
+            if((newFeedbackData[5] - this.state.feedbackData[5]) > feedbackThreshold){
+                speedUpActive = true;
+            }
             this.setState({ 
-                feedbackData: gradeData[0].feedback
+                feedbackData: gradeData[0].feedback,
+                thumbDownActive: thumbDownActive,
+                thumpUpActive: thumpUpActive,
+                volDownActive: volDownActive,
+                volUpActive: volUpActive,
+                slowDownActive: slowDownActive,
+                speedUpActive: speedUpActive,
             }) 
         }));
 
@@ -60,9 +97,6 @@ class Feedback extends Component {
 
         return(
             <div>
-                <p className="App-intro">
-                    This is the timer value: {this.state.feedbackData}
-                </p>
 
                 <Grid
                     container

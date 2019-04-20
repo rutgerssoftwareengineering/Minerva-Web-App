@@ -261,7 +261,6 @@ router.post("/removeClass", (req,res) => {
   });
 });
 
-<<<<<<< HEAD
 // Socketio connection for in class feedback!
 io.on('connection', (client) => {
   client.on('subscribeToGradeDataTimer', (inputData) => {
@@ -284,7 +283,6 @@ const port = 8000;
 io.listen(port);
 console.log('socket listening on port ', port);
 
-=======
 router.post('/upload', upload, (req, res) => {
   if (req.file) {
     return res.json({
@@ -312,7 +310,6 @@ router.delete('/deleteFile/:id', (req, res) => {
       return res.json({ success: true });
     })
 })
->>>>>>> b670f65cbfad7fae113e7d62b4b7de4cf23eac8a
 
 // append /api for our http requests
 app.use("/api", router);
