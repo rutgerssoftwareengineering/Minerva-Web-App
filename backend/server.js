@@ -77,11 +77,13 @@ router.post("/updateQuiz", (req, res) => {
   const { quizTitle, problems, timeLimit, date, id} = req.body;
   
   
-  QuizTemplate.findOneAndUpdate({"_id": id}, {$set: {"quizTitle": quizTitle, 
-                                            "problems": problems, 
-                                            "timelimit": timeLimit, 
-                                            "date": date}},
-                                            err => {
+  QuizTemplate.findOneAndUpdate({"_id": id}, 
+  {$set: 
+  { "quizTitle": quizTitle, 
+    "problems": problems, 
+    "timelimit": timeLimit, 
+    "date": date}},
+  err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -98,16 +100,34 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/loginUser", (req, res) => {
-  User.find({
-    'id': req.query.id,
-    'password': req.query.password
-  },
-  (err, data) => {
-    if(err) return res.json({ success: false, error: err });
-    if(data.length === 0){
-      return res.json([{success: false}])
-    }
-    return res.json({success: true, data: data});
+  User.find({ id: req.query.id }, function(err, user) {
+    if (err) throw err;
+    user[0].comparePassword(req.query.password, function(err, isMatch) {
+        if (err) throw err;
+        if(user.length === 0){
+          return res.json([{success: false}])
+        }
+        return res.json({success: true, data: user});
+    });
+  });
+});
+
+router.post("/registerUser", (req, res) => {
+  let user = new User();
+  
+  const { name, id, password } = req.body;
+  if ((!name) || !id|| (!password)) {
+    return res.json({
+      success: false,
+      error: "INVALID INPUTS"
+    });
+  }
+  user.name = name;  
+  user.id = id;
+  user.password = password;
+  user.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
 });
 
@@ -147,24 +167,7 @@ router.get("/getCompletedQuizzes", (req, res) => {
   });
 });
 
-router.post("/registerUser", (req, res) => {
-  let user = new User();
-  
-  const { name, id, password } = req.body;
-  if ((!name) || !id|| (!password)) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  user.name = name;  
-  user.id = id;
-  user.password = password;
-  user.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
+
 
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();

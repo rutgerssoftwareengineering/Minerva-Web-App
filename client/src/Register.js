@@ -28,10 +28,12 @@ class Register extends Component{
         let password = this.refs.password.value;
         let passwordconf = this.refs.passwordconf.value;
         if (fullname === "" || username === "" || password === "" || passwordconf === ""){
-            console.log("must enter values in all required fields...")
+            console.log("must enter values in all required fields...");
+            alert("must enter values in all required fields...")
         }
         else if (password !== passwordconf){
             console.log("passwords dont match");
+            alert("passwords dont match");
         }
         else{
          //ADD THAT SHIT TO THE DATABASE
@@ -40,7 +42,16 @@ class Register extends Component{
             id: username,
             password: password
           })
-          .then(res => this.setState({userData: {name: fullname, id: username}}))
+          .then(res => {
+            if(!res.success){
+                console.log(res.error);
+                alert("UserID Taken");
+            }
+            if(res.success){
+                console.log(res);
+                this.setState({userData: {name: fullname, id: username}});
+            }
+          })
         }
       }
       
