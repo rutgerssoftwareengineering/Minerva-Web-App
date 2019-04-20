@@ -9,6 +9,10 @@ const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const announcements = require("./routes/api/announcements")
+const multer = require('multer')
+const GridFsStorage = require('multer-gridfs-storage')
+const Grid = require('gridfs-stream')
+const { mongo, connection } = require('mongoose');
 
 const API_PORT = 3001;
 const app = express();
@@ -29,8 +33,13 @@ mongoose.connect(
 );
 
 let db = mongoose.connection;
+var gfs
+db.once("open", () => {
+  console.log("connected to the database");
+  gfs = Grid(db.db, mongoose.mongo);
+  gfs.collection('uploads')
+});
 
-db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -38,8 +47,18 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(logger("dev"));
+
+const storage = require('multer-gridfs-storage')({
+  url: dbRoute,
+  file: (req, file) => {
+    return {
+      filename: file.originalname,
+      bucketName: 'uploads'
+    }
+  }
+});
+const upload = multer({ storage: storage }).single('file')
 
 router.get("/searchForum", (req, res) => {
   Forum.find({
@@ -226,6 +245,7 @@ router.post("/registerClass", (req,res) => {
   });
 });
 
+<<<<<<< HEAD
 router.post("/removeClass", (req,res) => {
   const Uid = req.body.id;
   const newClasses = { classes: req.body.newClasses}
@@ -236,6 +256,36 @@ router.post("/removeClass", (req,res) => {
   });
 });
 
+=======
+router.post('/upload', upload, (req, res) => {
+  if (req.file) {
+    return res.json({
+      success: true,
+      file: req.file
+    });
+  }
+  res.send({ success: false });
+});
+
+router.get('/getFiles', (req,res) => {
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0){
+       return res.status(404).json({
+          message: "Could not find files"
+       });
+    }
+    return res.json(files);
+});
+})
+
+router.delete('/deleteFile/:id', (req, res) => {
+    gfs.remove({ _id: req.params.id, root:'uploads' }, (err) => {
+      if (err) return res.status(500).json({ success: false })
+      return res.json({ success: true });
+    })
+})
+
+>>>>>>> origin/file-uploader
 // append /api for our http requests
 app.use("/api", router);
 
