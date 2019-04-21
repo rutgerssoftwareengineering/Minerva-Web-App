@@ -86,6 +86,7 @@ class Gradebook extends Component{
     const changedClass ={
       _id: this.state.gradeInfo[this.state.value]._id,
       className: this.state.gradeInfo[this.state.value].className,
+      classid: this.state.gradeInfo[this.state.value].classid,
       members: this.state.gradeInfo[this.state.value].members,
       grades: newgrades,
       assignments: this.state.gradeInfo[this.state.value].assignments,
@@ -123,7 +124,7 @@ class Gradebook extends Component{
   udpateGrade = () => {
      axios.get('http://localhost:3001/api/updateGrade', {params: {
         newgrades: this.state.currentClass.grades,
-        classid: 52314
+        classid: this.state.currentClass.classid
      }})
      .then(res => console.log(res.data));
   };

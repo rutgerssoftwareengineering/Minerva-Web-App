@@ -98,10 +98,10 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/updateGrade", (req, res) => {
-  console.log("current")
-  console.log(req.query.current)
   console.log("grades")
   console.log(req.query.newgrades)
+  console.log("Stringed")
+  console.log(JSON.stringify(req.query.newgrades))
   console.log("ClassId")
   console.log(req.query.classid)
   Grade.findOneAndUpdate({'classid': {$in:req.query.classid}}, 
