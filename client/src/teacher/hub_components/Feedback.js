@@ -45,7 +45,7 @@ class Feedback extends Component {
         // subscribe to getting data on interval
         // args: class name, interval in ms, callback function
         // Thresh for feedback blinking is set within this function!
-        subscribeToGradeDataTimer("52314", 15000, ((err, gradeData) =>  {
+        subscribeToGradeDataTimer(cookies.get('currentClass'), 15000, ((err, gradeData) =>  {
             let classSize = gradeData[0].members.length;
             let newFeedbackData = gradeData[0].feedback;
             let feedbackThreshold = .1 * classSize;
@@ -84,22 +84,6 @@ class Feedback extends Component {
                 speedUpActive: speedUpActive,
             }) 
         }));
-
-    }
-
-    componentDidMount(){
-        
-    }
-    //function to run if the parent sends new props to this component
-    componentWillReceiveProps(newProps) {
-        
-    }
-
-
-    // when answer text box is changed, change the saved answer data in the state
-    // update the parent component
-    handleAnswerChange(event){
-        
 
     }
 
