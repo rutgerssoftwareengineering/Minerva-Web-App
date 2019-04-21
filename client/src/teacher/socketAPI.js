@@ -97,19 +97,48 @@ function connectOrJoinRoom(){
   });
 
   ////////////////////////////////////////////////////
+  const startButton = document.getElementById('startButton');
+  const callButton = document.getElementById('callButton');
+  const hangupButton = document.getElementById('hangupButton');
+  const stopRecordingButton = document.getElementById('stopRecording');
 
- 
-var localVideo = document.querySelector('#localVideo');
-var remoteVideo = document.querySelector('#remoteVideo');
+  function startAction() {
+    startButton.disabled = true;
+    stopRecordingButton.disabled = false;
+    navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
+    .then(gotStream)
+    .catch(function(e) {
+    alert('getUserMedia() error: ' + e.name);
+    });
+  }
 
-navigator.mediaDevices.getDisplayMedia({
-  audio: false,
-  video: true
-})
-.then(gotStream)
-.catch(function(e) {
-  alert('getUserMedia() error: ' + e.name);
-});
+  function stopRecording(){
+    const track = localStream.getTracks();
+    const arrLen = track.length;
+    for(let i = 0; i< arrLen; i++){
+      track[i].stop();
+    }
+    localVideo.srcObject = null;
+    hangupButton.disabled=true;
+    callButton.disabled= true;
+    stopRecordingButton.disabled = true;
+    startButton.disabled = false;
+  }
+  if(startButton !== null){
+  startButton.addEventListener('click', startAction);
+  }
+  if(stopRecordingButton !== null){
+    stopRecordingButton.addEventListener('click', stopRecording);
+  }
+  /*callButton.addEventListener('click', callAction);
+  hangupButton.addEventListener('click', hangupAction);
+
+*/
+
+  var localVideo = document.querySelector('#localVideo');
+
+  var remoteVideo = document.querySelector('#remoteVideo');
+
 
 function gotStream(stream) {
   console.log('Adding local stream.');
@@ -125,13 +154,6 @@ var constraints = {
   video: true
 };
 
-console.log('Getting user media with constraints', constraints);
-
-if (window.hostname !== 'localhost') {
-  requestTurn(
-    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-  );
-}
 
 function maybeStart() {
   console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);

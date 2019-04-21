@@ -33,7 +33,7 @@ navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
 socket.on('answer', function(message){
   peerConnection.setRemoteDescription(message);
 })
- /* const mediaStreamConstraints = {
+ const mediaStreamConstraints = {
     audio: true,
     video: {
       mandatory: {
@@ -330,7 +330,6 @@ function trace(text) {
 
   console.log(now, text);
 }
-*/
 }
 
 export default Video;
