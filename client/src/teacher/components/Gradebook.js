@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Cookies from 'universal-cookie';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -12,6 +13,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import history from '../../History';
 
 const cookies = new Cookies();
 
@@ -46,6 +48,15 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
+  button: {
+    marginLeft: theme.spacing.unit,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 60,
+  },
+
 });
 
 
@@ -57,20 +68,47 @@ class Gradebook extends Component{
     super()
     this.state = {
         gradeInfo: [],
+        currentClass: [],
         value: 0
     }
   }
 
   // Changes value when tabs are selected
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleTabChange = (event, value) => {
+    this.setState({  
+      value
+    })
   };
+
+  handleChange = (kef,kef2,e) => {
+    const newgrades=this.state.gradeInfo[this.state.value].grades
+    newgrades[kef][kef2] = e.target.value 
+    const changedClass ={
+      _id: this.state.gradeInfo[this.state.value]._id,
+      className: this.state.gradeInfo[this.state.value].className,
+      members: this.state.gradeInfo[this.state.value].members,
+      grades: newgrades,
+      assignments: this.state.gradeInfo[this.state.value].assignments,
+      feedback: this.state.gradeInfo[this.state.value].feedback,
+    }  
+    this.setState({ currentClass: changedClass });
+  };
+
+
+  _handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      alert("enter")
+      this.udpateGrade(this.state.currentClass)
+      history.push('/grades');
+    }
+  }
+
    //triggers database gathering on mount
   componentWillMount(){
-     this.getGradesDataFromDb();
+     this.getGrades();
   }
    //queries database using user data
-   getGradesDataFromDb = () => {
+   getGrades = () => {
      axios.get('http://localhost:3001/api/getGrades', {params: {
          member: cookies.get('userId'),
          classes: cookies.get('userClasses')
@@ -81,6 +119,13 @@ class Gradebook extends Component{
         });
      });
   };
+
+  udpateGrade = (currentClass) => {
+     axios.get('http://localhost:3001/api/updateGrade', {params: {
+        current: this.state.currentClass.classid
+     }})
+     .then(res => console.log(res.data));
+  };
   
   render(){
     
@@ -88,9 +133,8 @@ class Gradebook extends Component{
     const { classes } = this.props;
     const { value } = this.state;
     const clas = this.state.gradeInfo;
- 
+    const user = cookies.get('userId');
 
-    console.log(cookies.get('currentClass'))
     return(
       <div>
         {/* Spacing */}
@@ -100,7 +144,7 @@ class Gradebook extends Component{
         <Paper className={classes.root}>       
           <Tabs
             value={this.state.value}
-            onChange={this.handleChange}
+            onChange={this.handleTabChange}
             indicatorColor="primary"
             textColor="primary"
             centered
@@ -133,9 +177,40 @@ class Gradebook extends Component{
                             <TableCell component="th" scope="row">
                               {name}
                             </TableCell>
-                            {classInfo.assignments.map( (assignment, key2) => (                             
-                              <TableCell align="right">{classInfo.grades[key][key2]}</TableCell>
-                            ))}
+                            {classInfo.assignments.map( (assignment, key2) => { 
+                              if(classInfo.grades[key][key2]){   
+                                return (
+                                  <TableCell align="right">                           
+                                    <TextField
+                                      id="standard-number"
+                                      type="number"
+                                      className={classes.textField}
+                                      InputLabelProps={{
+                                        shrink: true,
+                                      }}
+                                      value={classInfo.grades[key][key2]}
+                                      margin="normal"
+                                      onKeyDown={this._handleEnter}
+                                      onChange={this.handleChange.bind(this,key,key2)}
+                                    />
+                                  </TableCell>
+                                )                     
+                              }else{
+                                return(
+                                  <TableCell align="right">
+                                    <TextField
+                                      id="standard-number"
+                                      type="number"
+                                      className={classes.textField}
+                                      InputLabelProps={{
+                                        shrink: true,
+                                      }}
+                                      margin="normal"
+                                    />        
+                                  </TableCell>
+                                ) 
+                              }
+                            })}
                           </TableRow>
                         ))}
                       </TableBody>

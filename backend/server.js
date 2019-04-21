@@ -75,8 +75,6 @@ router.get("/searchForum", (req, res) => {
 router.post("/updateQuiz", (req, res) => {
   
   const { quizTitle, problems, timeLimit, date, id} = req.body;
-  
-  
   QuizTemplate.findOneAndUpdate({"_id": id}, 
   {$set: 
   { "quizTitle": quizTitle, 
@@ -94,6 +92,20 @@ router.get("/getGrades", (req, res) => {
     'classid': {$in:req.query.classes}
   },
     (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/updateGrade", (req, res) => {
+  Grade.findOneAndUpdate({
+    'classid': {$in:req.query.classes}
+  },
+  {$set: 
+    { "grades": req.body.currentClass.grades
+  }},
+
+    err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
