@@ -22,6 +22,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CastForEducation from '@material-ui/icons/CastForEducation'
 import ListItem from '@material-ui/core/ListItem';
 import Cookies from 'universal-cookie';
 import { NavLink } from 'react-router-dom';
@@ -192,7 +193,7 @@ class PersistentDrawerLeft extends React.Component {
                 </NavLink> 
                 <NavLink className="Link" to="/hub" exact>
                   <ListItem button > 
-                        <ListItemIcon><AnnouncementIcon/></ListItemIcon>
+                        <ListItemIcon><CastForEducation/></ListItemIcon>
                         <ListItemText primary="Hub" />
                   </ListItem>
                 </NavLink>
