@@ -98,63 +98,60 @@ function connectOrJoinRoom(){
 
   ////////////////////////////////////////////////////
 
-  var localVideo = document.querySelector('#localVideo');
-  var remoteVideo = document.querySelector('#remoteVideo');
+ 
+var localVideo = document.querySelector('#localVideo');
+var remoteVideo = document.querySelector('#remoteVideo');
 
-  navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
-  .then((mediaStream) =>{
-    localVideo.srcObject = mediaStream;
-    console.log('Received local stream.');
-    peerConnection.addStream(mediaStream);
-    peerConnection.createOffer()
-    .then(sdp => peerConnection.setLocalDescription(sdp))
-    .then(()=>{ 
-      socket.emit('offer', peerConnection.localDescription);
-    });
-  }).catch(handleLocalMediaStreamError);  
+navigator.mediaDevices.getDisplayMedia({
+  audio: false,
+  video: true
+})
+.then(gotStream)
+.catch(function(e) {
+  alert('getUserMedia() error: ' + e.name);
+});
 
-  function gotStream(stream) {
-    console.log('Adding local stream.');
-    localStream = stream;
-    localVideo.srcObject = stream;
-    sendMessage('got user media');
+function gotStream(stream) {
+  console.log('Adding local stream.');
+  localStream = stream;
+  localVideo.srcObject = stream;
+  sendMessage('got user media');
+  if (isInitiator) {
+    maybeStart();
+  }
+}
+
+var constraints = {
+  video: true
+};
+
+console.log('Getting user media with constraints', constraints);
+
+if (window.hostname !== 'localhost') {
+  requestTurn(
+    'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+  );
+}
+
+function maybeStart() {
+  console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
+  if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
+    console.log('>>>>>> creating peer connection');
+    createPeerConnection();
+    pc.addStream(localStream);
+    isStarted = true;
+    console.log('isInitiator', isInitiator);
     if (isInitiator) {
-      maybeStart();
+      doCall();
     }
   }
+}
 
-  var constraints = {
-    video: true
-  };
-
-  console.log('Getting user media with constraints', constraints);
-
-  /*if (location.hostname !== 'localhost') {
-    requestTurn(
-      'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-    );
-  }*/
-
-  function maybeStart() {
-    console.log('>>>>>>> maybeStart() ', isStarted, localStream, isChannelReady);
-    if (!isStarted && typeof localStream !== 'undefined' && isChannelReady) {
-      console.log('>>>>>> creating peer connection');
-      createPeerConnection();
-      pc.addStream(localStream);
-      isStarted = true;
-      console.log('isInitiator', isInitiator);
-      if (isInitiator) {
-        doCall();
-      }
-    }
-  }
-
-  window.onbeforeunload = function() {
-    sendMessage('bye');
-  };
+window.onbeforeunload = function() {
+  sendMessage('bye');
+};
 
   /////////////////////////////////////////////////////////
-
   function createPeerConnection() {
     try {
       pc = new RTCPeerConnection(null);
@@ -168,7 +165,7 @@ function connectOrJoinRoom(){
       return;
     }
   }
-
+  
   function handleIceCandidate(event) {
     console.log('icecandidate event: ', event);
     if (event.candidate) {
@@ -182,16 +179,16 @@ function connectOrJoinRoom(){
       console.log('End of candidates.');
     }
   }
-
+  
   function handleCreateOfferError(event) {
     console.log('createOffer() error: ', event);
   }
-
+  
   function doCall() {
     console.log('Sending offer to peer');
     pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
   }
-
+  
   function doAnswer() {
     console.log('Sending answer to peer.');
     pc.createAnswer().then(
@@ -199,17 +196,17 @@ function connectOrJoinRoom(){
       onCreateSessionDescriptionError
     );
   }
-
+  
   function setLocalAndSendMessage(sessionDescription) {
     pc.setLocalDescription(sessionDescription);
     console.log('setLocalAndSendMessage sending message', sessionDescription);
     sendMessage(sessionDescription);
   }
-
+  
   function onCreateSessionDescriptionError(error) {
     console.log('Failed to create session description: ' + error.toString());
   }
-
+  
   function requestTurn(turnURL) {
     var turnExists = false;
     for (var i in pcConfig.iceServers) {
@@ -238,29 +235,29 @@ function connectOrJoinRoom(){
       xhr.send();
     }
   }
-
+  
   function handleRemoteStreamAdded(event) {
     console.log('Remote stream added.');
     remoteStream = event.stream;
     remoteVideo.srcObject = remoteStream;
   }
-
+  
   function handleRemoteStreamRemoved(event) {
     console.log('Remote stream removed. Event: ', event);
   }
-
+  
   function hangup() {
     console.log('Hanging up.');
     stop();
     sendMessage('bye');
   }
-
+  
   function handleRemoteHangup() {
     console.log('Session terminated.');
     stop();
     isInitiator = false;
   }
-
+  
   function stop() {
     isStarted = false;
     pc.close();

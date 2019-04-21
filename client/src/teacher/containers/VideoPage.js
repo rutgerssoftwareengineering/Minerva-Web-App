@@ -16,7 +16,6 @@ class VideoPage extends Component {
             <h1 id="video-status">OFFLINE</h1>
             <div id="videoContainer">
                 <video id="localVideo" autoPlay playsInline></video>
-                <video id="remoteVideo" autoPlay playsInline></video>
                 <div id="streamingControls">
                     <button id="startButton" className="streamingButtons button"><ScreenShareOutlined fontSize="large" /></button>
                     <button id="callButton" className="streamingButtons button"><PlayCircleOutline fontSize="large"/></button>
