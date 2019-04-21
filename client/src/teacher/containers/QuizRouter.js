@@ -16,7 +16,10 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 838110e19b5d7461ee71ddafa5bee0499e706b5a
 const styles = theme => ({
     trash: {
       align: 'right',

@@ -334,6 +334,10 @@ router.delete('/deleteFile/:id', (req, res) => {
     })
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 838110e19b5d7461ee71ddafa5bee0499e706b5a
 router.post("/submitInclassQuizData", (req, res) => {
   let quiz = new InclassQuizTemplate();
   
@@ -368,6 +372,7 @@ router.post("/updateActiveInclassQuiz", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 router.get("/getInclassQuizResponseData", (req, res) => {
   Quiz.find({
     "classId": req.query.classId, 
@@ -380,6 +385,8 @@ router.get("/getInclassQuizResponseData", (req, res) => {
   });
 });
 
+=======
+>>>>>>> 838110e19b5d7461ee71ddafa5bee0499e706b5a
 router.get("/downloadFile/:id", (req, res) => {
   console.log(req.params.id)
   gfs.exist({ _id: req.params.id, root:'uploads' }, function(err,found){
