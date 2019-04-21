@@ -12,6 +12,9 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 
 const styles = theme => ({
@@ -57,7 +60,8 @@ class QuizRouter extends Component{
     }
 
     getQuizData = () => {
-        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
+        //class: cookies.get('currentClass')
+        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: cookies.get('currentClass')}})
         .then(res => {
             console.log(res.data.data)
             this.setState({

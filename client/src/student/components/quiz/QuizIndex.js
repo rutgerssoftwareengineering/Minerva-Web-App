@@ -10,9 +10,9 @@ const QuizIndex = ({match, quizzes}) => {
         cookies.set('redirectPath', '/quizzes', {path: '/'} )
         return(<Redirect to='/login'/>)
       }
-        const renderQuizIndex = quizzes.map((quiz, index) => <Link className="quiz-link" 
+        const renderQuizIndex = !!quizzes && quizzes.length !== 0 ? quizzes.map((quiz, index) => <Link className="quiz-link" 
                                                                     key={index} 
-                                                                    to={`/quizzes/${quiz.quizid}`}>Quiz {index+1}</Link>)
+                                                                    to={`/quizzes/${quiz.quizid}`}>Quiz {index+1}</Link>) : null
        
         if(!!cookies.get('quizCompleted')){
             cookies.remove('quizCompleted')

@@ -23,6 +23,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CastForEducation from '@material-ui/icons/CastForEducation'
 import ListItem from '@material-ui/core/ListItem';
 import Cookies from 'universal-cookie';
 import { NavLink } from 'react-router-dom';
@@ -190,17 +191,22 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemIcon><AnnouncementIcon/></ListItemIcon>
                         <ListItemText primary="Announcements" />
                   </ListItem>
-                </NavLink> 
-                <NavLink className="Link" to="/hub" exact>
-                  <ListItem button > 
-                        <ListItemIcon><HubIcon/></ListItemIcon>
-                        <ListItemText primary="Hub" />
-                  </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/grades" exact >
                   <ListItem button > 
                       <ListItemIcon><BookIcon/></ListItemIcon>
                       <ListItemText primary="Gradebook" />
+                </NavLink> 
+                <NavLink className="Link" to="/hub" exact>
+                  <ListItem button > 
+                        <ListItemIcon><CastForEducation/></ListItemIcon>
+                        <ListItemText primary="Hub" />
+                  </ListItem>
+                </NavLink>
+                <NavLink className="Link" to="/manageFiles" exact>
+                  <ListItem button > 
+                      <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                      <ListItemText primary="Manage Files" />
                   </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>
