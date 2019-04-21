@@ -98,16 +98,19 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/updateGrade", (req, res) => {
-  Grade.findOneAndUpdate({
-    'classid': {$in:req.query.classes}
-  },
+  console.log("current")
+  console.log(req.query.current)
+  console.log("grades")
+  console.log(req.query.newgrades)
+  console.log("ClassId")
+  console.log(req.query.classid)
+  Grade.findOneAndUpdate({'classid': {$in:req.query.classid}}, 
   {$set: 
-    { "grades": req.body.currentClass.grades
-  }},
-
-    err => {
+  {"grades": req.query.newgrades }
+  },
+  (err, data) => {
     if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
+    return res.json({ success: true,data: data });
   });
 });
 

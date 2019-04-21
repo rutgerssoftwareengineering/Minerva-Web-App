@@ -98,7 +98,7 @@ class Gradebook extends Component{
   _handleEnter = (e) => {
     if (e.key === 'Enter') {
       alert("enter")
-      this.udpateGrade(this.state.currentClass)
+      this.udpateGrade()
       history.push('/grades');
     }
   }
@@ -120,9 +120,10 @@ class Gradebook extends Component{
      });
   };
 
-  udpateGrade = (currentClass) => {
+  udpateGrade = () => {
      axios.get('http://localhost:3001/api/updateGrade', {params: {
-        current: this.state.currentClass.classid
+        newgrades: this.state.currentClass.grades,
+        classid: 52314
      }})
      .then(res => console.log(res.data));
   };
@@ -133,8 +134,6 @@ class Gradebook extends Component{
     const { classes } = this.props;
     const { value } = this.state;
     const clas = this.state.gradeInfo;
-    const user = cookies.get('userId');
-
     return(
       <div>
         {/* Spacing */}
@@ -159,7 +158,7 @@ class Gradebook extends Component{
           {/* Map classes to gradebook */}
           {clas.map( (classInfo,key) => (
             <div>      
-              {value == key && 
+              {value === key && 
               // Grade Book
                   <Paper className={classes.book} >
                     <Table className={classes.table}>
