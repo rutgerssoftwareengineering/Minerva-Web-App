@@ -8,6 +8,7 @@ const Forum = require("./forum");
 const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
+const InclassQuizTemplate = require("./inclass-quiz-template")
 const announcements = require("./routes/api/announcements")
 const multer = require('multer')
 const GridFsStorage = require('multer-gridfs-storage')
@@ -146,6 +147,17 @@ router.get("/getUsers", (req, res) => {
 router.get("/getQuizzes", (req, res) => {
   Quiz.find({
     'class': req.query.class
+    }, 
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/getInclassQuizzes", (req, res) => {
+  Quiz.find({
+    'class': req.query.class,
+    'quizType': 'inclass'
     }, 
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -310,6 +322,52 @@ router.delete('/deleteFile/:id', (req, res) => {
       return res.json({ success: true });
     })
 })
+
+router.post("/submitInclassQuizData", (req, res) => {
+  let quiz = new InclassQuizTemplate();
+  
+  const { classId, quizTitle, question, answers, responses, isActive} = req.body;
+
+  InclassQuizTemplate.updateOne({"classId": classId, "quizTitle": quizTitle, "question": question},
+    {"classId": classId, 
+      "quizTitle": quizTitle, 
+      "question": question, 
+      "isActive": isActive, 
+      "responses": responses, 
+      "answers": answers},
+    { upsert : true },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+      return res.json({ success: true });
+    });
+  
+    /*
+  quiz.classId = classId;
+  quiz.quizTitle = quizTitle;
+  quiz.question = question;
+  quiz.answers = answers;
+  quiz.responses = responses;
+  quiz.isActive = isActive;
+  
+  quiz.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });*/
+});
+
+router.post("/updateActiveInclassQuiz", (req, res) => {
+  
+  const {classId, quizTitle, question, isActive} = req.body;
+  
+
+  InclassQuizTemplate.findOneAndUpdate({"classId": classId, "quizTitle": quizTitle, "question": question}, 
+  {$set: 
+  { "isActive": isActive}},
+  err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
 
 // append /api for our http requests
 app.use("/api", router);

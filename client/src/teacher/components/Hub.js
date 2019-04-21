@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Feedback from '../hub_components/Feedback';
+import AdministerQuizComponent from '../hub_components/AdministerQuizComponent';
 
 class Hub extends Component {
     constructor(props){
@@ -12,7 +13,7 @@ class Hub extends Component {
             <div>
                     <h1>Teacher Hub</h1>
                     <h1>Teacher Hub</h1>
-                    <Feedback/>
+                    <AdministerQuizComponent/>
             </div>
 
         )
