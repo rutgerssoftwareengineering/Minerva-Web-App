@@ -115,6 +115,7 @@ router.get("/getFeedback", (req, res) => {
 });
 
 router.get("/loginUser", (req, res) => {
+  console.log('haha')
   User.find({ id: req.query.id }, function(err, user) {
     if (err) throw err;
     user[0].comparePassword(req.query.password, function(err, isMatch) {

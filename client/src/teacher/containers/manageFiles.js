@@ -4,7 +4,6 @@ import axios from 'axios'
 class ManageFiles extends Component {
     constructor (props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
         this.state = {
             files: props.files,
             file: ''
@@ -69,7 +68,7 @@ class ManageFiles extends Component {
     render() {
         const files = this.state.files;
         return (
-            <div>
+            <div style={{top: '10%', position: 'fixed', left: '50%', transform: 'translate(-50%, 0)'}}>
           <div>
             <input type="file" onChange={this.fileChanged.bind(this)}/>
           </div>
@@ -77,7 +76,7 @@ class ManageFiles extends Component {
             {files.map((file, index) => {
                 var date = new Date(file.uploadDate);
                 return (
-                    <tr key={index} style={{position: 'relative', left: '100%' }}>
+                    <tr key={index}>
                     <td><a href={`http://localhost:3001/api/files/${file.filename}`} style={{color:'rgba(123, 230, 96, 0.692)'}}>{file.filename}</a></td>
                     <td>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</td>
                     <td>{(Math.round(file.length/100) / 10)+'KB'}</td>
@@ -90,4 +89,4 @@ class ManageFiles extends Component {
     }
 }
 
-export default ManageFiles
+export default (ManageFiles)

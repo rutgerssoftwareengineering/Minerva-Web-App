@@ -196,6 +196,12 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemText primary="Hub" />
                   </ListItem>
                 </NavLink>
+                <NavLink className="Link" to="/manageFiles" exact>
+                  <ListItem button > 
+                      <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                      <ListItemText primary="Manage Files" />
+                  </ListItem>
+                </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>
                   <ListItem button > 
                       <ListItemIcon><CloseIcon/></ListItemIcon>
