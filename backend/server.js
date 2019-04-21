@@ -5,6 +5,7 @@ const logger = require("morgan");
 const User = require("./user");
 const Quiz = require("./quiz");
 const Forum = require("./forum");
+const Question = require("./question")
 const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
@@ -95,8 +96,18 @@ router.post("/updateQuiz", (req, res) => {
 
 router.get("/getGrades", (req, res) => {
   Grade.find({
-    'classid': {$in:req.query.classes}
+    'classid': req.query.classes
   },
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/getFeedback", (req, res) => {
+  Question.find(/*{
+    'classid': req.query.classes
+  },*/
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
@@ -323,6 +334,7 @@ router.delete('/deleteFile/:id', (req, res) => {
     })
 })
 
+<<<<<<< HEAD
 router.post("/submitInclassQuizData", (req, res) => {
   let quiz = new InclassQuizTemplate();
   
@@ -369,6 +381,32 @@ router.post("/updateActiveInclassQuiz", (req, res) => {
   });
 });
 
+=======
+router.get("/downloadFile/:id", (req, res) => {
+  console.log(req.params.id)
+  gfs.exist({ _id: req.params.id, root:'uploads' }, function(err,found){
+    console.log(found)
+  })
+  gfs.findOne({ _id: req.params.id, root:'uploads' }, (err, file) => {
+    if (!file || file.length === 0) {
+      return res.status(404).json({
+        error: "That File Doesn't Exist"
+      });
+    }
+    res.set({
+      "Content-Disposition": `attachment; filename=${file.filename}`,
+      "Content-Type": file.contentType,
+      "fileName": file.filename
+    });
+      // Read output to browser
+      const readstream = gfs.createReadStream({
+        _id: req.params.id,
+        root:'uploads'
+      });
+      readstream.pipe(res);
+  });
+});
+>>>>>>> e46ca7df9ad27a85edeae3b4642f70b3c793e32a
 // append /api for our http requests
 app.use("/api", router);
 

@@ -13,9 +13,13 @@ import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Cookies from 'universal-cookie';
+<<<<<<< HEAD
 
 const cookies = new Cookies();
 
+=======
+const cookies = new Cookies();
+>>>>>>> e46ca7df9ad27a85edeae3b4642f70b3c793e32a
 
 const styles = theme => ({
     trash: {
