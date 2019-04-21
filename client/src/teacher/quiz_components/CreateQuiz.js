@@ -6,8 +6,29 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import history from '../../History';
 import OpenEndedAnswer from './OpenEndedAnswer';
+import { withStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import InputBase from '@material-ui/core/InputBase';
+import InputLabel from '@material-ui/core/InputLabel';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 
 //import "react-datepicker/dist/react-datepicker.css";
+
+const styles = theme => ({
+fab:{
+    margin: theme.spacing.unit,
+},
+textField:{
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+},
+});
 
 class CreateQuiz extends Component {
 
@@ -224,8 +245,7 @@ class CreateQuiz extends Component {
                 className: this.state.className,
                 quizType: this.state.quizType
             })
-            .then(res => console.log(res.data))
-            .then(() => history.push('/quizzes'));
+            .then(res => console.log(res.data));
         } else {
             axios.post("http://localhost:3001/api/submitQuizT", {
                 quizTitle: this.state.quizTitle,
@@ -235,10 +255,10 @@ class CreateQuiz extends Component {
                 className: this.state.className,
                 quizType: this.state.quizType
             })
-            .then(res => console.log(res.data))
-            .then(() => history.push('/quizzes'));
+            .then(res => console.log(res.data));
         }
-        //history.push('/quizzes');
+
+        history.push('/quizzes');
     };
 
 
@@ -250,30 +270,52 @@ class CreateQuiz extends Component {
     // This component also handles the submit to the database
     render(){
         const questions = this.state.questions;
+        const {classes} = this.props;
         return(
+            <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{minHeight: '120vh'}}
+            >
             <div>
                 <form>
                     <label>
-                        Quiz Title:
+
+                        <TextField
+                        color="blue"
+                        label="Quiz Title"
+                        variant="filled"
+                        value={this.state.changeQuizTitle}
+                        onChange={this.changeQuizTitle}
+                        />
+                        {/* <h1>Quiz Title:
                         <input 
                                 type="text" 
                                 onChange={this.changeQuizTitle}
                                 value={this.state.quizTitle}
-                                style={{ width:"480px", marginLeft:"10px"}}
+                                style={{ width:"300px", marginLeft:"10px"}}
                         />
-                        <br/><br/>
+                        </h1>
+                        */}
+                       <br/><br/> 
                     </label>
-                    <label>
+                     <label>
+
                     {questions.map((key, index) => (
                         <div key={index}>
-                            <label style={{textDecoration:'underline'}}>
+                                                 <Card style={{marginBottom:5}}>
+                                                <CardContent>
+                            <h3 style={{textDecoration:'underline', color:'blue'}}>
                                 Problem {index + 1}
-                            </label>
+                            </h3>
                             <br/>
-                            <label style={{paddingRight:'10px'}}>
+                            <h4 style={{paddingRight:'10px', color: 'blue'}}>
                                 Select Question Type:
-                            </label>
-                            <label>
+                            </h4>
+                            <label style={{paddingRight:'10px',color:'blue'}}>
                                 Multiple Choice
                                 <input
                                 type="radio"
@@ -283,7 +325,7 @@ class CreateQuiz extends Component {
                                 />
                             </label>
 
-                            <label>
+                            <label style={{paddingRight:'10px',color:'blue'}}>
                                 Open Ended
                                 <input
                                 type="radio"
@@ -296,8 +338,8 @@ class CreateQuiz extends Component {
 
                             <br/>
 
-                            <label style={{paddingRight:'10px'}}>
-                                Question
+                            <label style={{paddingRight:'10px',color:'blue'}}>
+                                Question:
                             </label>
                             <input 
                                 type="text" 
@@ -306,7 +348,7 @@ class CreateQuiz extends Component {
                                 value={key}
                                 style={{ width:"480px", marginRight:"10px"}}
                             /> 
-                            <button onClick={(event) => {this.handleRemoveQuestionClick(event, index)}}>Remove Question</button>
+                            <Fab color="secondary" aria-label="RemoveQuestion" onClick={(event) => {this.handleRemoveQuestionClick(event, index)}}><DeleteIcon /></Fab>
                             
                             {(() => {
                                 if (this.state.questionTypes[index] === 'MC') {
@@ -330,46 +372,60 @@ class CreateQuiz extends Component {
                                 );
                             })
                             ()}
-
-                            
                             
                             <br/>
                             <br/>
+                            </CardContent>  
+                            </Card>
                         </div>
+                                       
                     ))}
+
                     </label>
-                    <button onClick={this.handleAddQuestionClick}>Add Question</button>
+                    
+                    <br/><br/>
+                    <Fab color="primary" variant="extended" aria-label="AddQuestion" onClick={this.handleAddQuestionClick}>Add Question</Fab>
 
                     <label>
                     <br/><br/>
-                    Set Time Limit (hh:mm:ss):
+
+<Card >
+    <CardContent>
+
+                <h3 style={{color:'blue'}}>    Set Time Limit (hh:mm:ss):
                     <TimeField 
                         value={this.state.timeLimit} 
                         showSeconds={true} 
                         onChange={this.handleTimeChange} 
                         style={{marginLeft:'10px'}}
                     />
+                    </h3>
                     <br/><br/>
 
-                    <label style={{marginRight:'10px'}}>
-                        Select Exam Date
-                    </label>
-                    <DatePicker
+                     <h3 style={{color:'blue'}}>  Select Exam Date:  
+                     </h3>
+                    <TextField
+                        label="Exam Date"
+                        type="date"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
                         selected={this.state.date}
                         onChange={this.handleDateChange}
                     />
-                    <br/><br/>
 
+                    <br/><br/>
+                    </CardContent></Card>
                 </label>
 
                 </form>
-
-                {/*<Link to={{pathname: '/quizzes', state: {update: true}}}>
-                        <button onClick={this.submitQuizToDb}>Publish Quiz</button>
-                </Link>*/}
-                <button onClick={this.submitQuizToDb}>Publish Quiz</button>
+<div></div>
+                <Link to={{pathname: '/quizzes', state: {update: true}}}>
+                        <Fab color="primary" variant = "extended" onClick={this.submitQuizToDb}>Publish Quiz</Fab>
+                </Link>
 
            </div>
+           </Grid>
         )
     } 
   

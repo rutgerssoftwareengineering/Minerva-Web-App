@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
 // Component which stores and displays all the answers for a particular question
 class MultipleChoiceAnswers extends Component {
     constructor(props){
@@ -104,7 +106,8 @@ class MultipleChoiceAnswers extends Component {
                 <label>
                 {answers.map((key, index) => (
                     <div key={index}>
-                        <label>
+                        <label style={{paddingRight:'10px',color:'blue'}}>
+                            
                             Mark Answer {index + 1} as correct:
                         </label>
                         <input
@@ -120,11 +123,11 @@ class MultipleChoiceAnswers extends Component {
                             value={key}
                             style={{ width:"300px", marginRight:"10px" }}
                         />
-                        <button onClick={(event) => {this.handleRemoveAnswerClick(event, index)}}>Remove Answer</button>
+                        <Button   onClick={(event) => {this.handleRemoveAnswerClick(event, index)}}><DeleteIcon fontSize="small"/></Button>
                     </div>
                 ))}
                 </label>
-                <button onClick={this.handleAddAnswerClick}>Add Answer</button>
+                <Fab color="white" variant="extended" onClick={this.handleAddAnswerClick}>Add Answer</Fab>
            </div>
         )
     } 

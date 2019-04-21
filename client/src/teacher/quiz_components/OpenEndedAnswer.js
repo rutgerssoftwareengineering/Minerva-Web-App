@@ -65,7 +65,7 @@ class OpenEndedAnswer extends Component {
                 <label>
                 {answers.map((key, index) => (
                     <div key={index}>
-                        <label>
+                        <label style={{paddingRight:'10px',color:'blue'}}>
                             Answer:
                         </label>
                         <input 
