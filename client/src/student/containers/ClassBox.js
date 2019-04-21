@@ -36,10 +36,11 @@ class ClassBox extends Component {
   render(){
     return(
         <div className='navButton'>
-          {(this.state.classes).map(numId =>
+        {this.state.classes !== undefined ?
+          (this.state.classes).map(numId =>
           <div>
                 <button onClick={this.changeClass.bind(this, numId)}>{numId}</button>
-        </div>)}
+        </div>) : null}
         </div>
     )
   }
