@@ -29,8 +29,7 @@ class ViewAnnouncement extends Component{
       }
 
     componentDidMount(){
-        this.props.getAnnouncements();
-        
+        this.props.getAnnouncements();    
     }
     onDeleteClick = id => {
        
