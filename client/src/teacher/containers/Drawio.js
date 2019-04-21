@@ -196,6 +196,7 @@ class PersistentDrawerLeft extends React.Component {
                   <ListItem button > 
                       <ListItemIcon><BookIcon/></ListItemIcon>
                       <ListItemText primary="Gradebook" />
+                  </ListItem>     
                 </NavLink> 
                 <NavLink className="Link" to="/hub" exact>
                   <ListItem button > 
