@@ -334,7 +334,6 @@ router.delete('/deleteFile/:id', (req, res) => {
     })
 })
 
-<<<<<<< HEAD
 router.post("/submitInclassQuizData", (req, res) => {
   let quiz = new InclassQuizTemplate();
   
@@ -353,18 +352,6 @@ router.post("/submitInclassQuizData", (req, res) => {
       return res.json({ success: true });
     });
   
-    /*
-  quiz.classId = classId;
-  quiz.quizTitle = quizTitle;
-  quiz.question = question;
-  quiz.answers = answers;
-  quiz.responses = responses;
-  quiz.isActive = isActive;
-  
-  quiz.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });*/
 });
 
 router.post("/updateActiveInclassQuiz", (req, res) => {
@@ -381,7 +368,18 @@ router.post("/updateActiveInclassQuiz", (req, res) => {
   });
 });
 
-=======
+router.get("/getInclassQuizResponseData", (req, res) => {
+  Quiz.find({
+    "classId": req.query.classId, 
+    "quizTitle": req.query.quizTitle, 
+    "question": req.query.question
+    }, 
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
 router.get("/downloadFile/:id", (req, res) => {
   console.log(req.params.id)
   gfs.exist({ _id: req.params.id, root:'uploads' }, function(err,found){
@@ -406,7 +404,6 @@ router.get("/downloadFile/:id", (req, res) => {
       readstream.pipe(res);
   });
 });
->>>>>>> e46ca7df9ad27a85edeae3b4642f70b3c793e32a
 // append /api for our http requests
 app.use("/api", router);
 

@@ -32,7 +32,8 @@ class AdministerQuizComponent extends Component {
             currQuizData: [{problems: []}],
             answers: [],
             questionActive: false,
-            numResponses: [0,0,0,0]
+            numResponses: [0,0,0,0],
+            responses: []
         };
 
         this.getQuizData();
@@ -114,11 +115,23 @@ class AdministerQuizComponent extends Component {
             isActive: false
         })
         .then(res => console.log(res.data))
+        .then(() => {
+            axios.get('http://localhost:3001/api/getInclassQuizResponseData', {params: {
+                classId: cookies.get('currentClass'),
+                quizTitle: this.state.selectedQuiz, 
+                question: this.state.selectedQuestion}})
+            .then(res => {
+            console.log(res.data.data)
+            this.setState({
+              responses: res.data.data.responses,
+            });
+        })
+        })
     }
 
     getQuizData = () => {
         //class: cookies.get('currentClass')
-        axios.get('http://localhost:3001/api/getInclassQuizzes', {params: {class: cookies.get('currentClass')}})
+        axios.get('http://localhost:3001/api/getInclassQuizzes', {params: {classId: cookies.get('currentClass')}})
         .then(res => {
             console.log(res.data.data)
             this.setState({
