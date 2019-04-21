@@ -97,18 +97,16 @@ router.get("/getGrades", (req, res) => {
   });
 });
 
-router.get("/updateGrade", (req, res) => {
+router.post("/updateGrade", (req, res) => {
   console.log("grades")
-  console.log(req.query.newgrades)
-  console.log("Stringed")
-  console.log(JSON.stringify(req.query.newgrades))
+  console.log(req.body.newgrades)
+  //console.log("Stringed")
+ // console.log(JSON.stringify(req.query.newgrades))
   console.log("ClassId")
-  console.log(req.query.classid)
-  Grade.findOneAndUpdate({'classid': {$in:req.query.classid}}, 
-  {$set: 
-  {"grades": req.query.newgrades }
-  },
-  (err, data) => {
+  console.log(req.body.classid)
+  const Cid = req.body.classid;
+  const newgrades = { grades: req.body.newgrades}
+  Grade.findOneAndUpdate({classid: Cid}, newgrades, (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true,data: data });
   });

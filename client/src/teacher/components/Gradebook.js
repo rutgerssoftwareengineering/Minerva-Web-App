@@ -122,10 +122,13 @@ class Gradebook extends Component{
   };
 
   udpateGrade = () => {
-     axios.get('http://localhost:3001/api/updateGrade', {params: {
-        newgrades: this.state.currentClass.grades,
-        classid: this.state.currentClass.classid
-     }})
+    const newgrades = this.state.currentClass.grades
+    const cid = this.state.currentClass.classid
+    console.log(this.state.currentClass.grades)
+     axios.post('http://localhost:3001/api/updateGrade',{
+        newgrades: newgrades,
+        classid: cid
+     })
      .then(res => console.log(res.data));
   };
   
@@ -140,6 +143,7 @@ class Gradebook extends Component{
         {/* Spacing */}
         <div className={classes.drawerHeader} />
         <h1>Gradebook</h1>
+        <button onClick={this.udpateGrade}>click</button>
         {/* Tabbar */}
         <Paper className={classes.root}>       
           <Tabs
