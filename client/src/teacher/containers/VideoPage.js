@@ -6,8 +6,7 @@ import Stop from '@material-ui/icons/Stop';
 import {connectOrJoinRoom } from '../socketAPI.js';
 class VideoPage extends Component {
 
-    constructor(props){
-        super(props)
+    componentDidMount(){
         connectOrJoinRoom()
     }
     render(){

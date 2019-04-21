@@ -85,17 +85,19 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/loginUser", (req, res) => {
-  User.find({ id: req.query.id }, function(err, user) {
-    if (err) throw err;
-    user[0].comparePassword(req.query.password, function(err, isMatch) {
-        if (err) throw err;
-        if(user.length === 0){
-          return res.json([{success: false}])
-        }
-        return res.json({success: true, data: user});
-    });
+  User.find({
+    'id': req.query.id,
+    'password': req.query.password
+  },
+  (err, data) => {
+    if(err) return res.json({ success: false, error: err });
+    if(data.length === 0){
+      return res.json([{success: false}])
+    }
+    return res.json({success: true, data: data});
   });
 });
+
 
 router.post("/registerUser", (req, res) => {
   let user = new User();
