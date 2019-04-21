@@ -1,4 +1,5 @@
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import React, {Component} from 'react';
 import ThumbDown from '../assets/thumb_down.png';
 import ThumbUp from '../assets/thumb_up.png';
@@ -6,6 +7,15 @@ import VolDown from '../assets/vol_down.png';
 import VolUp from '../assets/vol_up.png';
 import SlowDown from '../assets/slow_down.png';
 import SpeedUp from '../assets/speed_up.png';
+import List from '@material-ui/core/List';
+import { getAnnouncements, deleteAnnouncement, getFeedback } from '../actions/announcementActions';
+import { connect } from 'react-redux' 
+
+import ListItem from '@material-ui/core/ListItem';
+import {CSSTransition, TransitionGroup } from 'react-transition-group';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import PropTypes from 'prop-types'
 
 import ThumbDownGlow from '../assets/thumb_down_glow.png';
 import ThumbUpGlow from '../assets/thumb_up_glow.png';
@@ -75,6 +85,9 @@ class Feedback extends Component {
 
     }
 
+    componentDidMount(){
+        
+    }
     //function to run if the parent sends new props to this component
     componentWillReceiveProps(newProps) {
         
@@ -94,6 +107,7 @@ class Feedback extends Component {
     // first is a select correct answer, then a text input, and then a delete
     render(){
         
+        const{announcements}  = this.props.announcement;
 
         return(
             <div>
@@ -111,14 +125,14 @@ class Feedback extends Component {
                         container
                         justify="center"
                         alignItems="center"
-                        spacing={24}
+                        spacing={12}
                         item
                     >
                         <Grid item xs>
-                            <img src={this.state.thumbDownActive ? ThumbDownGlow : ThumbDown} alt="Thumbs Down"/>
+                            <img src={this.state.thumbDownActive ? ThumbDownGlow : ThumbDown} alt="Thumbs Down" style={{height: 50}}/>
                         </Grid>
                         <Grid item xs>
-                            <img src={this.state.thumpUpActive ? ThumbUpGlow : ThumbUp} alt="Thumbs Up"/>
+                            <img src={this.state.thumpUpActive ? ThumbUpGlow : ThumbUp} alt="Thumbs Up" style={{height: 50}}/>
                         </Grid>
                     </Grid>
 
@@ -130,10 +144,10 @@ class Feedback extends Component {
                         item
                     >
                         <Grid item xs>
-                            <img src={this.state.volDownActive ? VolDownGlow : VolDown} alt="Vol Down"/>
+                            <img src={this.state.volDownActive ? VolDownGlow : VolDown} alt="Vol Down" style={{height: 50}}/>
                         </Grid>
                         <Grid item xs>
-                            <img src={this.state.volUpActive ? VolUpGlow : VolUp} alt="Vol Up"/>
+                            <img src={this.state.volUpActive ? VolUpGlow : VolUp} alt="Vol Up" style={{height: 50}}/>
                         </Grid>
                     </Grid>
 
@@ -145,19 +159,46 @@ class Feedback extends Component {
                         item
                     >
                         <Grid item xs>
-                            <img src={this.state.slowDownActive ? SlowDownGlow : SlowDown} alt="Slow Down"/>
+                            <img src={this.state.slowDownActive ? SlowDownGlow : SlowDown} alt="Slow Down" style={{height: 50}}/>
                         </Grid>
                         <Grid item xs>
-                            <img src={this.state.speedUpActive ? SpeedUpGlow : SpeedUp} alt="Speed Up"/>
+                            <img src={this.state.speedUpActive ? SpeedUpGlow : SpeedUp} alt="Speed Up" style={{height: 50}}/>
                         </Grid>
                     </Grid>
 
+                    <List align="center">
+                    <TransitionGroup className= "announcementlist">
+                    {announcements.map(({_id,question}) =>( 
+                        <CSSTransition key={_id} timeout={500} classNames = "fade">
+                        <ListItem  alignItems="flex-start" >
+                            <Card style = {{ minWidth: 500,}}>
+                                <CardContent style={{color : "black"}}>
+                                    {question}
+                                    
+                                </CardContent>
+
+                            </Card>
+                        </ListItem>
+                        </CSSTransition>
+                    ))}
+                    </TransitionGroup> 
+                </List>
 
                 </Grid>
            </div>
-        )
+        );
     } 
   
 }
 
-export default Feedback;
+Feedback.propTypes= {
+    classes: PropTypes.object.isRequired,
+    getItems: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+    announcement: state.announcement
+})
+
+export default connect(mapStateToProps, {getAnnouncements, deleteAnnouncement, getFeedback})(Feedback);
