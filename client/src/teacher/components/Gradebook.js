@@ -99,7 +99,6 @@ class Gradebook extends Component{
   _handleEnter = (e) => {
     if (e.key === 'Enter') {
       this.udpateGrade()
-      history.push('/grades');
       alert("Grades Updated")
     }
   }
