@@ -98,9 +98,9 @@ class Gradebook extends Component{
 
   _handleEnter = (e) => {
     if (e.key === 'Enter') {
-      alert("enter")
       this.udpateGrade()
       history.push('/grades');
+      alert("Grades Updated")
     }
   }
 
@@ -143,7 +143,6 @@ class Gradebook extends Component{
         {/* Spacing */}
         <div className={classes.drawerHeader} />
         <h1>Gradebook</h1>
-        <button onClick={this.udpateGrade}>click</button>
         {/* Tabbar */}
         <Paper className={classes.root}>       
           <Tabs
@@ -210,6 +209,8 @@ class Gradebook extends Component{
                                         shrink: true,
                                       }}
                                       margin="normal"
+                                      onKeyDown={this._handleEnter}
+                                      onChange={this.handleChange.bind(this,key,key2)}
                                     />        
                                   </TableCell>
                                 ) 
