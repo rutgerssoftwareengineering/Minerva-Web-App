@@ -1,9 +1,9 @@
 import openSocket from 'socket.io-client';
-
+import {connectOrJoinRoom } from '../socketAPI.js';
 const Video = () =>{
   const socket = openSocket("http://localhost:8000/");
-  console.log(socket)
   const mediaStreamConstraints = {
+    audio: true,
     video: {
       mandatory: {
         maxWidth: 1920,

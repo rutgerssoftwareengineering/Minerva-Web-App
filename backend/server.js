@@ -9,11 +9,14 @@ const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const announcements = require("./routes/api/announcements")
-const VideoServer = require("./videoServer");
+const { mongo, connection } = require('mongoose');
+
+const io = require('socket.io')();
+
+
 const API_PORT = 3001;
 const app = express();
 const router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
@@ -31,7 +34,6 @@ mongoose.connect(
 
 let db = mongoose.connection;
 
-db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -39,8 +41,9 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 // (optional) only made for logging and
 // bodyParser, parses the request body to be a readable json format
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(logger("dev"));
+
+
 
 router.get("/searchForum", (req, res) => {
   Forum.find({
@@ -59,11 +62,13 @@ router.post("/updateQuiz", (req, res) => {
   const { quizTitle, problems, timeLimit, date, id} = req.body;
   
   
-  QuizTemplate.findOneAndUpdate({"_id": id}, {$set: {"quizTitle": quizTitle, 
-                                            "problems": problems, 
-                                            "timelimit": timeLimit, 
-                                            "date": date}},
-                                            err => {
+  QuizTemplate.findOneAndUpdate({"_id": id}, 
+  {$set: 
+  { "quizTitle": quizTitle, 
+    "problems": problems, 
+    "timelimit": timeLimit, 
+    "date": date}},
+  err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -80,16 +85,34 @@ router.get("/getGrades", (req, res) => {
 });
 
 router.get("/loginUser", (req, res) => {
-  User.find({
-    'id': req.query.id,
-    'password': req.query.password
-  },
-  (err, data) => {
-    if(err) return res.json({ success: false, error: err });
-    if(data.length === 0){
-      return res.json([{success: false}])
-    }
-    return res.json({success: true, data: data});
+  User.find({ id: req.query.id }, function(err, user) {
+    if (err) throw err;
+    user[0].comparePassword(req.query.password, function(err, isMatch) {
+        if (err) throw err;
+        if(user.length === 0){
+          return res.json([{success: false}])
+        }
+        return res.json({success: true, data: user});
+    });
+  });
+});
+
+router.post("/registerUser", (req, res) => {
+  let user = new User();
+  
+  const { name, id, password } = req.body;
+  if ((!name) || !id|| (!password)) {
+    return res.json({
+      success: false,
+      error: "INVALID INPUTS"
+    });
+  }
+  user.name = name;  
+  user.id = id;
+  user.password = password;
+  user.save(err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
   });
 });
 
@@ -129,34 +152,19 @@ router.get("/getCompletedQuizzes", (req, res) => {
   });
 });
 
-router.post("/registerUser", (req, res) => {
-  let user = new User();
-  
-  const { name, id, password } = req.body;
-  if ((!name) || !id|| (!password)) {
-    return res.json({
-      success: false,
-      error: "INVALID INPUTS"
-    });
-  }
-  user.name = name;  
-  user.id = id;
-  user.password = password;
-  user.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
+
 
 router.post("/submitQuizT", (req, res) => {
   let quiz = new QuizTemplate();
   
-  const { quizTitle, problems, timeLimit, date } = req.body;
+  const { quizTitle, problems, timeLimit, date , className, quizType} = req.body;
   
   quiz.quizTitle = quizTitle;  
   quiz.problems = problems;
   quiz.timelimit = timeLimit;
   quiz.date = date;
+  quiz.class = className;
+  quiz.quizType = quizType;
   quiz.save(err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
@@ -204,6 +212,17 @@ router.post("/submitThread", (req, res) => {
   });
 });
 
+router.delete("/deleteQuiz", (req, res) => {
+  var id = req.body.id;
+  console.log("delete " + id);
+
+  QuizTemplate.findOneAndDelete({"_id": id},
+                                            err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+})
+
 router.post("/registerClass", (req,res) => {
   const Uid = req.body.id;
   const newClasses = { classes: req.body.newClasses}
@@ -214,6 +233,89 @@ router.post("/registerClass", (req,res) => {
   });
 });
 
+router.post("/removeClass", (req,res) => {
+  const Uid = req.body.id;
+  const newClasses = { classes: req.body.newClasses}
+  console.log(newClasses)
+  User.findOneAndUpdate({id: Uid}, newClasses, err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// Socketio connection for in class feedback!
+io.on('connection', (socket) => {
+  socket.on('subscribeToGradeDataTimer', (inputData) => {
+    console.log('client is subscribing to timer with interval for grade data collection', inputData.timer);
+    setInterval(() => {
+      Grade.find({
+        'classid': inputData.class
+      },
+        (err, data) => {
+        
+        if (err) data = "Error";
+        //console.log("retdata =", data);
+        socket.emit('timer', data);
+      });
+    }, inputData.timer);
+  });
+  function log() {
+    var array = ['Message from server:'];
+    array.push.apply(array, arguments);
+    socket.emit('log', array);
+  }
+
+  socket.on('message', function(message) {
+    log('Client said: ', message);
+    // for a real app, would be room-only (not broadcast)
+    socket.broadcast.emit('message', message);
+  });
+  socket.on('create or join', function(room) {
+    log('Received request to create or join room ' + room);
+
+    var clientsInRoom = io.sockets.adapter.rooms[room];
+    var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
+    log('Room ' + room + ' now has ' + numClients + ' client(s)');
+    if (numClients === 0) {
+      socket.join(room);
+      log('Client ID ' + socket.id + ' created room ' + room);
+      socket.emit('created', room, socket.id);
+
+    } else if (numClients === 1) {
+      log('Client ID ' + socket.id + ' joined room ' + room);
+      io.sockets.in(room).emit('join', room);
+      socket.join(room);
+      socket.emit('joined', room, socket.id);
+      io.sockets.in(room).emit('ready');
+    } else { // max two clients
+      socket.emit('full', room);
+    }
+  });
+});
+
+const port = 8000;
+io.listen(port);
+console.log('socket listening on port ', port);
+
+
+router.get('/getFiles', (req,res) => {
+  gfs.files.find().toArray((err, files) => {
+    if(!files || files.length === 0){
+       return res.status(404).json({
+          message: "Could not find files"
+       });
+    }
+    return res.json(files);
+});
+})
+
+router.delete('/deleteFile/:id', (req, res) => {
+    gfs.remove({ _id: req.params.id, root:'uploads' }, (err) => {
+      if (err) return res.status(500).json({ success: false })
+      return res.json({ success: true });
+    })
+})
+
 // append /api for our http requests
 app.use("/api", router);
 
@@ -221,6 +323,3 @@ app.use("/api/announcements", announcements);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
-
-// Launch Video Server
-VideoServer()
