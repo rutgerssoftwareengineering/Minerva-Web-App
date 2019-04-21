@@ -12,12 +12,23 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 
 const styles = theme => ({
     trash: {
       align: 'right',
     },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+      },
+
   });
 
 class QuizRouter extends Component{
@@ -49,7 +60,8 @@ class QuizRouter extends Component{
     }
 
     getQuizData = () => {
-        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: "12345"}})
+        //class: cookies.get('currentClass')
+        axios.get('http://localhost:3001/api/getQuizzes', {params: {class: cookies.get('currentClass')}})
         .then(res => {
             console.log(res.data.data)
             this.setState({
@@ -84,9 +96,9 @@ class QuizRouter extends Component{
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="center"
-                style={{ minHeight: '120vh' }}
+                style={{ minHeight: '100vh' }}
             >
+                <div className={classes.drawerHeader} />
                 <h1>Edit Saved Quizzes</h1>
                 <div>
                     {(() => {

@@ -17,13 +17,24 @@ class ClassBox extends Component {
     cookies.set('currentClass', Id, {path: '/'} )
     };
 
+    componentDidMount() {
+      this.interval = setInterval(() => this.setState({
+        classes: (cookies.get('userClasses'))
+      }))
+    }
+  
+    componentWillUnmount() {
+      clearInterval(this.interval)
+    }
+
   render(){
     return(
         <div className='navButton'>
-          {(this.state.classes).map(numId =>
+        {this.state.classes !== undefined ?
+          (this.state.classes).map(numId =>
           <div>
                 <button onClick={this.changeClass.bind(this, numId)}>{numId}</button>
-        </div>)}
+        </div>) : null}
         </div>
     )
   }

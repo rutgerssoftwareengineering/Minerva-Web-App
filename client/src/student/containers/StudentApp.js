@@ -11,6 +11,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie'
 import Login from '../../Login'
 import RegisterClass from '../components/RegisterClass'
+import Resources from './Resources'
 const cookies = new Cookies();
 
 class StudentApp extends Component {
@@ -18,11 +19,13 @@ class StudentApp extends Component {
         super(props)
         this.state={
             quizzesData: [],
-            isOpen: false
+            isOpen: false,
+            files: []
     }}
 
-    componentDidMount(){
+    componentWillMount(){
         this.getQuizDataFromDb();
+        this.getFiles();
     }
     //gets quizzes from database
     getQuizDataFromDb = () => {
@@ -35,6 +38,18 @@ class StudentApp extends Component {
             })
             //.catch(error => console.log(error));
     };
+    getFiles() {
+        fetch('/api/getFiles')
+          .then(res => res.json())
+          .then(files => {
+            if (files.message) {
+              console.log('No Files');
+              this.setState({ files: [] })
+            } else {
+              this.setState({ files: files})
+            }
+          });
+    }
     toggleRegister = () => {
         this.setState({
           isOpen: !this.state.isOpen
@@ -52,6 +67,7 @@ class StudentApp extends Component {
                 <Route exact path='/grades' render={routerProps => <GradesContainer {...routerProps}/>} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
+                <Route path='/resources' render={(routerProps) => <Resources {...routerProps} files={this.state.files}/>}/>
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>
                         Register a new class
                 </RegisterClass>

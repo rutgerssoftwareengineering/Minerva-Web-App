@@ -29,8 +29,7 @@ class ViewAnnouncement extends Component{
       }
 
     componentDidMount(){
-        this.props.getAnnouncements();
-        
+        this.props.getAnnouncements();    
     }
     onDeleteClick = id => {
        
@@ -49,6 +48,7 @@ class ViewAnnouncement extends Component{
                 justify="center"
                 style={{ minHeight: '100vh' }}
             >
+                
                 <h1>Announcements</h1>
                 <div>
                      <NavLink to="/announcements/new" className="Link" >

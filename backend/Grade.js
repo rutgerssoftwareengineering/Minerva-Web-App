@@ -7,7 +7,8 @@ const gradeSchema = new Schema(
     classid: String,
     className: String,
     members: Array,
-    grades: Array
+    grades: Array,
+    feedback: Array
   },
   { timestamps: true }
 );
