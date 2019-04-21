@@ -25,6 +25,8 @@ import SlowDownGlow from '../assets/slow_down_glow.png';
 import SpeedUpGlow from '../assets/speed_up_glow.png';
 
 import { subscribeToGradeDataTimer } from '../socketAPI';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 // Component which has 6 feedback options to view, updating based on database
 class Feedback extends Component {
@@ -107,7 +109,7 @@ class Feedback extends Component {
     // first is a select correct answer, then a text input, and then a delete
     render(){
         
-        const{announcements}  = this.props.announcement;
+        const announcements  = cookies.get('feedback');
 
         return(
             <div>

@@ -5,7 +5,7 @@ import store from '../store'
 import Login from '../../Login'
 import Home from './Home';
 import QuizRouter from './QuizRouter';
-
+import axios from 'axios'
 import PersistentDrawerLeft from './Drawio'
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
@@ -15,6 +15,8 @@ import history from '../../History';
 import ForumContainer from './ForumContainer'
 import RegisterClass from '../components/RegisterClass'
 import ManageFiles from './manageFiles'
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 
 class TeacherApp extends Component {
@@ -26,6 +28,7 @@ class TeacherApp extends Component {
     }}
     componentWillMount() {
         this.getFiles();
+        this.getFeedbackFromDb()
     }
     toggleRegister = () => {
         this.setState({
@@ -44,6 +47,13 @@ class TeacherApp extends Component {
             }
           });
     }
+    getFeedbackFromDb = () => {
+      axios.get("http://localhost:3001/api/getFeedback"/*, {params: {class:cookies.get('currentClass')}}*/)
+      .then(res => {
+          const feedback = res.data.data
+          console.log(feedback)
+          cookies.set('feedback', feedback, {path: '/'})
+    })}
     render(){
     return(
         <Provider store = {store}>

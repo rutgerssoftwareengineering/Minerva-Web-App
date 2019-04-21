@@ -5,6 +5,7 @@ const logger = require("morgan");
 const User = require("./user");
 const Quiz = require("./quiz");
 const Forum = require("./forum");
+const Question = require("./question")
 const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
@@ -94,8 +95,18 @@ router.post("/updateQuiz", (req, res) => {
 
 router.get("/getGrades", (req, res) => {
   Grade.find({
-    'classid': {$in:req.query.classes}
+    'classid': req.query.classes
   },
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get("/getFeedback", (req, res) => {
+  Question.find(/*{
+    'classid': req.query.classes
+  },*/
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
