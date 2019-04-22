@@ -28,6 +28,7 @@ class StudentApp extends Component {
     componentWillMount(){
         this.getQuizDataFromDb();
         this.getFiles();
+        this.getGradesDataFromDb()
     }
     //gets quizzes from database
     getQuizDataFromDb = () => {
@@ -57,6 +58,17 @@ class StudentApp extends Component {
           isOpen: !this.state.isOpen
         })
       }
+      getGradesDataFromDb = () => {
+        axios.get('http://localhost:3001/api/getGrades', {params: {
+            member: cookies.get('userId'),
+            classes: cookies.get('userClasses')
+        }})
+        .then(res => {
+            const gradeInfo = res.data.data
+            cookies.remove('gradeInfo', gradeInfo, { path: '/' })
+            cookies.set('gradeInfo', gradeInfo, { path: '/' });
+        });
+      };
     render(){
         //routes all paths in page
         return(

@@ -52,13 +52,14 @@ class GradesContainer extends Component{
           classes: cookies.get('userClasses')
       }})
       .then(res => {
-          const gradeInfo = res.data 
+          const gradeInfo = res.data.data
+          cookies.remove('gradeInfo', gradeInfo, {path:'/'})
           cookies.set('gradeInfo', gradeInfo, { path: '/' });
       });
     };
     //renders tree
     render(){
-    const classes = cookies.get('gradeInfo').data
+    const classes = cookies.get('gradeInfo')
     const userId = cookies.get('userId');
     console.log(cookies.get('currentClass'))
     return(
