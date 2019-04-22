@@ -12,6 +12,7 @@ import Cookies from 'universal-cookie'
 import Login from '../../Login'
 import RegisterClass from '../components/RegisterClass'
 import Resources from './Resources'
+import VideoPage from '../../student/containers/VideoPage';
 const cookies = new Cookies();
 
 class StudentApp extends Component {
@@ -68,6 +69,7 @@ class StudentApp extends Component {
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
                 <Route path='/resources' render={(routerProps) => <Resources {...routerProps} files={this.state.files}/>}/>
+                <Route path='/officehours' component={VideoPage}/>
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>
                         Register a new class
                 </RegisterClass>

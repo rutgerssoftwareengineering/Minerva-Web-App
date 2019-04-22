@@ -11,6 +11,7 @@ import PersistentDrawerLeft from './Drawio'
 import CreateQuiz from '../quiz_components/CreateQuiz';
 import CreateAnnouncement from '../components/CreateAnnouncement';
 import Hub from '../components/Hub';
+import VideoPage from './VideoPage';
 import ViewAnnouncement from '../components/ViewAnnouncement';
 import history from '../../History';
 import ForumContainer from './ForumContainer'
@@ -71,6 +72,7 @@ class TeacherApp extends Component {
                 <Route exact path='/announcements/new' component={CreateAnnouncement} />
                 <Route exact path='/announcements/view' component={ViewAnnouncement} />
                 <Route path='/manageFiles' render={(routerProps) => <ManageFiles {...routerProps} files={this.state.files}/>}/>
+                <Route path='/officehours' component={VideoPage}/>
                 <RegisterClass className='navButton'show={this.state.isOpen} onClose={this.toggleRegister}>
                         Register a new class
                 </RegisterClass>

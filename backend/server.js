@@ -317,6 +317,37 @@ io.on('connection', (client) => {
       });
     }, inputData.timer);
   });
+  function log() {
+    var array = ['Message from server:'];
+    array.push.apply(array, arguments);
+    client.emit('log', array);
+  }
+  client.on('message', function(message) {
+    log('Client said: ', message);
+    // for a real app, would be room-only (not broadcast)
+    client.broadcast.emit('message', message);
+  });
+  client.on('create or join', function(room) {
+    log('Received request to create or join room ' + room);
+
+    var clientsInRoom = io.sockets.adapter.rooms[room];
+    var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
+    log('Room ' + room + ' now has ' + numClients + ' client(s)');
+    if (numClients === 0) {
+      client.join(room);
+      log('Client ID ' + client.id + ' created room ' + room);
+      client.emit('created', room, client.id);
+
+    } else if (numClients === 1) {
+      log('Client ID ' + client.id + ' joined room ' + room);
+      io.sockets.in(room).emit('join', room);
+      client.join(room);
+      client.emit('joined', room, client.id);
+      io.sockets.in(room).emit('ready');
+    } else { // max two clients
+      client.emit('full', room);
+    }
+  });
 });
 
 const port = 8000;

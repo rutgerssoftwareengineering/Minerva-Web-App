@@ -25,6 +25,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CastForEducation from '@material-ui/icons/CastForEducation'
 import ListItem from '@material-ui/core/ListItem';
+import VideoLabel from '@material-ui/icons/VideoLabel';
 import Cookies from 'universal-cookie';
 import { NavLink } from 'react-router-dom';
 import ClassBox from './ClassBox'
@@ -208,6 +209,12 @@ class PersistentDrawerLeft extends React.Component {
                   <ListItem button > 
                       <ListItemIcon><AssignmentIcon/></ListItemIcon>
                       <ListItemText primary="Manage Files" />
+                  </ListItem>
+                </NavLink>
+                <NavLink className="Link" to="/officehours" exact>
+                  <ListItem button > 
+                      <ListItemIcon><VideoLabel/></ListItemIcon>
+                      <ListItemText primary="Office Hours" />
                   </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>
