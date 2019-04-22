@@ -12,8 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import BookIcon from '@material-ui/icons/Book';
-import HubIcon from '@material-ui/icons/DeviceHub';
+
 import HomeIcon from '@material-ui/icons/Home';
 import ForumIcon from '@material-ui/icons/Forum';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
@@ -25,11 +24,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CastForEducation from '@material-ui/icons/CastForEducation'
 import ListItem from '@material-ui/core/ListItem';
-import VideoLabel from '@material-ui/icons/VideoLabel';
 import Cookies from 'universal-cookie';
 import { NavLink } from 'react-router-dom';
 import ClassBox from './ClassBox'
-
 
 const cookies = new Cookies();
 
@@ -192,34 +189,16 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemText primary="Quizzes" />
                   </ListItem>
                 </NavLink> 
-                <NavLink className="Link" to="/announcements/view" exact>
+                <NavLink className="Link" to="/grades" exact>
                   <ListItem button > 
                         <ListItemIcon><AnnouncementIcon/></ListItemIcon>
-                        <ListItemText primary="Announcements" />
+                        <ListItemText primary="Grades" />
                   </ListItem>
-                </NavLink>
-                <NavLink className="Link" to="/grades" exact >
-                  <ListItem button > 
-                      <ListItemIcon><BookIcon/></ListItemIcon>
-                      <ListItemText primary="Gradebook" />
-                  </ListItem>     
                 </NavLink> 
-                <NavLink className="Link" to="/hub" exact>
+                <NavLink className="Link" to="/resources" exact>
                   <ListItem button > 
                         <ListItemIcon><CastForEducation/></ListItemIcon>
-                        <ListItemText primary="Hub" />
-                  </ListItem>
-                </NavLink>
-                <NavLink className="Link" to="/manageFiles" exact>
-                  <ListItem button > 
-                      <ListItemIcon><AssignmentIcon/></ListItemIcon>
-                      <ListItemText primary="Manage Files" />
-                  </ListItem>
-                </NavLink>
-                <NavLink className="Link" to="/officehours" exact>
-                  <ListItem button > 
-                      <ListItemIcon><VideoLabel/></ListItemIcon>
-                      <ListItemText primary="Office Hours" />
+                        <ListItemText primary="Resources" />
                   </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>

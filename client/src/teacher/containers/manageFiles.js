@@ -1,5 +1,10 @@
 import React, { PropTypes, Component } from 'react'
 import axios from 'axios'
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ListItem from '@material-ui/core/ListItem';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 class ManageFiles extends Component {
     constructor (props) {
@@ -16,9 +21,9 @@ class ManageFiles extends Component {
     }
 
     deleteFile(event) {
-      event.preventDefault();
-      const id = event.target.id;
-  
+      event.preventDefault()
+      const id = event.currentTarget.id;
+      console.log(id)
       fetch('/api/deleteFile/'+id, {
         method: 'DELETE'
       }).then(res => res.json())
@@ -76,15 +81,22 @@ class ManageFiles extends Component {
             {files.map((file, index) => {
                 var date = new Date(file.uploadDate);
                 return (
-                    <tr key={index}>
-                    <td><a href={`http://localhost:3001/api/files/${file.filename}`} style={{color:'rgba(123, 230, 96, 0.692)'}}>{file.filename}</a></td>
-                    <td>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</td>
-                    <td>{(Math.round(file.length/100) / 10)+'KB'}</td>
-                    <td><button onClick={this.deleteFile.bind(this)} id={file._id}>Remove</button></td>
-                    </tr>
-                )
-            })}
-            </div>
+                  <tr key={index}>
+                  <ListItem  alignItems="flex-start" >
+                  <Card style = {{ minWidth: 400,}}>
+                      <CardContent style={{color : "black"}}>
+                      <i style={{color:'black'}}>{file.filename}</i>&nbsp;&nbsp;&nbsp;
+                    {`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}&nbsp;&nbsp;&nbsp;
+                    {(Math.round(file.length/100) / 10)+'KB'}
+                      </CardContent>
+                  </Card>
+                  <Fab color="secondary" aria-label="Delete" style={{marginLeft:'10px'}} onClick={this.deleteFile.bind(this)} id={file._id}>
+                    <DeleteIcon />
+                  </Fab>
+                  </ListItem>
+                  </tr>
+                )})}
+                </div>
         )
     }
 }

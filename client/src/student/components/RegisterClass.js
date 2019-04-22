@@ -98,7 +98,7 @@ registerClass = () => {
         <div style={modalStyle}>
           {classes.map(classId => 
             <div>
-              <label>{classId}</label>
+              <label style={{color:'black'}}>{classId}</label>
               <button onClick={this.removeClass.bind(this, classId)}>x</button>
             </div>
           )}

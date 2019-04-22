@@ -24,6 +24,7 @@ router.post('/', (req,res) => {
         Author: req.body.Author,
         message: req.body.message,
         classId: req.body.classId
+
     });
     newAnnouncement.save().then(item => res.json(item));
 });

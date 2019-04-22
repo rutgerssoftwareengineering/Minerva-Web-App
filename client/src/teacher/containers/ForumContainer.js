@@ -26,6 +26,8 @@ class ForumContainer extends Component{
         this.setState({
             forumInfo: res.data.data
         })
+        cookies.remove('forumInfo',{path:'/'})
+        cookies.set('forumInfo',res.data.data,{path:'/'})
     })
     //.catch(error => console.log(error));
 };
@@ -35,6 +37,7 @@ class ForumContainer extends Component{
         cookies.set('redirectPath', '/forum', {path: '/'} )
         return(<Redirect to='/login'/>)
       }
+      console.log(this.state.forumInfo)
     return(
         <>
         <NewThreadBar/>

@@ -26,7 +26,8 @@ class ForumContainer extends Component{
         this.setState({
             forumInfo: res.data.data
         })
-        console.log(this.state.forumInfo)
+        cookies.remove('forumInfo',{path:'/'})
+        cookies.set('forumInfo',res.data.data,{path:'/'})
     })
     //.catch(error => console.log(error));
 };
