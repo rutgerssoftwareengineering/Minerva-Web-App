@@ -113,7 +113,7 @@ class QuizRouter extends Component{
                         }
                     )()}
                     <Link 
-                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"inclass"}}}
+                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: cookies.get('currentClass'), quizType:"inclass"}}}
                         style={{paddingRight:'10px'}} className="Link"
                     >
                         <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
@@ -122,7 +122,7 @@ class QuizRouter extends Component{
                         </Fab>
                     </Link>
                     <Link 
-                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: "12345", quizType:"online"}}}
+                        to={{pathname: '/createQuiz', state: {quizData: null, newQuiz: true, className: cookies.get('currentClass'), quizType:"online"}}}
                         style={{paddingRight:'10px'}} className="Link"
                     >
                         <Fab variant="extended" color="primary" aria-label="Add" style = {{ margin: 5, }}>                      
@@ -143,7 +143,7 @@ class QuizRouter extends Component{
                                 <Card style = {{ minWidth: 500,}}>  
                                     <CardContent style={{color : "black"}}>
                                         <Link 
-                                            to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: "12345", quizType: key.quizType}}}
+                                            to={{pathname: '/createQuiz', state: {quizData: key, newQuiz: false, class: cookies.get('currentClass'), quizType: key.quizType}}}
                                             style={{paddingRight:'10px'}} className="Link"
                                         >
                                             <Fab variant="extended" aria-label="Edit" style = {{ margin: 5, }}>                      

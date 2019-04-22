@@ -5,19 +5,12 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { subscribeToGradeDataTimer } from '../socketAPI';
 import { Chart } from "react-google-charts";
 
 
 const cookies = new Cookies();
 
-const dropdownMenuProps={
-    menuStyle:{
-      border: "1px solid black",
-      borderRadius: "5%",
-      backgroundColor: 'lightgrey',
-    },
-  }
+
 
 // Component which has 6 feedback options to view, updating based on database
 class AdministerQuizComponent extends Component {
@@ -45,12 +38,10 @@ class AdministerQuizComponent extends Component {
     }
 
     componentDidMount(){
-        console.log("COMPONENT DID MOUNT");
         this.getQuizData();
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("RECIEVED PROPS!!");
         this.getQuizData();
     }
 
@@ -191,7 +182,7 @@ class AdministerQuizComponent extends Component {
                                     >
                                         <option value="none selected" />
                                         {quizData.map((key, index) => (
-                                            <option value={key.quizTitle}>{key.quizTitle}</option>
+                                            <option value={key.quizTitle} key={index}>{key.quizTitle}</option>
                                         ))}
                                     </Select>
                             </FormControl>

@@ -10,6 +10,7 @@ const CompletedQuiz = require("./completedquiz")
 const Grade = require("./Grade")
 const QuizTemplate = require("./quiz-template")
 const InclassQuizTemplate = require("./inclass-quiz-template")
+const ClassTemplate = require("./class-template")
 const announcements = require("./routes/api/announcements")
 const multer = require('multer')
 const GridFsStorage = require('multer-gridfs-storage')
@@ -382,6 +383,43 @@ router.post("/updateActiveInclassQuiz", (req, res) => {
   err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
+  });
+});
+
+router.post("/setClassInSession", (req, res) => {
+  
+  const {classId, inSession} = req.body;
+  
+  ClassTemplate.findOneAndUpdate({"classId": classId}, 
+  {$set: 
+  { "inSession": inSession}},
+  err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.post("/setAllClassInSession", (req, res) => {
+  
+  const {inSession} = req.body;
+  
+
+  ClassTemplate.updateMany({}, 
+  {$set: 
+  { "inSession": inSession}},
+  err => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+router.get("/getClassData", (req, res) => {
+  ClassTemplate.find({
+    "classId": req.query.classId,
+    }, 
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
   });
 });
 
