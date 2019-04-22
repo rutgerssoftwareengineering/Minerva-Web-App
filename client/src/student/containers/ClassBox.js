@@ -41,7 +41,14 @@ class ClassBox extends Component {
         <div>
         {this.state.classes !== undefined ?
           (this.state.classes).map(numId =>
-                <Button variant='contained' style={{display:'inline-block', margin:'7px', backgroundColor:'rgb(212, 212, 216)', margin:'10px'}} onClick={this.changeClass.bind(this, numId)}>{numId}</Button>) : null}
+            {if(numId === cookies.get('currentClass')){
+              return(
+              <Button variant='contained' style={{display:'inline-block', margin:'7px', backgroundColor:'rgb(212, 212, 216)', margin:'10px'}} onClick={this.changeClass.bind(this, numId)}>{numId}</Button>
+              )}else {
+                return(
+              <Button variant='contained' style={{display:'inline-block', margin:'7px', backgroundColor:'rgb(170, 170, 170)', margin:'10px'}} onClick={this.changeClass.bind(this, numId)}>{numId}</Button>
+                )}}
+            ) : null}
         </div>
     )
   }

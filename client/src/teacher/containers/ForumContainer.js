@@ -35,6 +35,7 @@ class ForumContainer extends Component{
         cookies.set('redirectPath', '/forum', {path: '/'} )
         return(<Redirect to='/login'/>)
       }
+      console.log(this.state.forumInfo)
     return(
         <>
         <NewThreadBar/>

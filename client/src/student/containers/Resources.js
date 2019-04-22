@@ -40,7 +40,7 @@ class Resources extends Component {
     }
 
     getFiles() {
-        fetch('/api/getFiles')
+        axios.get('/getFiles')
           .then(res => res.json())
           .then(files => {
             if (files.message) {

@@ -9,7 +9,7 @@ const Announcement = require('../../schemas/announcements');
 // @acess   ALL
 router.get('/', (req,res) =>{   
     Announcement.find( {
-        'class': req.query.class
+        'classId': req.query.class
       })
         .sort({ date: -1})
         .then(announcements=> res.json(announcements));
@@ -23,7 +23,7 @@ router.post('/', (req,res) => {
     const newAnnouncement = new Announcement({
         Author: req.body.Author,
         message: req.body.message,
-        class: req.body.class
+        classId: req.body.class
     });
     newAnnouncement.save().then(item => res.json(item));
 });
