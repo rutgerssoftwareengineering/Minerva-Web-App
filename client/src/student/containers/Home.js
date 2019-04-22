@@ -29,8 +29,24 @@ class Home extends Component{
         if(!!cookies.get('userId')){
             return(
                 <div>
-                    <div>Welcome, {cookies.get('userName')}!</div>
-                    <button onClick={this.submitMe}>click me</button>
+                   <h1>.</h1>
+            <h1></h1>
+            <h1>How *did* Minerva get its name?</h1>
+            <br></br>
+            <br></br>
+            <body>
+                 <p>
+                    Several Rutger Students met in January 2019 to talk about developing a Sakai copy for a Software Engineering Project. Minerva as we know it is what emerged from those talks and the subsequent development efforts.
+                 </p>
+                 <br></br>
+                 <p>
+                    Several of the students had never coded in javascript on their own prior to converging to develop Minerva. The institutions partially modeled Minerva after certain aspects of older CMS's, particularly Sakai and Canvas.
+                 </p>
+                 <br></br>
+                 <p>
+                    The name MINERVA came since the new software was expected to be better than SAKAI, which developers named the after Hiroyuki Sakai. As a play on MINERVA being on a higher plane of being, the developers of MINERVA named the CMS after Minerva the Roman godess of KNOWLEDGE.
+                 </p>
+            </body>
                 </div>
             )
         }
