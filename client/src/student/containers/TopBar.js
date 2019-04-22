@@ -76,9 +76,8 @@ function TopBar(props) {
                   <MenuItem onClick={popupState.close}>Manage Files</MenuItem>
                 </NavLink>
                 <button onClick={toggleAndClose}>Register</button>
-
-                <ClassBox/>
             </Menu>
+            <ClassBox/>
             <Typography variant="h6" color="inherit">
               Minerva
             </Typography>
