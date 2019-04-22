@@ -12,6 +12,7 @@ class VideoPage extends Component {
     render() {
         return (
           <div className="App">
+          
              <video id="remoteVideo" autoPlay playsInline></video>
           </div>
         );
