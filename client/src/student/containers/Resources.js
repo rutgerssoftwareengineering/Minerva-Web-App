@@ -1,6 +1,11 @@
 import React, { PropTypes, Component } from 'react'
 import axios from 'axios'
 import { saveAs } from 'file-saver';
+import Fab from '@material-ui/core/Fab';
+import DownloadIcon from '@material-ui/icons/SaveAlt';
+import ListItem from '@material-ui/core/ListItem';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 class Resources extends Component {
     constructor (props) {
@@ -20,7 +25,7 @@ class Resources extends Component {
 
     downloadFile(event) {
       event.preventDefault();
-      const id = event.target.id;
+      const id = event.currentTarget.id;
       axios({
         method: "GET",
         url: "/api/downloadFile/"+id,
@@ -59,12 +64,20 @@ class Resources extends Component {
             {files.map((file, index) => {
                 var date = new Date(file.uploadDate);
                 return (
-                    <tr key={index}>
-                    <td><a href={`http://localhost:3001/api/files/${file.filename}`} style={{color:'rgba(123, 230, 96, 0.692)'}}>{file.filename}</a></td>
-                    <td>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</td>
-                    <td>{(Math.round(file.length/100) / 10)+'KB'}</td>
-                    <td><button onClick={this.downloadFile.bind(this)} id={file._id}>download</button></td>
-                    </tr>
+                  <tr key={index}>
+                  <ListItem  alignItems="flex-start" >
+                  <Card style = {{ minWidth: 400,}}>
+                      <CardContent style={{color : "black"}}>
+                      <i style={{color:'black'}}>{file.filename}</i>&nbsp;&nbsp;&nbsp;
+                    {`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}&nbsp;&nbsp;&nbsp;
+                    {(Math.round(file.length/100) / 10)+'KB'}
+                      </CardContent>
+                  </Card>
+                  <Fab color="secondary" aria-label="Delete" style={{marginLeft:'10px'}} onClick={this.downloadFile.bind(this)} id={file._id}>
+                    <DownloadIcon />
+                  </Fab>
+                  </ListItem>
+                  </tr>
                 )
             })}
             </div>

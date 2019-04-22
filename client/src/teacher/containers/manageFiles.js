@@ -80,18 +80,17 @@ class ManageFiles extends Component {
           <button onClick={this.uploadFile.bind(this)}>Upload</button>
             {files.map((file, index) => {
                 var date = new Date(file.uploadDate);
-                var btn = this
                 return (
                   <tr key={index}>
                   <ListItem  alignItems="flex-start" >
                   <Card style = {{ minWidth: 400,}}>
                       <CardContent style={{color : "black"}}>
-                      <a href={`http://localhost:3001/api/files/${file.filename}`} style={{color:'black'}}>{file.filename}</a>&nbsp;&nbsp;&nbsp;
+                      <i style={{color:'black'}}>{file.filename}</i>&nbsp;&nbsp;&nbsp;
                     {`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}&nbsp;&nbsp;&nbsp;
                     {(Math.round(file.length/100) / 10)+'KB'}
                       </CardContent>
                   </Card>
-                  <Fab color="secondary" aria-label="Delete" style={{marginLeft:'10px'}} onClick={this.deleteFile.bind(btn)} id={file._id}>
+                  <Fab color="secondary" aria-label="Delete" style={{marginLeft:'10px'}} onClick={this.deleteFile.bind(this)} id={file._id}>
                     <DeleteIcon />
                   </Fab>
                   </ListItem>
