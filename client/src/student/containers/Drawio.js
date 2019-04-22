@@ -177,7 +177,7 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemText primary="Home" />
                   </ListItem>
                 </NavLink>
-                <NavLink className="Link" to="/announcements" exact>
+                <NavLink className="Link" to="/announcements/view" exact>
                   <ListItem button  > 
                         <ListItemIcon><AnnouncementIcon/></ListItemIcon>
                         <ListItemText primary="Announcements" />

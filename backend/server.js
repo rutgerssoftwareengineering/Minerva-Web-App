@@ -132,6 +132,7 @@ router.get("/getFeedback", (req, res) => {
 router.get("/loginUser", (req, res) => {
   console.log('haha')
   User.find({ id: req.query.id }, function(err, user) {
+    if (user[0] != undefined){
     if (err) throw err;
     user[0].comparePassword(req.query.password, function(err, isMatch) {
         if (err) throw err;
@@ -139,7 +140,7 @@ router.get("/loginUser", (req, res) => {
           return res.json([{success: false}])
         }
         return res.json({success: true, data: user});
-    });
+    })};
   });
 });
 

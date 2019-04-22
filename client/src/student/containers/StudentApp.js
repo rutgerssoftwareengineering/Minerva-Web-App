@@ -80,7 +80,7 @@ class StudentApp extends Component {
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/grades' render={routerProps => <GradesContainer {...routerProps}/>} />
-                <Route exact path='/announcements/view' render={routerProps => <ViewAnnouncement {...routerProps}/>} />
+                <Route exact path='/announcements/view' component={ViewAnnouncement} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
                 <Route path='/resources' render={(routerProps) => <Resources {...routerProps} files={this.state.files}/>}/>
