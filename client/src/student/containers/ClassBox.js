@@ -1,6 +1,8 @@
 //internal forum component, renders all appropriate thread previews
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
+import history from '../../History'
+import Button from '@material-ui/core/Button'
 const cookies = new Cookies();
 
 
@@ -16,6 +18,7 @@ class ClassBox extends Component {
   changeClass = Id => {
     cookies.remove('currentClass', {path: '/'})
     cookies.set('currentClass', Id, {path: '/'} )
+    history.push('/home')
     };
 
   toggleRegister = () => {
@@ -38,7 +41,7 @@ class ClassBox extends Component {
         <div>
         {this.state.classes !== undefined ?
           (this.state.classes).map(numId =>
-                <button style={{display:'inline-block', margin:'7px'}} onClick={this.changeClass.bind(this, numId)}>{numId}</button>) : null}
+                <Button variant='contained' style={{display:'inline-block', margin:'7px', backgroundColor:'rgb(212, 212, 216)', margin:'10px'}} onClick={this.changeClass.bind(this, numId)}>{numId}</Button>) : null}
         </div>
     )
   }

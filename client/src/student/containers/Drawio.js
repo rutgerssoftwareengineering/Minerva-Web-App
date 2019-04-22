@@ -144,6 +144,9 @@ class PersistentDrawerLeft extends React.Component {
             <Typography variant="h6" color="inherit" noWrap>
               Minerva
             </Typography>
+            <Typography variant="subtitle1" color="inherit" noWrap style={{ marginLeft:'auto', marginRight: '10px'}}>
+              Classes
+            </Typography>
             <ClassBox/>
             <PersonIcon  className={classes.usericon} />
             <Typography variant="h8" color="inherit" noWrap className={classes.username} >
