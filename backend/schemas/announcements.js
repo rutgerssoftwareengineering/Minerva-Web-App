@@ -11,7 +11,7 @@ const AnnouncementSchema = new Schema({
         type: String,
         required: true
     },
-    class: {    
+    classId: {    
         type: String,
         required: true
     },   

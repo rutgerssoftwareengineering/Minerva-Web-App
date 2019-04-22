@@ -5,7 +5,7 @@ const cookies = new Cookies();
 export const getAnnouncements  =  () => dispatch => {
     dispatch(setAnnouncementsLoading());
     axios  
-        .get('/api/announcements', {params: {class: cookies.get('currentClass')}})
+        .get('/api/announcements', {params: {classId: cookies.get('currentClass')}})
         .then(res=> dispatch({
             type: GET_ANNOUNCEMENTS,
             payload: res.data 
