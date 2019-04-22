@@ -12,7 +12,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import BookIcon from '@material-ui/icons/Book';
+import HubIcon from '@material-ui/icons/DeviceHub';
 import HomeIcon from '@material-ui/icons/Home';
 import ForumIcon from '@material-ui/icons/Forum';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
@@ -190,11 +191,23 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemIcon><AnnouncementIcon/></ListItemIcon>
                         <ListItemText primary="Announcements" />
                   </ListItem>
+                </NavLink>
+                <NavLink className="Link" to="/grades" exact >
+                  <ListItem button > 
+                      <ListItemIcon><BookIcon/></ListItemIcon>
+                      <ListItemText primary="Gradebook" />
+                  </ListItem>     
                 </NavLink> 
                 <NavLink className="Link" to="/hub" exact>
                   <ListItem button > 
                         <ListItemIcon><CastForEducation/></ListItemIcon>
                         <ListItemText primary="Hub" />
+                  </ListItem>
+                </NavLink>
+                <NavLink className="Link" to="/manageFiles" exact>
+                  <ListItem button > 
+                      <ListItemIcon><AssignmentIcon/></ListItemIcon>
+                      <ListItemText primary="Manage Files" />
                   </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>

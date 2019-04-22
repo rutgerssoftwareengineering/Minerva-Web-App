@@ -80,8 +80,6 @@ router.get("/searchForum", (req, res) => {
 router.post("/updateQuiz", (req, res) => {
   
   const { quizTitle, problems, timeLimit, date, id} = req.body;
-  
-  
   QuizTemplate.findOneAndUpdate({"_id": id}, 
   {$set: 
   { "quizTitle": quizTitle, 
@@ -104,6 +102,21 @@ router.get("/getGrades", (req, res) => {
   });
 });
 
+
+router.post("/updateGrade", (req, res) => {
+  console.log("grades")
+  console.log(req.body.newgrades)
+  //console.log("Stringed")
+ // console.log(JSON.stringify(req.query.newgrades))
+  console.log("ClassId")
+  console.log(req.body.classid)
+  const Cid = req.body.classid;
+  const newgrades = { grades: req.body.newgrades}
+  Grade.findOneAndUpdate({classid: Cid}, newgrades, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true,data: data });
+  });
+});
 router.get("/getFeedback", (req, res) => {
   Question.find(/*{
     'classid': req.query.classes
@@ -111,10 +124,12 @@ router.get("/getFeedback", (req, res) => {
     (err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
+
   });
 });
 
 router.get("/loginUser", (req, res) => {
+  console.log('haha')
   User.find({ id: req.query.id }, function(err, user) {
     if (err) throw err;
     user[0].comparePassword(req.query.password, function(err, isMatch) {
@@ -181,6 +196,7 @@ router.get("/getForums", (req, res) => {
     'class': req.query.class
   },
   (err, data) => {
+    console.log(data)
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
@@ -353,18 +369,6 @@ router.post("/submitInclassQuizData", (req, res) => {
       return res.json({ success: true });
     });
   
-    /*
-  quiz.classId = classId;
-  quiz.quizTitle = quizTitle;
-  quiz.question = question;
-  quiz.answers = answers;
-  quiz.responses = responses;
-  quiz.isActive = isActive;
-  
-  quiz.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });*/
 });
 
 router.post("/updateActiveInclassQuiz", (req, res) => {
@@ -378,6 +382,18 @@ router.post("/updateActiveInclassQuiz", (req, res) => {
   err => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
+  });
+});
+
+router.get("/getInclassQuizResponseData", (req, res) => {
+  InclassQuizTemplate.find({
+    "classId": req.query.classId, 
+    "quizTitle": req.query.quizTitle, 
+    "question": req.query.question
+    }, 
+    (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
   });
 });
 

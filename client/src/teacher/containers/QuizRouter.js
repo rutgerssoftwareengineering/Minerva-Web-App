@@ -16,6 +16,7 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+
 const styles = theme => ({
     trash: {
       align: 'right',

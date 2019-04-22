@@ -14,7 +14,9 @@ class Forum extends Component {
       query: '' //search query
     }
   }
-
+  componentWillMount(){
+    this.getForumDataFromDb()
+  }
   handleInputChange = () => {
     this.setState({
       query: this.search.value, //actively updates search query
@@ -31,6 +33,15 @@ class Forum extends Component {
      })
      .catch(error => console.log(error));
   }
+  getForumDataFromDb = () => {
+    axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
+    .then(res => {
+        this.setState({
+            forum: res.data.data
+        })
+        console.log(this.state.forumInfo)
+    })
+};
 
   render(){
     return(

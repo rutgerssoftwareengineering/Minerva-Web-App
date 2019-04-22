@@ -282,7 +282,6 @@ class CreateQuiz extends Component {
             >
             <div>
                 <form>
-                    <br/><br/><br/><br/>
                     <label>
 
                         <TextField
@@ -292,6 +291,15 @@ class CreateQuiz extends Component {
                         value={this.state.changeQuizTitle}
                         onChange={this.changeQuizTitle}
                         />
+                        {/* <h1>Quiz Title:
+                        <input 
+                                type="text" 
+                                onChange={this.changeQuizTitle}
+                                value={this.state.quizTitle}
+                                style={{ width:"300px", marginLeft:"10px"}}
+                        />
+                        </h1>
+                        */}
                        <br/><br/> 
                     </label>
                      <label>

@@ -61,21 +61,25 @@ class OpenEndedAnswer extends Component {
         const answers = this.state.answers;
 
         return(
-            
-                
             <div>
-                <label style={{paddingRight:'10px',color:'blue'}}>
-                    Answer:
+                <label>
+                {answers.map((key, index) => (
+                    <div key={index}>
+                        <label style={{paddingRight:'10px',color:'blue'}}>
+                            Answer:
+                        </label>
+                        <input 
+                            type="text" 
+                            name={index} 
+                            onChange={(event) => {this.handleAnswerChange(event, index)}}
+                            value={key}
+                            style={{ width:"300px", marginRight:"10px" }}
+                        />
+                        
+                    </div>
+                ))}
                 </label>
-                <input 
-                    type="text" 
-                    onChange={(event) => {this.handleAnswerChange(event)}}
-                    value={this.state.answers[0]}
-                    style={{ width:"300px", marginRight:"10px" }}
-                />
-                
-            </div>
-                
+           </div>
         )
     } 
   

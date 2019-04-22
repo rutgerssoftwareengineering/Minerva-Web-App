@@ -13,13 +13,15 @@ import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 
 
 class ViewAnnouncement extends Component{
     constructor () {
         super()
         this.state = {
-          isHidden: true
+            announce: [],
+            isHidden: true
         }
       }
       toggleHidden () {
@@ -29,8 +31,11 @@ class ViewAnnouncement extends Component{
       }
 
     componentDidMount(){
-        this.props.getAnnouncements();
-        
+        this.props.getAnnouncements(); 
+        this.setState({
+            announce: this.props.announcement
+        })
+        console.log(this.props.announcement)
     }
     onDeleteClick = id => {
        
@@ -40,16 +45,17 @@ class ViewAnnouncement extends Component{
     render(){ 
 
         const{announcements}  = this.props.announcement;
+
         return(
             <Grid
                 container
                 spacing={0}
                 direction="column"
                 alignItems="center"
-                justify="center"
                 style={{ minHeight: '100vh' }}
             >
-                
+                <h1></h1>
+                <h1></h1>
                 <h1>Announcements</h1>
                 <div>
                      <NavLink to="/announcements/new" className="Link" >
@@ -63,10 +69,14 @@ class ViewAnnouncement extends Component{
                 </div>            
                <List align="center">
                     <TransitionGroup className= "announcementlist">
-                    {announcements.map(({_id,message}) =>( 
+                    {announcements.map(({_id,Author,message,createdAt}) =>( 
                         <CSSTransition key={_id} timeout={500} classNames = "fade">
                         <ListItem  alignItems="flex-start" >
                             <Card style = {{ minWidth: 500,}}>
+                                <CardHeader   
+                                   title= {Author}
+                                   subheader= {createdAt}              
+                                />
                                 <CardContent style={{color : "black"}}>
                                     {message}
                                     {!this.state.isHidden && 
@@ -79,7 +89,6 @@ class ViewAnnouncement extends Component{
                                     </IconButton>
                                     }
                                 </CardContent>
-
                             </Card>
                         </ListItem>
                         </CSSTransition>

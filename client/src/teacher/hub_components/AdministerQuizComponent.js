@@ -32,7 +32,8 @@ class AdministerQuizComponent extends Component {
             currQuizData: [{problems: []}],
             answers: [],
             questionActive: false,
-            numResponses: [0,0,0,0]
+            responses: [],
+            responseCounts: [0,0,0,0]
         };
 
         this.getQuizData();
@@ -43,17 +44,14 @@ class AdministerQuizComponent extends Component {
         this.stopAdministeringQuestion = this.stopAdministeringQuestion.bind(this);
     }
 
-    //function to run if the parent sends new props to this component
-    componentWillReceiveProps(newProps) {
-        
+    componentDidMount(){
+        console.log("COMPONENT DID MOUNT");
+        this.getQuizData();
     }
 
-
-    // when answer text box is changed, change the saved answer data in the state
-    // update the parent component
-    handleAnswerChange(event){
-        
-
+    componentWillReceiveProps(nextProps){
+        console.log("RECIEVED PROPS!!");
+        this.getQuizData();
     }
 
     handleQuizChange(event, name){
@@ -114,13 +112,39 @@ class AdministerQuizComponent extends Component {
             isActive: false
         })
         .then(res => console.log(res.data))
+        .then(() => {
+            axios.get('http://localhost:3001/api/getInclassQuizResponseData', {params: {
+                classId: cookies.get('currentClass'),
+                quizTitle: this.state.selectedQuiz, 
+                question: this.state.selectedQuestion}})
+            .then(res => {
+                console.log("getting response data", res.data.data[0].responses)
+                this.setState({
+                responses: res.data.data.responses,
+                });
+                
+                var i;
+                let numResponses = [0,0,0,0];
+                for (i = 0; i < res.data.data[0].responses.length; i++) {
+                    console.log("response", res.data.data[0].responses[i][1]);
+                    if(res.data.data[0].responses[i][1] > 3 || res.data.data[0].responses[i][1] < 0){
+                        continue;
+                    }
+                    numResponses[res.data.data[0].responses[i][1]]++;
+                } 
+                console.log("num responses", numResponses);
+                this.setState({
+                    responseCounts: numResponses,
+                });
+            })
+        })
     }
 
     getQuizData = () => {
         //class: cookies.get('currentClass')
         axios.get('http://localhost:3001/api/getInclassQuizzes', {params: {class: cookies.get('currentClass')}})
         .then(res => {
-            console.log(res.data.data)
+            console.log(res.data.data, cookies.get('currentClass'));
             this.setState({
               quizData: res.data.data,
               quizDataLoaded: true
@@ -137,7 +161,6 @@ class AdministerQuizComponent extends Component {
         let quizData = this.state.quizData;
         let currQuizData = this.state.currQuizData;
         
-        console.log(this.state.answers);
         return(
             <div>
 
@@ -318,10 +341,10 @@ class AdministerQuizComponent extends Component {
                                     calc: 'stringify',
                                 },
                                 ],
-                                [this.state.answers[0], this.state.numResponses[0], 'blue', null],
-                                [this.state.answers[1], this.state.numResponses[1], 'red', null],
-                                [this.state.answers[2], this.state.numResponses[2], 'green', null],
-                                [this.state.answers[3], this.state.numResponses[3], 'yellow', null],
+                                [this.state.answers[0], this.state.responseCounts[0], 'blue', null],
+                                [this.state.answers[1], this.state.responseCounts[1], 'red', null],
+                                [this.state.answers[2], this.state.responseCounts[2], 'green', null],
+                                [this.state.answers[3], this.state.responseCounts[3], 'yellow', null],
                             ]}
                             options={{
                                 title: 'Response Frequency',
