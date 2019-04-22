@@ -288,7 +288,7 @@ class CreateQuiz extends Component {
                         color="blue"
                         label="Quiz Title"
                         variant="filled"
-                        value={this.state.changeQuizTitle}
+                        value={this.state.quizTitle}
                         onChange={this.changeQuizTitle}
                         />
                         {/* <h1>Quiz Title:

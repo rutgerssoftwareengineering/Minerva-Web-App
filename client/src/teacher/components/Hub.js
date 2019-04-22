@@ -11,13 +11,53 @@ class Hub extends Component {
     constructor(props){
         super(props)
         this.state = {
+            className: cookies.get('currentClass')
         }
     }
+
+    componentDidMount(){
+        console.log("hub mounted");
+        this.setThisClassInSession();
+        this.getClassData();
+    }
+
+
+    // sets all other classes in db insession to false and sets this class to true
+    setThisClassInSession = () => {
+        axios.post("http://localhost:3001/api/setAllClassInSession", {
+            inSession: false
+        })
+        .then(() =>{
+            axios.post("http://localhost:3001/api/setClassInSession", {
+                classId: cookies.get('currentClass'),
+                inSession: true
+            })
+        })
+    }
+
+    getClassData = () => {
+        axios.get('http://localhost:3001/api/getClassData', {params: {
+                classId: cookies.get('currentClass')}})
+            .then(res => {
+                console.log("getting response data", res.data.data[0].name)
+                this.setState({
+                    className: res.data.data[0].name
+                });
+            })
+    }
+
+    
+
     render(){
         return(
             <div>
                     <h1>Teacher Hub</h1>
                     <h1>Teacher Hub</h1>
+                    <br/>
+                    <label>
+                        Class: {this.state.className}
+                    </label>
+                    <br/>
                     <Grid 
                         container
                         justify="center"
