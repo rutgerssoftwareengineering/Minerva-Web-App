@@ -196,6 +196,7 @@ router.get("/getForums", (req, res) => {
     'class': req.query.class
   },
   (err, data) => {
+    console.log(data)
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });

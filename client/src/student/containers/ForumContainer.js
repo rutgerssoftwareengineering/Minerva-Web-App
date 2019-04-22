@@ -26,6 +26,7 @@ class ForumContainer extends Component{
         this.setState({
             forumInfo: res.data.data
         })
+        console.log(this.state.forumInfo)
     })
     //.catch(error => console.log(error));
 };

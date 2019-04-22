@@ -14,6 +14,9 @@ class Forum extends Component {
       query: '' //search query
     }
   }
+  componentWillMount(){
+    this.getForumDataFromDb()
+  }
 
   handleInputChange = () => {
     this.setState({
@@ -31,7 +34,15 @@ class Forum extends Component {
      })
      .catch(error => console.log(error));
   }
-
+  getForumDataFromDb = () => {
+    axios.get("http://localhost:3001/api/getForums", {params: {class:cookies.get('currentClass')}})
+    .then(res => {
+        this.setState({
+            forum: res.data.data
+        })
+        console.log(this.state.forumInfo)
+    })
+};
   render(){
     return(
         <div>
@@ -42,16 +53,17 @@ class Forum extends Component {
               onChange={this.handleInputChange}
             />
             {/*preview of query */}
-            <p>{this.state.query}</p> 
+            <p>{this.state.query}</p>
             <button onClick={this.searchForum}>Search</button>
             {/*maps out each thread gathered from state, on first render its all threads, then after search it narrows it down*/}
           {Object.keys(this.state.forum).map(threadId =>
           <div key={threadId}>
+
           {/*individual links to each thread with variable links determined by index in total forums objec*/}
           <Link to={`/forum/${threadId}`}><button className='thread'>{this.state.forum[threadId].title}</button></Link>
             <br/>
             <br/>
-        </div>)}
+          </div>)}
         </div>
     )
   }
