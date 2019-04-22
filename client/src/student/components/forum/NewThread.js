@@ -44,8 +44,8 @@ class NewThread extends Component{
 
     render(){
         return(
-            <div style={{backgroundColor:'white'}}>
-            <form>
+            <div style={{backgroundColor:'white',position:'relative', top:'10%'}}>
+            <form style={{width:'100%'}}>
                 {/*input for title */}
                 <TextField
                 id="title"

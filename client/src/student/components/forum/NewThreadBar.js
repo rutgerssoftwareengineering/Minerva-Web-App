@@ -14,12 +14,12 @@ function NewThreadBar() {
     
     
     return(
-        <>
+        <div style={{top:'10%',position:'fixed','z-index':'1'}}>
         {/*tag extends out from edge of screen, when clicked the whole window slides into view */}
         <animated.div
             className='postTag'
             style={move}>
-                <button onClick={() => set(state => !state)} style={{float:'left', width:'100%', 'textAlign': 'left', height:'100%',}}>
+                <button onClick={() => set(state => !state)} style={{float:'left', width:'100%', 'textAlign': 'left', height:'100%'}}>
                     New Post
                 </button></animated.div>
         <animated.div
@@ -27,7 +27,7 @@ function NewThreadBar() {
         style={move}>
             <NewThread/>
         </animated.div>
-        </>
+        </div>
     )
 }
 
