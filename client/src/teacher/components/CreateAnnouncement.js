@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 class CreateAnnouncement extends Component {
     componentDidMount(){
         this.props.getAnnouncements();
@@ -26,7 +27,9 @@ class CreateAnnouncement extends Component {
         alert('An announcement was submitted: ' + this.state.value);
         event.preventDefault();
         const newAnnouncement ={
-            message: this.state.value
+            Author: cookies.get('userName'),
+            message: this.state.value,
+            classId: cookies.get('currentClass')
         }
         this.props.addAnnouncement(newAnnouncement);
         this.props.history.push('/announcements/view');
@@ -40,8 +43,9 @@ class CreateAnnouncement extends Component {
                 direction="column"
                 alignItems="center"
                 justify="center"
-                style={{ minHeight: '10vh' }}
             >
+                <h1></h1>
+                <h1></h1>
                 <h1>Create Announcement</h1>
                 <div>
                     <form>

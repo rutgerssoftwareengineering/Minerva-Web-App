@@ -8,8 +8,10 @@ const Announcement = require('../../schemas/announcements');
 // @descr   Get All announcements
 // @acess   ALL
 router.get('/', (req,res) =>{   
-    Announcement.find()
-        .sort({ date: -1})
+    Announcement.find( {
+        'classId': req.query.classId
+      })
+        .sort({ createdAt: -1})
         .then(announcements=> res.json(announcements));
 
 });
@@ -19,7 +21,9 @@ router.get('/', (req,res) =>{
 // @acess   Professor or TA
 router.post('/', (req,res) => {
     const newAnnouncement = new Announcement({
-        message: req.body.message
+        Author: req.body.Author,
+        message: req.body.message,
+        classId: req.body.classId
     });
     newAnnouncement.save().then(item => res.json(item));
 });
