@@ -5,6 +5,7 @@ import Register from '../../Register';
 import ForumContainer from './ForumContainer';
 import GradesContainer from './GradesContainer';
 import QuizIndex from '../components/quiz/QuizIndex';
+import PersistentDrawerLeft from './Drawio';
 import NavBar from './NavBar';
 import history from '../../History'; 
 import axios from 'axios';
@@ -60,7 +61,7 @@ class StudentApp extends Component {
         return(
         <Router history={history}>
             <React.Fragment>
-                <NavBar unmountIt={this.props.unmountIt} toggle={this.toggleRegister}/>
+                <PersistentDrawerLeft unmountIt={this.props.unmountIt} toggle={this.toggleRegister}/>
                 <Route exact path='/' component={Login} />
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/register' component={Register} />
