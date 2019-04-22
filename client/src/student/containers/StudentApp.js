@@ -4,6 +4,7 @@ import Home from './Home';
 import Register from '../../Register';
 import ForumContainer from './ForumContainer';
 import GradesContainer from './GradesContainer';
+import ViewAnnouncement from '../components/ViewAnnouncement';
 import QuizIndex from '../components/quiz/QuizIndex';
 import PersistentDrawerLeft from './Drawio';
 import NavBar from './NavBar';
@@ -67,6 +68,7 @@ class StudentApp extends Component {
                 <Route exact path='/home' component={Home} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/grades' render={routerProps => <GradesContainer {...routerProps}/>} />
+                <Route exact path='/announcements/view' render={routerProps => <ViewAnnouncement {...routerProps}/>} />
                 <Route path='/forum' render={routerProps => <ForumContainer {...routerProps}/> }/>
                 <Route path='/quizzes' render={routerProps => <QuizIndex {...routerProps} quizzes={this.state.quizzesData}/>} />
                 <Route path='/resources' render={(routerProps) => <Resources {...routerProps} files={this.state.files}/>}/>

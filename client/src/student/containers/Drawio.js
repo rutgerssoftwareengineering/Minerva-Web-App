@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import VideoLabel from '@material-ui/icons/VideoLabel';
 import HomeIcon from '@material-ui/icons/Home';
 import ForumIcon from '@material-ui/icons/Forum';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
@@ -177,6 +177,12 @@ class PersistentDrawerLeft extends React.Component {
                         <ListItemText primary="Home" />
                   </ListItem>
                 </NavLink>
+                <NavLink className="Link" to="/announcements" exact>
+                  <ListItem button  > 
+                        <ListItemIcon><AnnouncementIcon/></ListItemIcon>
+                        <ListItemText primary="Announcements" />
+                  </ListItem>
+                </NavLink>
                 <NavLink className="Link" to="/forum" exact>
                   <ListItem button > 
                         <ListItemIcon><ForumIcon/></ListItemIcon>
@@ -199,6 +205,12 @@ class PersistentDrawerLeft extends React.Component {
                   <ListItem button > 
                         <ListItemIcon><CastForEducation/></ListItemIcon>
                         <ListItemText primary="Resources" />
+                  </ListItem>
+                </NavLink>
+                <NavLink className="Link" to="/officehours" exact>
+                  <ListItem button > 
+                        <ListItemIcon><VideoLabel/></ListItemIcon>
+                        <ListItemText primary="Office Hours" />
                   </ListItem>
                 </NavLink>
                 <NavLink className="Link" to="/" exact onClick={logout}>
