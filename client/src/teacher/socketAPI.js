@@ -16,8 +16,8 @@ var remoteStream;
 const mediaStreamConstraints = {
   video: {
     mandatory: {
-      maxWidth: 1920,
-      maxHeight: 1080,
+      maxWidth: 1280,
+      maxHeight: 768,
       maxFrameRate: 30,  
     }
   }
@@ -94,18 +94,35 @@ function connectOrJoinRoom(){
   
   var localVideo = document.querySelector('#localVideo');
   var remoteVideo = document.querySelector('#remoteVideo');
-  
-  if(localVideo != null){
+  const startButton = document.getElementById('startButton');
+  const stopRecordingButton = document.getElementById('stopRecording');
+  if(startButton != null){
+    stopRecordingButton.disabled = true;
+    startButton.addEventListener('click', startAction);
+    stopRecordingButton.addEventListener('click', stopRecording);
+  }
+  function startAction(){
     navigator.mediaDevices.getDisplayMedia(mediaStreamConstraints)
     .then(gotStream)
     .catch(function(e) {
       alert('getUserMedia() error: ' + e.name);
     });
-  }else {
+    stopRecordingButton.disabled = false;
+    startButton.disabled = true;
+  }
+  if(localVideo == null){
     sendMessage('got user media');
     if (isInitiator) {
       maybeStart();
     }
+  }
+
+
+  function stopRecording(){
+    stop()
+    localVideo.srcObject = null;
+    stopRecordingButton.disabled = true;
+    startButton.disabled = false;
   }
   function gotStream(stream) {
     console.log('Adding local stream.');
@@ -230,7 +247,10 @@ function connectOrJoinRoom(){
     isStarted = false;
     pc.close();
     pc = null;
+    if(remoteVideo != null){
+      remoteVideo.srcObject = null;
+    }
   }
-  
+
 }
 export { subscribeToGradeDataTimer, connectOrJoinRoom };
