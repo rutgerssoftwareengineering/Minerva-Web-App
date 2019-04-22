@@ -43,7 +43,7 @@ class ForumContainer extends Component{
         <Route exact path={(this.state.match).url} render={()=>(
              <Forum forumInfo={(this.state.forumInfo)}/>
         )} />
-        <Route path={`${(this.state.match).url}/:threadId`}  render={(routerProps)=> <Thread {...routerProps} />} />
+        <Route path={`${(this.state.match).url}/:threadId`}  render={(routerProps)=> <Thread {...routerProps} forumInfo = {this.state.forumInfo}/>} />
 
     </div>
     </>)}
