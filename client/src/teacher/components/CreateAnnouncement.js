@@ -29,7 +29,7 @@ class CreateAnnouncement extends Component {
         const newAnnouncement ={
             Author: cookies.get('userName'),
             message: this.state.value,
-            class: cookies.get('currentClass')
+            classId: cookies.get('currentClass')
         }
         this.props.addAnnouncement(newAnnouncement);
         this.props.history.push('/announcements/view');
