@@ -24,7 +24,7 @@
     "@material-ui/icons": "^3.0.2",
     "@material-ui/styles": "^3.0.0-alpha.10",
     "axios": "^0.18.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "braces": "^2.3.2",
     "canvasjs": "^1.8.1",
     "concurrently": "^4.1.0",
